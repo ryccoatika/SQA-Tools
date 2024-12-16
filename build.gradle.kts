@@ -1,3 +1,5 @@
+import com.android.build.gradle.BaseExtension
+
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
   alias(libs.plugins.android.application) apply false
@@ -23,6 +25,29 @@ allprojects {
         "${layout.buildDirectory.get().asFile}/**/*.kts",
       )
       ktlint(libs.versions.ktlint.get())
+    }
+  }
+
+  pluginManager.withPlugin("com.android.application") {
+    configurePlugin()
+  }
+  pluginManager.withPlugin("com.android.library") {
+    configurePlugin()
+  }
+}
+
+fun Project.configurePlugin() {
+  extensions.configure<BaseExtension> {
+    compileSdkVersion(35)
+
+    defaultConfig {
+      minSdk = 24
+      targetSdk = 35
+    }
+
+    compileOptions {
+      sourceCompatibility = JavaVersion.VERSION_1_8
+      targetCompatibility = JavaVersion.VERSION_1_8
     }
   }
 }
