@@ -22,4 +22,8 @@ dependencyResolutionManagement {
 }
 
 rootProject.name = "SQA Tools"
-include(":app")
+
+include(
+  ":app",
+  ":common",
+)
