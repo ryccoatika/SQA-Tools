@@ -1,0 +1,4 @@
+<resources>
+    <string name="title_fill_storage">Fill Storage</string>
+    <string name="desc_fill_storage">To emulate storage capacity by filling dummy files.</string>
+</resources>

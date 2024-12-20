@@ -1,4 +1,4 @@
-package com.ryccoatika.sqatools.ui.theme
+package com.ryccoatika.sqatools.common.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme

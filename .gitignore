@@ -6,6 +6,8 @@ captures
 
 /local.properties
 
+.kotlin
+
 # IntelliJ .idea folder
 .idea/workspace.xml
 .idea/misc.xml

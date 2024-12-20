@@ -1,5 +1,6 @@
-package com.ryccoatika.sqatools
+package com.ryccoatika.sqatools.ui
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -37,11 +38,25 @@ import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
-import com.ryccoatika.sqatools.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatools.AppNavigation
+import com.ryccoatika.sqatools.ComposeScreens
+import com.ryccoatika.sqatools.R
+import com.ryccoatika.sqatools.RootScreen
+import com.ryccoatika.sqatools.common.inject.ActivityScope
+import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatools.inject.ApplicationComponent
+import me.tatarka.inject.annotations.Component
+import me.tatarka.inject.annotations.Provides
 
 class MainActivity : ComponentActivity() {
+
+  private lateinit var component: MainActivityComponent
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+
+    component = MainActivityComponent::class.create(this)
+
     enableEdgeToEdge()
     setContent {
       SQAToolsTheme {
@@ -49,44 +64,45 @@ class MainActivity : ComponentActivity() {
       }
     }
   }
-}
 
-@Composable
-private fun AppContent(modifier: Modifier = Modifier) {
-  val navController = rememberNavController()
+  @Composable
+  private fun AppContent(modifier: Modifier = Modifier) {
+    val navController = rememberNavController()
 
-  Scaffold(
-    bottomBar = {
-      val currentSelectedItem by navController.currentScreenAsState()
+    Scaffold(
+      bottomBar = {
+        val currentSelectedItem by navController.currentScreenAsState()
 
-      AppNavigationBar(
-        selectedNavigation = currentSelectedItem,
-        onNavigationSelected = { selected ->
-          navController.navigate(selected.route) {
-            launchSingleTop = true
-            restoreState = true
+        AppNavigationBar(
+          selectedNavigation = currentSelectedItem,
+          onNavigationSelected = { selected ->
+            navController.navigate(selected.route) {
+              launchSingleTop = true
+              restoreState = true
 
-            popUpTo(navController.graph.findStartDestination().id) {
-              saveState = true
+              popUpTo(navController.graph.findStartDestination().id) {
+                saveState = true
+              }
             }
-          }
-        },
-        modifier = Modifier.fillMaxWidth(),
-      )
-    },
-    contentWindowInsets = ScaffoldDefaults.contentWindowInsets
-      .exclude(WindowInsets.statusBars),
-    modifier = modifier,
-  ) { paddingValues ->
-    Column(
-      modifier = modifier
-        .fillMaxSize()
-        .padding(paddingValues),
-    ) {
-      AppNavigation(
-        navController = navController,
-        modifier = Modifier.weight(1f),
-      )
+          },
+          modifier = Modifier.fillMaxWidth(),
+        )
+      },
+      contentWindowInsets = ScaffoldDefaults.contentWindowInsets
+        .exclude(WindowInsets.statusBars),
+      modifier = modifier,
+    ) { paddingValues ->
+      Column(
+        modifier = modifier
+          .fillMaxSize()
+          .padding(paddingValues),
+      ) {
+        AppNavigation(
+          navController = navController,
+          composeScreens = component.screens,
+          modifier = Modifier.weight(1f),
+        )
+      }
     }
   }
 }
@@ -101,9 +117,11 @@ private fun NavController.currentScreenAsState(): State<RootScreen> {
         destination.hierarchy.any { it.route == RootScreen.Home.route } -> {
           selectedItem.value = RootScreen.Home
         }
+
         destination.hierarchy.any { it.route == RootScreen.ChatBot.route } -> {
           selectedItem.value = RootScreen.ChatBot
         }
+
         destination.hierarchy.any { it.route == RootScreen.Settings.route } -> {
           selectedItem.value = RootScreen.Settings
         }
@@ -198,3 +216,12 @@ private val AppNavigationItems = listOf(
     iconImageVector = Icons.Outlined.Settings,
   ),
 )
+
+@ActivityScope
+@Component
+abstract class MainActivityComponent(
+  @get:Provides val activity: Activity,
+  @Component val applicationComponent: ApplicationComponent = ApplicationComponent.from(activity),
+) {
+  abstract val screens: ComposeScreens
+}

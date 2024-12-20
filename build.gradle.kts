@@ -1,13 +1,13 @@
 import com.android.build.gradle.BaseExtension
-import org.jetbrains.kotlin.gradle.dsl.JvmTarget
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
   alias(libs.plugins.android.application) apply false
+  alias(libs.plugins.android.library) apply false
   alias(libs.plugins.kotlin.android) apply false
   alias(libs.plugins.kotlin.compose) apply false
-  alias(libs.plugins.android.library) apply false
+  alias(libs.plugins.ksp) apply false
   alias(libs.plugins.spotless)
 }
 
@@ -31,6 +31,42 @@ allprojects {
     }
   }
 
+  // Configure Java to use our chosen language level. Kotlin will automatically
+  // pick this up
+  plugins.withType<JavaBasePlugin>().configureEach {
+    extensions.configure<JavaPluginExtension> {
+      toolchain {
+        languageVersion.set(JavaLanguageVersion.of(11))
+      }
+    }
+  }
+
+  tasks.withType<KotlinCompilationTask<*>>().configureEach {
+    compilerOptions {
+      // Treat all Kotlin warnings as errors
+      allWarningsAsErrors.set(true)
+
+      // Enable experimental coroutines APIs, including Flow
+      freeCompilerArgs.addAll(
+        "-opt-in=kotlinx.coroutines.ExperimentalCoroutinesApi",
+        "-opt-in=kotlinx.coroutines.FlowPreview",
+      )
+
+      if (project.hasProperty("tivi.enableComposeCompilerReports")) {
+        freeCompilerArgs.addAll(
+          "-P",
+          "plugin:androidx.compose.compiler.plugins.kotlin:reportsDestination=" +
+            layout.buildDirectory.get().asFile.absolutePath + "/compose_metrics",
+        )
+        freeCompilerArgs.addAll(
+          "-P",
+          "plugin:androidx.compose.compiler.plugins.kotlin:metricsDestination=" +
+            layout.buildDirectory.get().asFile.absolutePath + "/compose_metrics",
+        )
+      }
+    }
+  }
+
   pluginManager.withPlugin("com.android.application") {
     configurePlugin()
   }
@@ -40,12 +76,6 @@ allprojects {
 }
 
 fun Project.configurePlugin() {
-  tasks.withType<KotlinCompile> {
-    compilerOptions {
-      jvmTarget.set(JvmTarget.JVM_1_8)
-    }
-  }
-
   extensions.configure<BaseExtension> {
     compileSdkVersion(35)
 
@@ -55,8 +85,8 @@ fun Project.configurePlugin() {
     }
 
     compileOptions {
-      sourceCompatibility = JavaVersion.VERSION_1_8
-      targetCompatibility = JavaVersion.VERSION_1_8
+      sourceCompatibility = JavaVersion.VERSION_11
+      targetCompatibility = JavaVersion.VERSION_11
     }
   }
 }

@@ -1,4 +1,4 @@
-package com.ryccoatika.sqatools.ui.theme
+package com.ryccoatika.sqatools.common.ui.theme
 
 import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle

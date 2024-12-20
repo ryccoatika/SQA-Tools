@@ -21,9 +21,12 @@ dependencyResolutionManagement {
   }
 }
 
-rootProject.name = "SQA Tools"
+enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
+
+rootProject.name = "SQA-Tools"
 
 include(
   ":app",
   ":common",
+  ":features:fill-storage",
 )
