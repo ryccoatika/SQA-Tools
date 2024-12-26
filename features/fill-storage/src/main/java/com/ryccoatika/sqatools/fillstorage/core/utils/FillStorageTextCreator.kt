@@ -23,15 +23,21 @@ internal class FillStorageTextCreator {
     }
   }
 
+  fun storageMetricText(
+    metric: Storage.Metric,
+  ): String {
+    return when (metric) {
+      Storage.Metric.MB -> "MB"
+      Storage.Metric.GB -> "GB"
+    }
+  }
+
   private fun storageCapacityText(
     capacity: Float,
-    metrics: Storage.Metrics,
+    metric: Storage.Metric,
   ): String {
-    return when (metrics) {
-      Storage.Metrics.KB -> "$capacity KB"
-      Storage.Metrics.MB -> "$capacity MB"
-      Storage.Metrics.GB -> "$capacity GB"
-    }
+    val capacityText = "%.2f".format(capacity)
+    return "$capacityText ${storageMetricText(metric)}"
   }
 
   fun storageFreeSpaceText(
@@ -39,7 +45,7 @@ internal class FillStorageTextCreator {
   ): String {
     return storageCapacityText(
       capacity = storage.freeSpace,
-      metrics = storage.metrics,
+      metric = storage.metric,
     )
   }
 
@@ -48,11 +54,11 @@ internal class FillStorageTextCreator {
   ): String {
     val usedCapacity = storageCapacityText(
       capacity = storage.usedSpace,
-      metrics = storage.metrics,
+      metric = storage.metric,
     )
     val totalCapacity = storageCapacityText(
       capacity = storage.totalSpace,
-      metrics = storage.metrics,
+      metric = storage.metric,
     )
 
     return "$usedCapacity of $totalCapacity"

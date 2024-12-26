@@ -16,11 +16,11 @@ internal class ObserveStorages(
 
   override fun createObservable(params: Params): Flow<List<Storage>> {
     return flowOf(
-      storageHelper.getAllStorageCapacity(params.metrics),
+      storageHelper.getAllStorageCapacity(params.metric),
     )
   }
 
   data class Params(
-    val metrics: Storage.Metrics,
+    val metric: Storage.Metric,
   )
 }

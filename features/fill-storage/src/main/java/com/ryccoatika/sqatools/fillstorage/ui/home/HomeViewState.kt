@@ -5,6 +5,7 @@ import com.ryccoatika.sqatools.fillstorage.core.model.Storage
 
 @Immutable
 internal data class HomeViewState(
+  val metric: Storage.Metric,
   val storages: List<Storage>,
 ) {
   val isLoading: Boolean
@@ -12,6 +13,7 @@ internal data class HomeViewState(
 
   companion object {
     val Empty = HomeViewState(
+      metric = Storage.Metric.GB,
       storages = emptyList(),
     )
   }

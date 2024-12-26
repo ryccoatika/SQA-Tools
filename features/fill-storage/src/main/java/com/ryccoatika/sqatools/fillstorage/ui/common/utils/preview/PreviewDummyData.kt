@@ -10,7 +10,7 @@ private val storageUnknown = Storage(
   totalSpace = 100f,
   freeSpace = 50f,
   usedSpace = 50f,
-  metrics = Storage.Metrics.KB,
+  metric = Storage.Metric.MB,
 )
 
 private val storageInternal = Storage(
@@ -19,7 +19,7 @@ private val storageInternal = Storage(
   totalSpace = 200f,
   freeSpace = 150f,
   usedSpace = 50f,
-  metrics = Storage.Metrics.MB,
+  metric = Storage.Metric.MB,
 )
 
 private val storageExternal = Storage(
@@ -28,7 +28,7 @@ private val storageExternal = Storage(
   totalSpace = 120f,
   freeSpace = 20f,
   usedSpace = 100f,
-  metrics = Storage.Metrics.GB,
+  metric = Storage.Metric.GB,
 )
 
 private val storageAlmostFull = Storage(
@@ -37,7 +37,7 @@ private val storageAlmostFull = Storage(
   totalSpace = 120f,
   freeSpace = 10f,
   usedSpace = 110f,
-  metrics = Storage.Metrics.GB,
+  metric = Storage.Metric.GB,
 )
 
 private val storageFull = Storage(
@@ -46,7 +46,7 @@ private val storageFull = Storage(
   totalSpace = 120f,
   freeSpace = 0f,
   usedSpace = 120f,
-  metrics = Storage.Metrics.GB,
+  metric = Storage.Metric.GB,
 )
 
 internal class StoragePreviewParameterProvider : PreviewParameterProvider<Storage> {
@@ -64,14 +64,17 @@ internal class HomePreviewParameterProvider : PreviewParameterProvider<HomeViewS
   override val values: Sequence<HomeViewState>
     get() = sequenceOf(
       HomeViewState(
+        metric = Storage.Metric.GB,
         storages = emptyList(),
       ),
       HomeViewState(
+        metric = Storage.Metric.GB,
         storages = listOf(
           storageInternal,
         ),
       ),
       HomeViewState(
+        metric = Storage.Metric.GB,
         storages = listOf(
           storageInternal,
           storageExternal,

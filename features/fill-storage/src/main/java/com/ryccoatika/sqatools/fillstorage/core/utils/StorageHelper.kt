@@ -38,17 +38,17 @@ internal class StorageHelper(
     return Storage(
       type = getStorageTypeByPath(path),
       path = path,
-      totalSpace = totalSpace / 1024f,
-      freeSpace = freeSpace / 1024f,
-      usedSpace = usedSpace / 1024f,
-      metrics = Storage.Metrics.KB,
+      totalSpace = totalSpace / 1024f / 1024f,
+      freeSpace = freeSpace / 1024f / 1024f,
+      usedSpace = usedSpace / 1024f / 1024f,
+      metric = Storage.Metric.MB,
     )
   }
 
-  fun getAllStorageCapacity(metrics: Storage.Metrics): List<Storage> {
+  fun getAllStorageCapacity(metric: Storage.Metric): List<Storage> {
     return activity.getExternalFilesDirs("").map { file ->
       val storageCapacity = getStorageCapacity(file.path)
-      storageCapacity.convert(to = metrics)
+      storageCapacity.convert(to = metric)
     }
   }
 }

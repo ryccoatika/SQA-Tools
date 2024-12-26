@@ -1,6 +1,9 @@
 # Changelog
 
 ## 0.6.9-dev01
+- feat: storage capacity MB/GB filter
+- feat: storage capacity bar chart
+- feat: fetch all storage capacity
 - feat: implement kotlin inject for dependencies injection
 - feat: feature modularization
 - feat: bottom navigation bar

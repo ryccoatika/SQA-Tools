@@ -6,7 +6,7 @@ internal data class Storage(
   val totalSpace: Float,
   val freeSpace: Float,
   val usedSpace: Float,
-  val metrics: Metrics,
+  val metric: Metric,
 ) {
   sealed interface Type {
     data object Internal : Type
@@ -17,69 +17,35 @@ internal data class Storage(
     data object Unknown : Type
   }
 
-  enum class Metrics {
-    KB,
+  enum class Metric {
     MB,
     GB,
   }
 
-  fun convert(to: Metrics): Storage {
-    return when (metrics) {
-      Metrics.KB -> {
+  fun convert(to: Metric): Storage {
+    return when (metric) {
+      Metric.MB -> {
         when (to) {
-          Metrics.KB -> this
-          Metrics.MB -> this.copy(
+          Metric.MB -> this
+          Metric.GB -> this.copy(
             totalSpace = this.totalSpace / 1024,
             freeSpace = this.freeSpace / 1024,
             usedSpace = this.usedSpace / 1024,
-            metrics = Metrics.MB,
-          )
-
-          Metrics.GB -> this.copy(
-            totalSpace = this.totalSpace / 1024 / 1024,
-            freeSpace = this.freeSpace / 1024 / 1024,
-            usedSpace = this.usedSpace / 1024 / 1024,
-            metrics = Metrics.GB,
+            metric = Metric.GB,
           )
         }
       }
 
-      Metrics.MB -> {
+      Metric.GB -> {
         when (to) {
-          Metrics.KB -> this.copy(
+          Metric.MB -> this.copy(
             totalSpace = this.totalSpace * 1024,
             freeSpace = this.freeSpace * 1024,
             usedSpace = this.usedSpace * 1024,
-            metrics = Metrics.MB,
+            metric = Metric.MB,
           )
 
-          Metrics.MB -> this
-          Metrics.GB -> this.copy(
-            totalSpace = this.totalSpace / 1024,
-            freeSpace = this.freeSpace / 1024,
-            usedSpace = this.usedSpace / 1024,
-            metrics = Metrics.GB,
-          )
-        }
-      }
-
-      Metrics.GB -> {
-        when (to) {
-          Metrics.KB -> this.copy(
-            totalSpace = this.totalSpace * 1024 * 1024,
-            freeSpace = this.freeSpace * 1024 * 1024,
-            usedSpace = this.usedSpace * 1024 * 1024,
-            metrics = Metrics.GB,
-          )
-
-          Metrics.MB -> this.copy(
-            totalSpace = this.totalSpace * 1024,
-            freeSpace = this.freeSpace * 1024,
-            usedSpace = this.usedSpace * 1024,
-            metrics = Metrics.MB,
-          )
-
-          Metrics.GB -> this
+          Metric.GB -> this
         }
       }
     }

@@ -15,9 +15,12 @@ import com.ryccoatika.sqatools.common.extensions.viewModel
 import com.ryccoatika.sqatools.common.ui.AppTopBar
 import com.ryccoatika.sqatools.common.ui.VerticalSpace
 import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatools.common.ui.widget.DropdownButtonMenu
 import com.ryccoatika.sqatools.fillstorage.R
+import com.ryccoatika.sqatools.fillstorage.core.model.Storage
 import com.ryccoatika.sqatools.fillstorage.di.FillStorageScope
 import com.ryccoatika.sqatools.fillstorage.ui.common.StorageChart
+import com.ryccoatika.sqatools.fillstorage.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.HomePreviewParameterProvider
 import me.tatarka.inject.annotations.Assisted
@@ -49,6 +52,7 @@ internal fun Home(
 
   Home(
     state = viewState,
+    onMetricChanged = viewModel::updateMetric,
     navigateUp = navigateUp,
   )
 }
@@ -56,13 +60,15 @@ internal fun Home(
 @Composable
 internal fun Home(
   state: HomeViewState,
+  onMetricChanged: (Storage.Metric) -> Unit,
   navigateUp: () -> Unit,
 ) {
   Scaffold(
     topBar = {
-      AppTopBar(
-        title = stringResource(R.string.title_fill_storage),
-        onBackPressed = navigateUp,
+      HomeTopBar(
+        state = state,
+        onMetricChanged = onMetricChanged,
+        navigateUp = navigateUp,
       )
     },
   ) { paddingValues ->
@@ -79,6 +85,28 @@ internal fun Home(
   }
 }
 
+@Composable
+private fun HomeTopBar(
+  state: HomeViewState,
+  onMetricChanged: (Storage.Metric) -> Unit,
+  navigateUp: () -> Unit,
+) {
+  val textCreator = LocalTextCreator.current
+
+  AppTopBar(
+    title = stringResource(R.string.title_fill_storage),
+    onBackPressed = navigateUp,
+    actions = {
+      DropdownButtonMenu(
+        text = textCreator.storageMetricText(state.metric),
+        options = Storage.Metric.entries,
+        optionText = textCreator::storageMetricText,
+        onSelected = onMetricChanged,
+      )
+    },
+  )
+}
+
 @Preview
 @Composable
 private fun HomePreview(
@@ -88,6 +116,7 @@ private fun HomePreview(
     SQAToolsTheme {
       Home(
         state = homeViewState,
+        onMetricChanged = {},
         navigateUp = {},
       )
     }
