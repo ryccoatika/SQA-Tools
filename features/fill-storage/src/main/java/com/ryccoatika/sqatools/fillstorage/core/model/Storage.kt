@@ -84,15 +84,4 @@ internal data class Storage(
       }
     }
   }
-
-  companion object {
-    val Empty = Storage(
-      type = Type.Unknown,
-      path = "",
-      totalSpace = 0f,
-      freeSpace = 0f,
-      usedSpace = 0f,
-      metrics = Metrics.MB,
-    )
-  }
 }
