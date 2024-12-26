@@ -22,4 +22,6 @@ dependencies {
   implementation(libs.androidx.activity.compose)
 
   ksp(libs.kotlininject.compiler)
+
+  implementation(libs.androidx.navigationCompose)
 }

@@ -5,7 +5,7 @@ import com.ryccoatika.sqatools.ui.settings.Settings
 import me.tatarka.inject.annotations.Inject
 
 @Inject
-class ComposeScreens(
+class AppScreens(
   val home: Home,
   val settings: Settings,
 )

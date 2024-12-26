@@ -29,7 +29,7 @@ private sealed class Screen(
 @Composable
 internal fun AppNavigation(
   navController: NavHostController,
-  composeScreens: ComposeScreens,
+  appScreens: AppScreens,
   modifier: Modifier = Modifier,
 ) {
   NavHost(
@@ -38,18 +38,18 @@ internal fun AppNavigation(
     modifier = modifier,
   ) {
     addHomeTopLevel(
-      composeScreens = composeScreens,
+      appScreens = appScreens,
     )
     addChatBotTopLevel()
     addSettingsTopLevel(
-      composeScreens = composeScreens,
+      appScreens = appScreens,
     )
   }
 }
 
 // -------- HOME --------
 private fun NavGraphBuilder.addHomeTopLevel(
-  composeScreens: ComposeScreens,
+  appScreens: AppScreens,
   root: RootScreen = RootScreen.Home,
 ) {
   navigation(
@@ -58,7 +58,7 @@ private fun NavGraphBuilder.addHomeTopLevel(
   ) {
     addHome(
       root = root,
-      home = composeScreens.home,
+      home = appScreens.home,
     )
   }
 }
@@ -98,7 +98,7 @@ private fun NavGraphBuilder.addChatBot(
 
 // -------- SETTINGS --------
 private fun NavGraphBuilder.addSettingsTopLevel(
-  composeScreens: ComposeScreens,
+  appScreens: AppScreens,
   root: RootScreen = RootScreen.Settings,
 ) {
   navigation(
@@ -107,7 +107,7 @@ private fun NavGraphBuilder.addSettingsTopLevel(
   ) {
     addSettings(
       root = root,
-      settings = composeScreens.settings,
+      settings = appScreens.settings,
     )
   }
 }

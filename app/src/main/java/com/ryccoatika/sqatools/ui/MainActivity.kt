@@ -39,7 +39,7 @@ import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.rememberNavController
 import com.ryccoatika.sqatools.AppNavigation
-import com.ryccoatika.sqatools.ComposeScreens
+import com.ryccoatika.sqatools.AppScreens
 import com.ryccoatika.sqatools.R
 import com.ryccoatika.sqatools.RootScreen
 import com.ryccoatika.sqatools.common.inject.ActivityScope
@@ -99,7 +99,7 @@ class MainActivity : ComponentActivity() {
       ) {
         AppNavigation(
           navController = navController,
-          composeScreens = component.screens,
+          appScreens = component.screens,
           modifier = Modifier.weight(1f),
         )
       }
@@ -223,5 +223,5 @@ abstract class MainActivityComponent(
   @get:Provides val activity: Activity,
   @Component val applicationComponent: ApplicationComponent = ApplicationComponent.from(activity),
 ) {
-  abstract val screens: ComposeScreens
+  abstract val screens: AppScreens
 }

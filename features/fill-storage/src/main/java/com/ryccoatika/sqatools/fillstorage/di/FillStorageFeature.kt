@@ -5,8 +5,8 @@ import com.ryccoatika.sqatools.fillstorage.FillStorageFeature
 import me.tatarka.inject.annotations.IntoSet
 import me.tatarka.inject.annotations.Provides
 
-interface FillStorageComponent {
+interface FillStorageFeature {
   @Provides
   @IntoSet
-  fun provideFillStorageComponent(bind: FillStorageFeature): SQAFeature = bind
+  fun provideFillStorageFeature(bind: FillStorageFeature): SQAFeature = bind
 }
