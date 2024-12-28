@@ -54,8 +54,14 @@ internal fun StorageChart(
         horizontalArrangement = Arrangement.SpaceBetween,
         modifier = Modifier.fillMaxWidth(),
       ) {
-        Text(textCreator.storageTypeTitle(storage.type))
-        Text(textCreator.storageCapacityDetailText(storage))
+        Text(
+          text = textCreator.storageTypeTitle(storage.type),
+          fontSize = 14.sp,
+        )
+        Text(
+          text = textCreator.storageCapacityDetailText(storage),
+          fontSize = 14.sp,
+        )
       }
       16.VerticalSpace()
       StorageBarChart(
