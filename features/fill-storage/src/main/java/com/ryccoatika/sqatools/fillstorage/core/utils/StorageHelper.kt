@@ -45,10 +45,10 @@ internal class StorageHelper(
     )
   }
 
-  fun getAllStorageCapacity(metric: Storage.Metric): List<Storage> {
+  fun getAllStorageCapacity(): List<Storage> {
     return activity.getExternalFilesDirs("").map { file ->
       val storageCapacity = getStorageCapacity(file.path)
-      storageCapacity.convert(to = metric)
+      storageCapacity
     }
   }
 }

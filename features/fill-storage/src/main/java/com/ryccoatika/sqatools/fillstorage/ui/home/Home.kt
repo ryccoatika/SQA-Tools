@@ -18,7 +18,6 @@ import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatools.common.ui.widget.DropdownButtonMenu
 import com.ryccoatika.sqatools.fillstorage.R
 import com.ryccoatika.sqatools.fillstorage.core.model.Storage
-import com.ryccoatika.sqatools.fillstorage.di.FillStorageScope
 import com.ryccoatika.sqatools.fillstorage.ui.common.StorageChart
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
@@ -30,7 +29,6 @@ internal typealias Home = @Composable (
   navigateUp: () -> Unit,
 ) -> Unit
 
-@FillStorageScope
 @Inject
 @Composable
 internal fun Home(
