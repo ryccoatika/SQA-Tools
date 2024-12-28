@@ -1,22 +1,19 @@
 package com.ryccoatika.sqatools.ui.home
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Icon
-import androidx.compose.material3.ListItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.tooling.preview.PreviewLightDark
+import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.ryccoatika.sqatools.common.extensions.viewModel
 import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatools.ui.common.utils.preview.HomePreviewParameterProvider
+import com.ryccoatika.sqatools.ui.home.widget.FeatureCard
 import me.tatarka.inject.annotations.Inject
 
 internal typealias Home = @Composable () -> Unit
@@ -46,46 +43,29 @@ private fun Home(
 private fun Home(
   state: HomeViewState,
 ) {
-  val context = LocalContext.current
   Scaffold { paddingValues ->
     LazyColumn(
       modifier = Modifier
         .padding(paddingValues),
     ) {
       items(state.features.toList()) { feature ->
-        ListItem(
-          leadingContent = {
-            Icon(
-              imageVector = feature.icon,
-              contentDescription = null,
-            )
-          },
-          headlineContent = {
-            Text(
-              text = stringResource(id = feature.featureTitle),
-            )
-          },
-          supportingContent = {
-            Text(
-              text = stringResource(id = feature.featureDescription),
-            )
-          },
-          modifier = Modifier
-            .clickable {
-              feature.open(context)
-            },
+        FeatureCard(
+          feature = feature,
         )
       }
     }
   }
 }
 
-@Preview
+@PreviewLightDark
 @Composable
-private fun HomePreview() {
+private fun HomePreview(
+  @PreviewParameter(HomePreviewParameterProvider::class)
+  homeViewState: HomeViewState,
+) {
   SQAToolsTheme {
     Home(
-      state = HomeViewState.Empty,
+      state = homeViewState,
     )
   }
 }
