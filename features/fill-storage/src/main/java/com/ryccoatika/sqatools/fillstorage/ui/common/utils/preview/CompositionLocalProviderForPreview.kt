@@ -6,7 +6,7 @@ import com.ryccoatika.sqatools.fillstorage.core.utils.FillStorageTextCreator
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.LocalTextCreator
 
 @Composable
-fun CompositionLocalProviderForPreview(content: @Composable () -> Unit) {
+internal fun CompositionLocalProviderForPreview(content: @Composable () -> Unit) {
   CompositionLocalProvider(
     LocalTextCreator provides FillStorageTextCreator(),
   ) {

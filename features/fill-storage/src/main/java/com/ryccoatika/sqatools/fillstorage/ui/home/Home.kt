@@ -44,7 +44,7 @@ internal fun Home(
 }
 
 @Composable
-internal fun Home(
+private fun Home(
   viewModel: HomeViewModel,
   navigateUp: () -> Unit,
 ) {
@@ -58,7 +58,7 @@ internal fun Home(
 }
 
 @Composable
-internal fun Home(
+private fun Home(
   state: HomeViewState,
   onMetricChanged: (Storage.Metric) -> Unit,
   navigateUp: () -> Unit,

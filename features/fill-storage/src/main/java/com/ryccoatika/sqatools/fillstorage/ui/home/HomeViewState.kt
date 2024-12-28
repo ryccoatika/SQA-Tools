@@ -8,9 +8,6 @@ internal data class HomeViewState(
   val metric: Storage.Metric,
   val storages: List<Storage>,
 ) {
-  val isLoading: Boolean
-    get() = storages.isEmpty()
-
   companion object {
     val Empty = HomeViewState(
       metric = Storage.Metric.GB,
