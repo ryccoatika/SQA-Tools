@@ -1,4 +1,4 @@
-package com.ryccoatika.sqatools.fillstorage.di
+package com.ryccoatika.sqatools.fillstorage.inject
 
 import com.ryccoatika.sqatools.common.SQAFeature
 import com.ryccoatika.sqatools.fillstorage.FillStorageFeature

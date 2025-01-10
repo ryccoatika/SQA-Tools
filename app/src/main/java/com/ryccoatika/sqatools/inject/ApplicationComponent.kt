@@ -4,7 +4,7 @@ import android.app.Application
 import android.content.Context
 import com.ryccoatika.sqatools.SQAToolsApplication
 import com.ryccoatika.sqatools.common.inject.ApplicationScope
-import com.ryccoatika.sqatools.fillstorage.di.FillStorageFeature
+import com.ryccoatika.sqatools.fillstorage.inject.FillStorageFeature
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 

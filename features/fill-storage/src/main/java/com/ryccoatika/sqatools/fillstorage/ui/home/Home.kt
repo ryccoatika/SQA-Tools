@@ -16,16 +16,18 @@ import com.ryccoatika.sqatools.common.ui.AppTopBar
 import com.ryccoatika.sqatools.common.ui.VerticalSpace
 import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatools.common.ui.widget.DropdownButtonMenu
+import com.ryccoatika.sqatools.common.ui.widget.DropdownButtonMenuType
 import com.ryccoatika.sqatools.fillstorage.R
 import com.ryccoatika.sqatools.fillstorage.core.model.Storage
-import com.ryccoatika.sqatools.fillstorage.ui.common.StorageChart
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.HomePreviewParameterProvider
+import com.ryccoatika.sqatools.fillstorage.ui.home.widget.StorageCard
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
 
 internal typealias Home = @Composable (
+  openManageStorage: (path: String) -> Unit,
   navigateUp: () -> Unit,
 ) -> Unit
 
@@ -33,10 +35,12 @@ internal typealias Home = @Composable (
 @Composable
 internal fun Home(
   viewModelFactory: () -> HomeViewModel,
+  @Assisted openManageStorage: (path: String) -> Unit,
   @Assisted navigateUp: () -> Unit,
 ) {
   Home(
     viewModel = viewModel(factory = viewModelFactory),
+    openManageStorage = openManageStorage,
     navigateUp = navigateUp,
   )
 }
@@ -44,6 +48,7 @@ internal fun Home(
 @Composable
 private fun Home(
   viewModel: HomeViewModel,
+  openManageStorage: (path: String) -> Unit,
   navigateUp: () -> Unit,
 ) {
   val viewState by viewModel.state.collectAsState()
@@ -51,6 +56,7 @@ private fun Home(
   Home(
     state = viewState,
     onMetricChanged = viewModel::updateMetric,
+    openManageStorage = openManageStorage,
     navigateUp = navigateUp,
   )
 }
@@ -58,6 +64,7 @@ private fun Home(
 @Composable
 private fun Home(
   state: HomeViewState,
+  openManageStorage: (path: String) -> Unit,
   onMetricChanged: (Storage.Metric) -> Unit,
   navigateUp: () -> Unit,
 ) {
@@ -76,7 +83,12 @@ private fun Home(
         .padding(10.dp),
     ) {
       state.storages.forEach { storage ->
-        StorageChart(storage)
+        StorageCard(
+          storage = storage,
+          onManageButtonClicked = {
+            openManageStorage(storage.path)
+          },
+        )
         10.VerticalSpace()
       }
     }
@@ -92,11 +104,12 @@ private fun HomeTopBar(
   val textCreator = LocalTextCreator.current
 
   AppTopBar(
-    title = stringResource(R.string.title_fill_storage),
+    title = stringResource(R.string.fs_title),
     onBackPressed = navigateUp,
     actions = {
       DropdownButtonMenu(
         text = textCreator.storageMetricText(state.metric),
+        buttonType = DropdownButtonMenuType.TextButton,
         options = Storage.Metric.entries,
         optionText = textCreator::storageMetricText,
         onSelected = onMetricChanged,
@@ -115,6 +128,7 @@ private fun HomePreview(
       Home(
         state = homeViewState,
         onMetricChanged = {},
+        openManageStorage = {},
         navigateUp = {},
       )
     }

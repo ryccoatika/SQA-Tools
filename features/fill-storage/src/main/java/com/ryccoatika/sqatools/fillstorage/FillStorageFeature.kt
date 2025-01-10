@@ -15,9 +15,9 @@ class FillStorageFeature : SQAFeature {
   override val icon: ImageVector
     get() = Icons.Outlined.SdStorage
   override val featureTitle: Int
-    get() = R.string.title_fill_storage
+    get() = R.string.fs_title
   override val featureDescription: Int
-    get() = R.string.desc_fill_storage
+    get() = R.string.fs_desc
 
   override fun open(context: Context) {
     Intent(

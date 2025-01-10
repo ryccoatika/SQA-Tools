@@ -1,4 +1,4 @@
-package com.ryccoatika.sqatools.fillstorage.ui.common
+package com.ryccoatika.sqatools.fillstorage.ui.home.widget
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -25,6 +26,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.rememberTextMeasurer
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
@@ -33,14 +35,16 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.ryccoatika.sqatools.common.ui.VerticalSpace
 import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatools.fillstorage.R
 import com.ryccoatika.sqatools.fillstorage.core.model.Storage
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.StoragePreviewParameterProvider
 
 @Composable
-internal fun StorageChart(
+internal fun StorageCard(
   storage: Storage,
+  onManageButtonClicked: () -> Unit,
   modifier: Modifier = Modifier,
 ) {
   val textCreator = LocalTextCreator.current
@@ -55,7 +59,7 @@ internal fun StorageChart(
         modifier = Modifier.fillMaxWidth(),
       ) {
         Text(
-          text = textCreator.storageTypeTitle(storage.type),
+          text = textCreator.storageTypeCardTitle(storage.type),
           fontSize = 14.sp,
         )
         Text(
@@ -67,6 +71,13 @@ internal fun StorageChart(
       StorageBarChart(
         storage = storage,
       )
+      8.VerticalSpace()
+      Button(
+        onClick = onManageButtonClicked,
+        modifier = Modifier.fillMaxWidth(),
+      ) {
+        Text(text = stringResource(R.string.fs_button_manage))
+      }
     }
   }
 }
@@ -127,12 +138,15 @@ private fun StorageBarChart(
 
 @Preview
 @Composable
-private fun StorageChartPreview(
+private fun StorageCardPreview(
   @PreviewParameter(StoragePreviewParameterProvider::class) storage: Storage,
 ) {
   CompositionLocalProviderForPreview {
     SQAToolsTheme {
-      StorageChart(storage)
+      StorageCard(
+        storage = storage,
+        onManageButtonClicked = {},
+      )
     }
   }
 }

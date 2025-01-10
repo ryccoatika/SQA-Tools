@@ -1,19 +1,19 @@
 package com.ryccoatika.sqatools.fillstorage.core.utils
 
-import android.app.Activity
+import android.content.Context
 import android.os.StatFs
 import com.ryccoatika.sqatools.fillstorage.core.model.Storage
-import com.ryccoatika.sqatools.fillstorage.di.FillStorageScope
+import com.ryccoatika.sqatools.fillstorage.inject.FillStorageScope
 import me.tatarka.inject.annotations.Inject
 
 @FillStorageScope
 @Inject
 internal class StorageHelper(
-  private val activity: Activity,
+  private val context: Context,
 ) {
   private fun getStorageTypeByPath(path: String): Storage.Type {
     val prefix = "/storage/"
-    val suffix = "/Android/data/${activity.packageName}/files"
+    val suffix = "/Android/data/${context.packageName}/files"
 
     val sanitizedPath = path
       .removePrefix(prefix)
@@ -25,7 +25,7 @@ internal class StorageHelper(
     }
   }
 
-  private fun getStorageCapacity(path: String): Storage {
+  fun getStorageCapacity(path: String): Storage {
     val stat = StatFs(path)
     val blockSize = stat.blockSizeLong
     val totalBlocks = stat.blockCountLong
@@ -42,11 +42,11 @@ internal class StorageHelper(
       freeSpace = freeSpace / 1024f / 1024f,
       usedSpace = usedSpace / 1024f / 1024f,
       metric = Storage.Metric.MB,
-    )
+    ).convert(Storage.Metric.GB)
   }
 
   fun getAllStorageCapacity(): List<Storage> {
-    return activity.getExternalFilesDirs("").map { file ->
+    return context.getExternalFilesDirs("").map { file ->
       val storageCapacity = getStorageCapacity(file.path)
       storageCapacity
     }

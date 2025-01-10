@@ -1,21 +1,20 @@
 package com.ryccoatika.sqatools.fillstorage
 
-import android.app.Activity
+import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.ui.Modifier
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatools.fillstorage.core.utils.FillStorageTextCreator
-import com.ryccoatika.sqatools.fillstorage.di.FillStorageScope
+import com.ryccoatika.sqatools.fillstorage.inject.FillStorageScope
 import com.ryccoatika.sqatools.fillstorage.ui.FeatureScreens
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.LocalTextCreator
 import me.tatarka.inject.annotations.Component
@@ -35,22 +34,34 @@ internal class FillStorageActivity : ComponentActivity() {
       val navController = rememberNavController()
 
       CompositionLocalProvider(
-        LocalTextCreator provides component.textCreator,
+        LocalTextCreator provides FillStorageTextCreator(this),
       ) {
         SQAToolsTheme {
-          Scaffold(
-            modifier = Modifier.fillMaxSize(),
-          ) { paddingValues ->
-            NavHost(
-              navController = navController,
-              startDestination = Route.Home.route,
-              modifier = Modifier.padding(paddingValues),
+          NavHost(
+            navController = navController,
+            startDestination = Route.Home.route,
+          ) {
+            composable(
+              route = Route.Home.route,
             ) {
-              composable(Route.Home.route) {
-                component.screens.home {
+              component.screens.home(
+                { path ->
+                  // openManageStorage
+                  navController.navigate(Route.Manage.createRoute(path))
+                },
+                {
+                  // navigateUp
                   finish()
-                }
-              }
+                },
+              )
+            }
+            composable(
+              route = Route.Manage.route,
+              arguments = listOf(
+                navArgument("path") { type = NavType.StringType },
+              ),
+            ) {
+              component.screens.manage(navController::navigateUp)
             }
           }
         }
@@ -58,16 +69,21 @@ internal class FillStorageActivity : ComponentActivity() {
     }
   }
 
-  enum class Route(val route: String) {
-    Home("home"),
+  sealed class Route(val route: String) {
+    data object Home : Route("home")
+    data object Manage : Route("manage/{path}") {
+      fun createRoute(path: String): String {
+        val encodedPath = Uri.encode(path)
+        return "manage/$encodedPath"
+      }
+    }
   }
 }
 
 @FillStorageScope
 @Component
 internal abstract class FillStorageComponent(
-  @get:Provides val activity: Activity,
+  @get:Provides val context: Context,
 ) {
   abstract val screens: FeatureScreens
-  abstract val textCreator: FillStorageTextCreator
 }

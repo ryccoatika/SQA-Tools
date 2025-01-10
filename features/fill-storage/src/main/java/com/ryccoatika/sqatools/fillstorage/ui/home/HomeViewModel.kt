@@ -6,6 +6,7 @@ import com.ryccoatika.sqatools.fillstorage.core.model.Storage
 import com.ryccoatika.sqatools.fillstorage.core.usecase.ObserveStorages
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.stateIn
 import me.tatarka.inject.annotations.Inject
@@ -16,7 +17,7 @@ internal class HomeViewModel(
 ) : ViewModel() {
   private val metric = MutableStateFlow(Storage.Metric.GB)
 
-  val state = combine(
+  val state: StateFlow<HomeViewState> = combine(
     metric,
     observeStorages.flow,
   ) { metric, storages ->
@@ -24,12 +25,11 @@ internal class HomeViewModel(
       metric = metric,
       storages = storages.map { it.convert(metric) },
     )
-  }
-    .stateIn(
-      scope = viewModelScope,
-      started = SharingStarted.WhileSubscribed(),
-      initialValue = HomeViewState.Empty,
-    )
+  }.stateIn(
+    scope = viewModelScope,
+    started = SharingStarted.WhileSubscribed(),
+    initialValue = HomeViewState.Empty,
+  )
 
   init {
     observeStorages(Unit)

@@ -1,4 +1,4 @@
-package com.ryccoatika.sqatools.fillstorage.di
+package com.ryccoatika.sqatools.fillstorage.inject
 
 import me.tatarka.inject.annotations.Scope
 

@@ -1,4 +1,23 @@
 <resources>
-    <string name="title_fill_storage">Fill Storage</string>
-    <string name="desc_fill_storage">To emulate storage capacity by filling dummy files.</string>
+  <string name="fs_button_manage">Manage</string>
+  <string name="fs_button_fill">Fill</string>
+
+  <string name="fs_desc">To emulate storage capacity by filling dummy files.</string>
+
+  <string name="fs_title">Fill Storage</string>
+  <string name="fs_title_manage_external">External Storage</string>
+  <string name="fs_title_manage_internal">Internal Storage</string>
+  <string name="fs_title_manage_unknown">Unknown Storage</string>
+
+  <string name="fs_text_dummy_files">Dummy Files (%s)</string>
+  <string name="fs_text_free_space">Free Space (%s)</string>
+  <string name="fs_text_used_space">Used Space (%s)</string>
+
+  <string name="fs_text_gb">GB</string>
+  <string name="fs_text_mb">MB</string>
+  <string name="fs_text_percent">%</string>
+
+  <string name="fs_validation_number_only">Input number only</string>
+  <string name="fs_validation_percent_range">Percentage on range 1–100</string>
+  <string name="fs_validation_greater_than_zero">Must be greater than one</string>
 </resources>

@@ -1,22 +1,25 @@
 package com.ryccoatika.sqatools.fillstorage.core.utils
 
+import android.content.Context
+import com.ryccoatika.sqatools.fillstorage.R
+import com.ryccoatika.sqatools.fillstorage.core.model.FillStorage
 import com.ryccoatika.sqatools.fillstorage.core.model.Storage
-import com.ryccoatika.sqatools.fillstorage.di.FillStorageScope
-import me.tatarka.inject.annotations.Inject
 
-@FillStorageScope
-@Inject
-internal class FillStorageTextCreator {
-  fun storageTypeTitle(
+internal class FillStorageTextCreator(
+  private val context: Context,
+) {
+  fun storageTypeCardTitle(
     type: Storage.Type,
   ): String {
     return when (type) {
       is Storage.Type.External -> {
         "External (${type.name})"
       }
+
       Storage.Type.Internal -> {
         "Internal"
       }
+
       Storage.Type.Unknown -> {
         "Unknown"
       }
@@ -35,8 +38,10 @@ internal class FillStorageTextCreator {
   private fun storageCapacityText(
     capacity: Float,
     metric: Storage.Metric,
+    withDecimal: Boolean = true,
   ): String {
-    val capacityText = "%.2f".format(capacity)
+    val format = if (withDecimal) "%.2f" else "%.0f"
+    val capacityText = format.format(capacity)
     return "$capacityText ${storageMetricText(metric)}"
   }
 
@@ -45,6 +50,15 @@ internal class FillStorageTextCreator {
   ): String {
     return storageCapacityText(
       capacity = storage.freeSpace,
+      metric = storage.metric,
+    )
+  }
+
+  fun storageUsedSpaceText(
+    storage: Storage,
+  ): String {
+    return storageCapacityText(
+      capacity = storage.usedSpace,
       metric = storage.metric,
     )
   }
@@ -62,5 +76,33 @@ internal class FillStorageTextCreator {
     )
 
     return "$usedCapacity of $totalCapacity"
+  }
+
+  fun storageTypeManageTitle(
+    type: Storage.Type,
+  ): String {
+    return when (type) {
+      is Storage.Type.External -> context.getString(R.string.fs_title_manage_external)
+      Storage.Type.Internal -> context.getString(R.string.fs_title_manage_internal)
+      Storage.Type.Unknown -> context.getString(R.string.fs_title_manage_unknown)
+    }
+  }
+
+  fun percentageText(value: Float): String {
+    return percentageText((value * 100).toInt())
+  }
+
+  private fun percentageText(value: Int): String {
+    return "$value%"
+  }
+
+  fun fillStorageButtonText(
+    fillStorage: FillStorage,
+  ): String {
+    return when (fillStorage.type) {
+      FillStorage.Type.MB -> storageCapacityText(fillStorage.value, Storage.Metric.MB, false)
+      FillStorage.Type.GB -> storageCapacityText(fillStorage.value, Storage.Metric.GB, false)
+      FillStorage.Type.PERCENT -> percentageText(fillStorage.value.toInt())
+    }
   }
 }
