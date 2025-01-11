@@ -18,12 +18,14 @@ import com.ryccoatika.sqatools.common.ui.AppTopBar
 import com.ryccoatika.sqatools.common.ui.VerticalSpace
 import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatools.fillstorage.R
+import com.ryccoatika.sqatools.fillstorage.core.model.FillStorage
 import com.ryccoatika.sqatools.fillstorage.core.model.Storage
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
 import com.ryccoatika.sqatools.fillstorage.ui.manage.widget.ChartBar
 import com.ryccoatika.sqatools.fillstorage.ui.manage.widget.FillStorageField
 import com.ryccoatika.sqatools.fillstorage.ui.manage.widget.FillStorageOptions
+import com.ryccoatika.sqatools.fillstorage.ui.manage.widget.FillStorageProgress
 import com.ryccoatika.sqatools.fillstorage.ui.manage.widget.StorageChart
 import me.tatarka.inject.annotations.Assisted
 import me.tatarka.inject.annotations.Inject
@@ -54,6 +56,8 @@ private fun Manage(
   Manage(
     state = viewState,
     navigateUp = navigateUp,
+    fillStorage = viewModel::fillStorage,
+    dismissProgress = viewModel::dismissProgress,
   )
 }
 
@@ -61,6 +65,8 @@ private fun Manage(
 private fun Manage(
   state: ManageViewState,
   navigateUp: () -> Unit,
+  fillStorage: (FillStorage) -> Unit,
+  dismissProgress: () -> Unit,
 ) {
   val textCreator = LocalTextCreator.current
   val percentage = state.storage.usedSpace / state.storage.totalSpace
@@ -73,6 +79,14 @@ private fun Manage(
       )
     },
   ) { paddingValues ->
+
+    state.fillStorageProgress?.let { progress ->
+      FillStorageProgress(
+        progress = progress,
+        onDismissRequest = dismissProgress,
+      )
+    }
+
     Column(
       modifier = Modifier
         .padding(paddingValues)
@@ -86,11 +100,13 @@ private fun Manage(
       )
       16.VerticalSpace()
       FillStorageField(
-        onFill = {},
+        onFill = fillStorage,
+        enabled = state.fillStorageProgress == null,
       )
       8.VerticalSpace()
       FillStorageOptions(
-        onFill = {},
+        onFill = fillStorage,
+        enabled = state.fillStorageProgress == null,
       )
     }
   }
@@ -147,6 +163,8 @@ private fun ManagePreview() {
       Manage(
         state = ManageViewState.Empty,
         navigateUp = {},
+        fillStorage = {},
+        dismissProgress = {},
       )
     }
   }

@@ -20,6 +20,7 @@ import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.CompositionLo
 @Composable
 internal fun FillStorageOptions(
   onFill: (FillStorage) -> Unit,
+  enabled: Boolean = true,
   modifier: Modifier = Modifier,
 ) {
   val textCreator = LocalTextCreator.current
@@ -66,6 +67,7 @@ internal fun FillStorageOptions(
     ) { option ->
       Button(
         shape = MaterialTheme.shapes.medium,
+        enabled = enabled,
         onClick = {
           onFill(option)
         },

@@ -1,6 +1,7 @@
 package com.ryccoatika.sqatools.common
 
 import java.util.concurrent.TimeUnit
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.TimeoutCancellationException
 import kotlinx.coroutines.channels.BufferOverflow
 import kotlinx.coroutines.flow.Flow
@@ -32,8 +33,6 @@ abstract class Interactor<in P> {
     }
   }.catch { t -> emit(InvokeError(t)) }
 
-  suspend fun executeSync(params: P) = doWork(params)
-
   protected abstract suspend fun doWork(params: P)
 
   companion object {
@@ -41,33 +40,43 @@ abstract class Interactor<in P> {
   }
 }
 
-suspend inline fun Interactor<Unit>.executeSync() = executeSync(Unit)
-
 abstract class ResultInteractor<in P, R> {
   operator fun invoke(params: P): Flow<R> = flow {
     emit(doWork(params))
   }
 
-  suspend fun executeSync(params: P): R = doWork(params)
-
   protected abstract suspend fun doWork(params: P): R
 }
 
-suspend inline fun <R> ResultInteractor<Unit, R>.executeSync(): R = executeSync(Unit)
+abstract class ProgressInteractor<P : Any, T> {
+  private var job: Job? = null
 
-abstract class SuspendingWorkInteractor<P : Any, T> : SubjectInteractor<P, T>() {
-  override fun createObservable(params: P): Flow<T> = flow {
-    emit(doWork(params))
+  private val _progress = MutableSharedFlow<T?>(
+    replay = 1,
+    extraBufferCapacity = 1,
+    onBufferOverflow = BufferOverflow.DROP_OLDEST,
+  )
+  val progress: Flow<T?> = _progress
+    .distinctUntilChanged()
+
+  init {
+    _progress.tryEmit(null)
   }
 
-  abstract suspend fun doWork(params: P): T
+  operator fun invoke(params: P) {
+    job = doWork(params, _progress::tryEmit)
+  }
+
+  fun cancel() {
+    job?.cancel()
+    job = null
+    _progress.tryEmit(null)
+  }
+
+  protected abstract fun doWork(params: P, progressEmitter: (T) -> Unit): Job
 }
 
 abstract class SubjectInteractor<P : Any, T> {
-  // Ideally this would be buffer = 0, since we use flatMapLatest below, BUT invoke is not
-  // suspending. This means that we can't suspend while flatMapLatest cancels any
-  // existing flows. The buffer of 1 means that we can use tryEmit() and buffer the value
-  // instead, resulting in mostly the same result.
   private val paramState = MutableSharedFlow<P>(
     replay = 1,
     extraBufferCapacity = 1,

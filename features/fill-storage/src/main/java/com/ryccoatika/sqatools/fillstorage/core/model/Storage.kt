@@ -22,6 +22,12 @@ internal data class Storage(
     GB,
   }
 
+  val freeSpaceInBytes: Float
+    get() = when (metric) {
+      Metric.MB -> freeSpace * 1024 * 1024
+      Metric.GB -> freeSpace * 1024 * 1024 * 1024
+    }
+
   fun convert(to: Metric): Storage {
     return when (metric) {
       Metric.MB -> {

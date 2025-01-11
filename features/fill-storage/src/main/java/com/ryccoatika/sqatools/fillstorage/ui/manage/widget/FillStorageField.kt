@@ -30,6 +30,7 @@ import com.ryccoatika.sqatools.fillstorage.core.model.FillStorage
 @Composable
 internal fun FillStorageField(
   onFill: (FillStorage) -> Unit,
+  enabled: Boolean = true,
   modifier: Modifier = Modifier,
 ) {
   val context = LocalContext.current
@@ -72,7 +73,7 @@ internal fun FillStorageField(
       onClick = {
         onFill(FillStorage(value = value.toFloatOrNull() ?: 0f, type = type))
       },
-      enabled = !isError,
+      enabled = enabled && !isError,
       shape = MaterialTheme.shapes.medium,
       modifier = Modifier.height(TextFieldDefaults.MinHeight),
     ) {

@@ -8,6 +8,12 @@ import com.ryccoatika.sqatools.fillstorage.core.model.Storage
 internal class FillStorageTextCreator(
   private val context: Context,
 ) {
+  fun errorMessage(t: Throwable): String {
+    return when {
+      else -> t.localizedMessage ?: ""
+    }
+  }
+
   fun storageTypeCardTitle(
     type: Storage.Type,
   ): String {
@@ -103,6 +109,32 @@ internal class FillStorageTextCreator(
       FillStorage.Type.MB -> storageCapacityText(fillStorage.value, Storage.Metric.MB, false)
       FillStorage.Type.GB -> storageCapacityText(fillStorage.value, Storage.Metric.GB, false)
       FillStorage.Type.PERCENT -> percentageText(fillStorage.value.toInt())
+    }
+  }
+
+  fun fillStorageProgress(
+    progress: FillStorage.Progress,
+  ): String {
+    val filledSize = storageCapacityText(
+      capacity = progress.mbFilled,
+      metric = Storage.Metric.MB,
+      withDecimal = false,
+    )
+    val toFillSize = storageCapacityText(
+      capacity = progress.mbFill,
+      metric = Storage.Metric.MB,
+      withDecimal = false,
+    )
+    return context.getString(R.string.fs_desc_fill_progress, filledSize, toFillSize)
+  }
+
+  fun fillStorageProgressButtonText(
+    progress: FillStorage.Progress,
+  ): String {
+    return when {
+      progress.isSuccess ||
+        progress.error != null -> context.getString(R.string.fs_button_close)
+      else -> context.getString(R.string.fs_button_cancel)
     }
   }
 }

@@ -9,4 +9,12 @@ internal data class FillStorage(
     GB,
     PERCENT,
   }
+
+  data class Progress(
+    val progress: Float,
+    val mbFilled: Float,
+    val mbFill: Float,
+    val isSuccess: Boolean,
+    val error: Throwable?,
+  )
 }

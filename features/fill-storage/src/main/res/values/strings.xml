@@ -1,8 +1,11 @@
 <resources>
-  <string name="fs_button_manage">Manage</string>
+  <string name="fs_button_cancel">Cancel</string>
+  <string name="fs_button_close">Close</string>
   <string name="fs_button_fill">Fill</string>
+  <string name="fs_button_manage">Manage</string>
 
-  <string name="fs_desc">To emulate storage capacity by filling dummy files.</string>
+  <string name="fs_desc">To emulate storage capacity by filling dummy files</string>
+  <string name="fs_desc_fill_progress">%s of %s filled.</string>
 
   <string name="fs_title">Fill Storage</string>
   <string name="fs_title_manage_external">External Storage</string>
