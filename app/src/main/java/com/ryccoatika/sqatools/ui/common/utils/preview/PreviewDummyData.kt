@@ -1,4 +1,3 @@
-
 @file:Suppress("ktlint:standard:filename")
 
 package com.ryccoatika.sqatools.ui.common.utils.preview
@@ -10,7 +9,6 @@ import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.ryccoatika.sqatools.common.SQAFeature
-import com.ryccoatika.sqatools.ui.home.HomeViewState
 
 private val featureOne = object : SQAFeature {
   override val featureId: String
@@ -47,17 +45,11 @@ internal class FeatureCardPreviewParameterProvider : PreviewParameterProvider<SQ
     )
 }
 
-internal class HomePreviewParameterProvider : PreviewParameterProvider<HomeViewState> {
-  override val values: Sequence<HomeViewState>
+internal class HomePreviewParameterProvider : PreviewParameterProvider<Set<SQAFeature>> {
+  override val values: Sequence<Set<SQAFeature>>
     get() = sequenceOf(
-      HomeViewState(
-        features = setOf(featureOne),
-      ),
-      HomeViewState(
-        features = setOf(featureOne, featureTwo),
-      ),
-      HomeViewState(
-        features = emptySet(),
-      ),
+      setOf(featureOne),
+      setOf(featureOne, featureTwo),
+      emptySet(),
     )
 }
