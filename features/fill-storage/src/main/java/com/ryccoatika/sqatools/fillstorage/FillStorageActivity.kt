@@ -61,7 +61,26 @@ internal class FillStorageActivity : ComponentActivity() {
                 navArgument("path") { type = NavType.StringType },
               ),
             ) {
-              component.screens.manage(navController::navigateUp)
+              component.screens.manage(
+                {
+                  // navigateUp
+                  navController.navigateUp()
+                },
+                { path ->
+                  // openDummyFiles
+                  navController.navigate(Route.DummyFiles.createRoute(path))
+                },
+              )
+            }
+            composable(
+              route = Route.DummyFiles.route,
+              arguments = listOf(
+                navArgument("path") { type = NavType.StringType },
+              ),
+            ) {
+              component.screens.dummyFiles(
+                navController::navigateUp, // navigateUp
+              )
             }
           }
         }
@@ -75,6 +94,13 @@ internal class FillStorageActivity : ComponentActivity() {
       fun createRoute(path: String): String {
         val encodedPath = Uri.encode(path)
         return "manage/$encodedPath"
+      }
+    }
+
+    data object DummyFiles : Route("dummy-files/{path}") {
+      fun createRoute(path: String): String {
+        val encodedPath = Uri.encode(path)
+        return "dummy-files/$encodedPath"
       }
     }
   }

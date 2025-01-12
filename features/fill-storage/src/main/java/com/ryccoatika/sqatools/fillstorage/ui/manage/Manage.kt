@@ -3,13 +3,16 @@ package com.ryccoatika.sqatools.fillstorage.ui.manage
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.FolderOpen
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
@@ -17,9 +20,7 @@ import com.ryccoatika.sqatools.common.extensions.viewModel
 import com.ryccoatika.sqatools.common.ui.AppTopBar
 import com.ryccoatika.sqatools.common.ui.VerticalSpace
 import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
-import com.ryccoatika.sqatools.fillstorage.R
 import com.ryccoatika.sqatools.fillstorage.core.model.FillStorage
-import com.ryccoatika.sqatools.fillstorage.core.model.Storage
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
 import com.ryccoatika.sqatools.fillstorage.ui.manage.widget.ChartBar
@@ -32,6 +33,7 @@ import me.tatarka.inject.annotations.Inject
 
 internal typealias Manage = @Composable (
   navigateUp: () -> Unit,
+  openDummyFiles: (path: String) -> Unit,
 ) -> Unit
 
 @Inject
@@ -39,10 +41,12 @@ internal typealias Manage = @Composable (
 internal fun Manage(
   viewModelFactory: (SavedStateHandle) -> ManageViewModel,
   @Assisted navigateUp: () -> Unit,
+  @Assisted openDummyFiles: (path: String) -> Unit,
 ) {
   Manage(
     viewModel = viewModel(factory = viewModelFactory),
     navigateUp = navigateUp,
+    openDummyFiles = openDummyFiles,
   )
 }
 
@@ -50,6 +54,7 @@ internal fun Manage(
 private fun Manage(
   viewModel: ManageViewModel,
   navigateUp: () -> Unit,
+  openDummyFiles: (path: String) -> Unit,
 ) {
   val viewState by viewModel.state.collectAsState()
 
@@ -58,6 +63,9 @@ private fun Manage(
     navigateUp = navigateUp,
     fillStorage = viewModel::fillStorage,
     dismissProgress = viewModel::dismissProgress,
+    onFolderClicked = {
+      openDummyFiles(viewModel.path)
+    },
   )
 }
 
@@ -67,15 +75,16 @@ private fun Manage(
   navigateUp: () -> Unit,
   fillStorage: (FillStorage) -> Unit,
   dismissProgress: () -> Unit,
+  onFolderClicked: () -> Unit,
 ) {
   val textCreator = LocalTextCreator.current
-  val percentage = state.storage.usedSpace / state.storage.totalSpace
 
   Scaffold(
     topBar = {
       ManageTopBar(
-        storageType = state.storage.type,
+        state = state,
         navigateUp = navigateUp,
+        onFolderClicked = onFolderClicked,
       )
     },
   ) { paddingValues ->
@@ -94,7 +103,7 @@ private fun Manage(
     ) {
       StorageChart(
         bars = generateChartBars(state),
-        label = textCreator.percentageText(percentage),
+        label = textCreator.storageUsedSpacePercentage(state.storage),
         barWidth = 32.dp,
         modifier = Modifier.fillMaxWidth(),
       )
@@ -117,41 +126,54 @@ private fun generateChartBars(state: ManageViewState): List<ChartBar> = buildLis
   val textCreator = LocalTextCreator.current
 
   val storage = state.storage
-  val usedSpace = storage.usedSpace / storage.totalSpace
-  val freeSpace = storage.freeSpace / storage.totalSpace
+  val nonDummyFiles = storage.nonDummyFilesPercent
+  val freeSpace = storage.freeSpacePercent
+  val dummyFiles = storage.dummyFilesPercent
 
   add(
     ChartBar(
-      value = usedSpace,
+      value = nonDummyFiles,
       color = Color.Green,
-      label = stringResource(
-        R.string.fs_text_used_space,
-        textCreator.storageUsedSpaceText(storage),
-      ),
+      label = textCreator.storageNonDummyFilesLabel(storage),
+    ),
+  )
+  add(
+    ChartBar(
+      value = dummyFiles,
+      color = Color.Blue,
+      label = textCreator.storageDummyFilesLabel(storage),
     ),
   )
   add(
     ChartBar(
       value = freeSpace,
       color = Color.Gray,
-      label = stringResource(
-        R.string.fs_text_free_space,
-        textCreator.storageFreeSpaceText(storage),
-      ),
+      label = textCreator.storageFreeSpaceLabel(storage),
     ),
   )
 }
 
 @Composable
 private fun ManageTopBar(
-  storageType: Storage.Type,
+  state: ManageViewState,
   navigateUp: () -> Unit,
+  onFolderClicked: () -> Unit,
 ) {
   val textCreator = LocalTextCreator.current
 
   AppTopBar(
-    title = textCreator.storageTypeManageTitle(storageType),
+    title = textCreator.storageTitle(state.storage),
     onBackPressed = navigateUp,
+    actions = {
+      IconButton(
+        onClick = onFolderClicked,
+      ) {
+        Icon(
+          imageVector = Icons.Outlined.FolderOpen,
+          contentDescription = null,
+        )
+      }
+    },
   )
 }
 
@@ -165,6 +187,7 @@ private fun ManagePreview() {
         navigateUp = {},
         fillStorage = {},
         dismissProgress = {},
+        onFolderClicked = {},
       )
     }
   }

@@ -1,7 +1,7 @@
 package com.ryccoatika.sqatools.fillstorage.core.model
 
 internal data class FillStorage(
-  val value: Float,
+  val value: Double,
   val type: Type,
 ) {
   enum class Type {
@@ -12,8 +12,8 @@ internal data class FillStorage(
 
   data class Progress(
     val progress: Float,
-    val mbFilled: Float,
-    val mbFill: Float,
+    val mbFilled: Double,
+    val mbFill: Double,
     val isSuccess: Boolean,
     val error: Throwable?,
   )

@@ -1,52 +1,65 @@
 package com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
+import com.ryccoatika.sqatools.fillstorage.core.model.DummyFile
 import com.ryccoatika.sqatools.fillstorage.core.model.Storage
+import com.ryccoatika.sqatools.fillstorage.ui.dummyfiles.DummyFilesViewState
 import com.ryccoatika.sqatools.fillstorage.ui.home.HomeViewState
+import java.math.BigDecimal
 
 private val storageUnknown = Storage(
   type = Storage.Type.Unknown,
   path = "/storage/0",
-  totalSpace = 100f,
-  freeSpace = 50f,
-  usedSpace = 50f,
-  metric = Storage.Metric.MB,
+  capacity = Storage.Capacity(
+    totalSpace = BigDecimal(100),
+    freeSpace = BigDecimal(50),
+    usedSpace = BigDecimal(50),
+    dummyFiles = BigDecimal(0),
+  ),
 )
 
 private val storageInternal = Storage(
   type = Storage.Type.Internal,
   path = "/storage/1",
-  totalSpace = 200f,
-  freeSpace = 150f,
-  usedSpace = 50f,
-  metric = Storage.Metric.MB,
+  capacity = Storage.Capacity(
+    totalSpace = BigDecimal(200),
+    freeSpace = BigDecimal(150),
+    usedSpace = BigDecimal(50),
+    dummyFiles = BigDecimal(0),
+  ),
 )
 
 private val storageExternal = Storage(
   type = Storage.Type.External("3423-4859"),
   path = "/storage/2",
-  totalSpace = 120f,
-  freeSpace = 20f,
-  usedSpace = 100f,
-  metric = Storage.Metric.GB,
+  capacity = Storage.Capacity(
+    totalSpace = BigDecimal(120),
+    freeSpace = BigDecimal(20),
+    usedSpace = BigDecimal(100),
+    dummyFiles = BigDecimal(0),
+  ),
 )
 
 private val storageAlmostFull = Storage(
   type = Storage.Type.Internal,
   path = "/storage/2",
-  totalSpace = 120f,
-  freeSpace = 10f,
-  usedSpace = 110f,
-  metric = Storage.Metric.GB,
+  capacity = Storage.Capacity(
+    totalSpace = BigDecimal(120),
+    freeSpace = BigDecimal(10),
+    usedSpace = BigDecimal(110),
+    dummyFiles = BigDecimal(0),
+  ),
 )
 
 private val storageFull = Storage(
   type = Storage.Type.Internal,
   path = "/storage/2",
-  totalSpace = 120f,
-  freeSpace = 0f,
-  usedSpace = 120f,
-  metric = Storage.Metric.GB,
+  capacity = Storage.Capacity(
+    totalSpace = BigDecimal(120),
+    freeSpace = BigDecimal(0),
+    usedSpace = BigDecimal(12),
+    dummyFiles = BigDecimal(0),
+  ),
 )
 
 internal class StoragePreviewParameterProvider : PreviewParameterProvider<Storage> {
@@ -64,21 +77,53 @@ internal class HomePreviewParameterProvider : PreviewParameterProvider<HomeViewS
   override val values: Sequence<HomeViewState>
     get() = sequenceOf(
       HomeViewState(
-        metric = Storage.Metric.GB,
         storages = emptyList(),
       ),
       HomeViewState(
-        metric = Storage.Metric.GB,
         storages = listOf(
           storageInternal,
         ),
       ),
       HomeViewState(
-        metric = Storage.Metric.GB,
         storages = listOf(
           storageInternal,
           storageExternal,
         ),
+      ),
+    )
+}
+
+internal class DummyFilesPreviewParameterProvider : PreviewParameterProvider<DummyFilesViewState> {
+  override val values: Sequence<DummyFilesViewState>
+    get() = sequenceOf(
+      DummyFilesViewState(
+        files = emptyList(),
+        isLoading = false,
+      ),
+      DummyFilesViewState(
+        files = listOf(
+          DummyFile(
+            name = "Hello.txt",
+            path = "/Hello.txt",
+            sizeInMB = 1024.0,
+          ),
+        ),
+        isLoading = false,
+      ),
+      DummyFilesViewState(
+        files = listOf(
+          DummyFile(
+            name = "Hello.txt",
+            path = "/Hello.txt",
+            sizeInMB = 2048.0,
+          ),
+          DummyFile(
+            name = "World.txt",
+            path = "/World.txt",
+            sizeInMB = 4096.0,
+          ),
+        ),
+        isLoading = true,
       ),
     )
 }

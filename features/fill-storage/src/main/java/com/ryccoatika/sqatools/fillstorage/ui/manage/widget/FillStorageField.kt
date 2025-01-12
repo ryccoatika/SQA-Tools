@@ -71,7 +71,7 @@ internal fun FillStorageField(
     8.HorizontalSpace()
     Button(
       onClick = {
-        onFill(FillStorage(value = value.toFloatOrNull() ?: 0f, type = type))
+        onFill(FillStorage(value = value.toDoubleOrNull() ?: 0.0, type = type))
       },
       enabled = enabled && !isError,
       shape = MaterialTheme.shapes.medium,

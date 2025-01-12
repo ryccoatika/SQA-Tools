@@ -1,24 +1,33 @@
 <resources>
   <string name="fs_button_cancel">Cancel</string>
   <string name="fs_button_close">Close</string>
+  <string name="fs_button_delete_all">Delete All</string>
   <string name="fs_button_fill">Fill</string>
   <string name="fs_button_manage">Manage</string>
 
   <string name="fs_desc">To emulate storage capacity by filling dummy files</string>
-  <string name="fs_desc_fill_progress">%s of %s filled.</string>
+  <string name="fs_desc_storage_capacity">%s of %s</string>
+  <string name="fs_desc_fill_progress">%.2f MB of %.2f MB filled</string>
+
+  <string name="fs_error_fill_percent">Your storage is already %.0f\%% filled or above</string>
 
   <string name="fs_title">Fill Storage</string>
-  <string name="fs_title_manage_external">External Storage</string>
+  <string name="fs_title_manage_external">External Storage (%s)</string>
   <string name="fs_title_manage_internal">Internal Storage</string>
   <string name="fs_title_manage_unknown">Unknown Storage</string>
+  <string name="fs_title_dummy_files">Dummy Files</string>
 
-  <string name="fs_text_dummy_files">Dummy Files (%s)</string>
-  <string name="fs_text_free_space">Free Space (%s)</string>
-  <string name="fs_text_used_space">Used Space (%s)</string>
+  <string name="fs_text_dummy_files">Dummy Files (%.2f GB)</string>
+  <string name="fs_text_free_space">Free Space (%.2f GB)</string>
+  <string name="fs_text_used_space">Used Space (%.2f GB)</string>
 
-  <string name="fs_text_gb">GB</string>
   <string name="fs_text_mb">MB</string>
+  <string name="fs_text_mb_value_no_decimal">%.0f MB</string>
+  <string name="fs_text_gb">GB</string>
+  <string name="fs_text_gb_value">%.2f GB</string>
+  <string name="fs_text_gb_value_no_decimal">%.0f GB</string>
   <string name="fs_text_percent">%</string>
+  <string name="fs_text_percent_value">%d\%%</string>
 
   <string name="fs_validation_number_only">Input number only</string>
   <string name="fs_validation_percent_range">Percentage on range 1–100</string>

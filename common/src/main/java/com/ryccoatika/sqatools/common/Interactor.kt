@@ -45,6 +45,8 @@ abstract class ResultInteractor<in P, R> {
     emit(doWork(params))
   }
 
+  suspend fun executeSync(params: P) = doWork(params)
+
   protected abstract suspend fun doWork(params: P): R
 }
 
@@ -84,7 +86,6 @@ abstract class SubjectInteractor<P : Any, T> {
   )
 
   val flow: Flow<T> = paramState
-    .distinctUntilChanged()
     .flatMapLatest { createObservable(it) }
     .distinctUntilChanged()
 

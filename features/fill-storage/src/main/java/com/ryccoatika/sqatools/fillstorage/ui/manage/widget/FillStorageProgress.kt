@@ -96,8 +96,8 @@ private fun FillStorageProgressPreview() {
       FillStorageProgress(
         progress = FillStorage.Progress(
           progress = 0.5f,
-          mbFilled = 4096f,
-          mbFill = 8192f,
+          mbFilled = 4096.0,
+          mbFill = 8192.0,
           isSuccess = false,
           error = IllegalArgumentException("Hello World"),
         ),

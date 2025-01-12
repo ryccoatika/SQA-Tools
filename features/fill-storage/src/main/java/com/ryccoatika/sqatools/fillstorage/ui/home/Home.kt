@@ -15,11 +15,7 @@ import com.ryccoatika.sqatools.common.extensions.viewModel
 import com.ryccoatika.sqatools.common.ui.AppTopBar
 import com.ryccoatika.sqatools.common.ui.VerticalSpace
 import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
-import com.ryccoatika.sqatools.common.ui.widget.DropdownButtonMenu
-import com.ryccoatika.sqatools.common.ui.widget.DropdownButtonMenuType
 import com.ryccoatika.sqatools.fillstorage.R
-import com.ryccoatika.sqatools.fillstorage.core.model.Storage
-import com.ryccoatika.sqatools.fillstorage.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
 import com.ryccoatika.sqatools.fillstorage.ui.common.utils.preview.HomePreviewParameterProvider
 import com.ryccoatika.sqatools.fillstorage.ui.home.widget.StorageCard
@@ -55,7 +51,6 @@ private fun Home(
 
   Home(
     state = viewState,
-    onMetricChanged = viewModel::updateMetric,
     openManageStorage = openManageStorage,
     navigateUp = navigateUp,
   )
@@ -65,14 +60,11 @@ private fun Home(
 private fun Home(
   state: HomeViewState,
   openManageStorage: (path: String) -> Unit,
-  onMetricChanged: (Storage.Metric) -> Unit,
   navigateUp: () -> Unit,
 ) {
   Scaffold(
     topBar = {
       HomeTopBar(
-        state = state,
-        onMetricChanged = onMetricChanged,
         navigateUp = navigateUp,
       )
     },
@@ -97,24 +89,11 @@ private fun Home(
 
 @Composable
 private fun HomeTopBar(
-  state: HomeViewState,
-  onMetricChanged: (Storage.Metric) -> Unit,
   navigateUp: () -> Unit,
 ) {
-  val textCreator = LocalTextCreator.current
-
   AppTopBar(
     title = stringResource(R.string.fs_title),
     onBackPressed = navigateUp,
-    actions = {
-      DropdownButtonMenu(
-        text = textCreator.storageMetricText(state.metric),
-        buttonType = DropdownButtonMenuType.TextButton,
-        options = Storage.Metric.entries,
-        optionText = textCreator::storageMetricText,
-        onSelected = onMetricChanged,
-      )
-    },
   )
 }
 
@@ -127,7 +106,6 @@ private fun HomePreview(
     SQAToolsTheme {
       Home(
         state = homeViewState,
-        onMetricChanged = {},
         openManageStorage = {},
         navigateUp = {},
       )

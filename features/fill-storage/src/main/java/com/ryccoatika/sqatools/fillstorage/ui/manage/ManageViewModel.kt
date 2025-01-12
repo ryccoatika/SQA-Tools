@@ -19,7 +19,7 @@ internal class ManageViewModel(
   observeStorage: ObserveStorage,
   private val fillStorage: FillStorage,
 ) : ViewModel() {
-  private val path: String = savedStateHandle["path"] ?: ""
+  val path: String = savedStateHandle["path"] ?: ""
 
   val state: StateFlow<ManageViewState> = combine(
     observeStorage.flow,

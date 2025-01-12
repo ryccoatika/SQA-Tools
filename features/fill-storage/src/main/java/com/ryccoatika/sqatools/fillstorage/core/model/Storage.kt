@@ -1,12 +1,16 @@
 package com.ryccoatika.sqatools.fillstorage.core.model
 
+import java.math.BigDecimal
+import java.math.RoundingMode
+
+/**
+ * Store byte by default
+ * use[capacityInGB] to convert to other units
+ * */
 internal data class Storage(
   val type: Type,
   val path: String,
-  val totalSpace: Float,
-  val freeSpace: Float,
-  val usedSpace: Float,
-  val metric: Metric,
+  val capacity: Capacity,
 ) {
   sealed interface Type {
     data object Internal : Type
@@ -17,54 +21,74 @@ internal data class Storage(
     data object Unknown : Type
   }
 
-  enum class Metric {
-    MB,
-    GB,
+  data class Capacity(
+    val totalSpace: BigDecimal,
+    val freeSpace: BigDecimal,
+    val usedSpace: BigDecimal,
+    val dummyFiles: BigDecimal,
+  ) {
+    val nonDummyFiles: BigDecimal
+      get() = usedSpace - dummyFiles
   }
 
-  val freeSpaceInBytes: Float
-    get() = when (metric) {
-      Metric.MB -> freeSpace * 1024 * 1024
-      Metric.GB -> freeSpace * 1024 * 1024 * 1024
-    }
+  val capacityInGB: Capacity
+    get() = capacity.copy(
+      totalSpace = capacity.totalSpace / 1024 / 1024 / 1024,
+      freeSpace = capacity.freeSpace / 1024 / 1024 / 1024,
+      usedSpace = capacity.usedSpace / 1024 / 1024 / 1024,
+      dummyFiles = capacity.dummyFiles / 1024 / 1024 / 1024,
+    )
 
-  fun convert(to: Metric): Storage {
-    return when (metric) {
-      Metric.MB -> {
-        when (to) {
-          Metric.MB -> this
-          Metric.GB -> this.copy(
-            totalSpace = this.totalSpace / 1024,
-            freeSpace = this.freeSpace / 1024,
-            usedSpace = this.usedSpace / 1024,
-            metric = Metric.GB,
-          )
-        }
+  val usedSpacePercent: Float
+    get() = with(capacity) {
+      try {
+        usedSpace.divide(totalSpace, 100, RoundingMode.HALF_UP)
+      } catch (_: ArithmeticException) {
+        0
       }
+    }.toFloat()
 
-      Metric.GB -> {
-        when (to) {
-          Metric.MB -> this.copy(
-            totalSpace = this.totalSpace * 1024,
-            freeSpace = this.freeSpace * 1024,
-            usedSpace = this.usedSpace * 1024,
-            metric = Metric.MB,
-          )
-
-          Metric.GB -> this
-        }
+  val nonDummyFilesPercent: Float
+    get() = with(capacity) {
+      try {
+        nonDummyFiles.divide(totalSpace, 100, RoundingMode.HALF_UP)
+      } catch (_: ArithmeticException) {
+        0
       }
-    }
+    }.toFloat()
+
+  val dummyFilesPercent: Float
+    get() = with(capacity) {
+      try {
+        dummyFiles.divide(totalSpace, 100, RoundingMode.HALF_UP)
+      } catch (_: ArithmeticException) {
+        0
+      }
+    }.toFloat()
+
+  val freeSpacePercent: Float
+    get() = with(capacity) {
+      try {
+        freeSpace.divide(totalSpace, 100, RoundingMode.HALF_UP)
+      } catch (_: ArithmeticException) {
+        0
+      }
+    }.toFloat()
+
+  operator fun BigDecimal.div(other: Int): BigDecimal {
+    return this.divide(BigDecimal(other), 100, RoundingMode.HALF_UP)
   }
 
   companion object {
     val Empty = Storage(
       type = Type.Unknown,
       path = "",
-      totalSpace = 0f,
-      freeSpace = 0f,
-      usedSpace = 0f,
-      metric = Metric.GB,
+      capacity = Capacity(
+        totalSpace = BigDecimal.ZERO,
+        freeSpace = BigDecimal.ZERO,
+        usedSpace = BigDecimal.ZERO,
+        dummyFiles = BigDecimal.ZERO,
+      ),
     )
   }
 }

@@ -1,6 +1,8 @@
 # Changelog
 
 ## 0.6.9-dev01
+- feat: storage dummy files
+- feat: storage detail in big decimal
 - ref: remove unused view-state and view-model
 - feat: fill storage internal/external functionality
 - feat: storage detail and fill text field & options

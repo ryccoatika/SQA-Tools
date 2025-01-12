@@ -3,12 +3,18 @@ package com.ryccoatika.sqatools.fillstorage.core.utils
 import android.content.Context
 import android.os.Build
 import android.os.FileObserver
+import android.os.FileObserver.CLOSE_WRITE
+import android.os.FileObserver.DELETE
+import android.os.FileObserver.MOVED_FROM
+import android.os.FileObserver.MOVED_TO
 import android.os.StatFs
 import androidx.annotation.RequiresApi
+import com.ryccoatika.sqatools.fillstorage.core.error.FillPercentExceeded
 import com.ryccoatika.sqatools.fillstorage.core.model.FillStorage
 import com.ryccoatika.sqatools.fillstorage.core.model.Storage
 import com.ryccoatika.sqatools.fillstorage.inject.FillStorageScope
 import java.io.File
+import java.math.BigDecimal
 import kotlin.coroutines.coroutineContext
 import kotlin.time.Duration.Companion.seconds
 import kotlinx.coroutines.Dispatchers
@@ -18,6 +24,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
+import kotlinx.coroutines.flow.mapLatest
 import kotlinx.coroutines.isActive
 import kotlinx.coroutines.runBlocking
 import me.tatarka.inject.annotations.Inject
@@ -50,33 +57,52 @@ internal class StorageHelper(
     val totalSpace = blockSize * totalBlocks
     val freeSpace = blockSize * availableBlocks
     val usedSpace = totalSpace - freeSpace
+    val dummyFiles = File(path, DUMMY_FILES_FOLDER).listFiles()?.sumOf { it.length() } ?: 0
 
     return Storage(
       type = getStorageTypeByPath(path),
       path = path,
-      totalSpace = bytesToMB(totalSpace),
-      freeSpace = bytesToMB(freeSpace),
-      usedSpace = bytesToMB(usedSpace),
-      metric = Storage.Metric.MB,
-    ).convert(Storage.Metric.GB)
+      capacity = Storage.Capacity(
+        totalSpace = BigDecimal(totalSpace),
+        freeSpace = BigDecimal(freeSpace),
+        usedSpace = BigDecimal(usedSpace),
+        dummyFiles = BigDecimal(dummyFiles),
+      ),
+    )
   }
 
   fun observeStorageCapacity(path: String): Flow<Storage> {
+    val file = File(path, DUMMY_FILES_FOLDER)
+    return observeStorageEvent(file).mapLatest {
+      getStorageCapacity(path)
+    }
+  }
+
+  fun getDummyFilesPath(path: String): List<File> {
+    val file = File(path, DUMMY_FILES_FOLDER)
+    return file.listFiles()?.toList() ?: emptyList()
+  }
+
+  private fun observeStorageEvent(file: File): Flow<Int> {
     return if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-      observeStorageCapacityMinApi29(path)
+      observeFileMinApi29(file)
     } else {
-      observeStorageCapacityBelowApi29(path)
+      flow {
+        while (coroutineContext.isActive) {
+          emit(FILE_OBSERVER_MASK)
+          delay(3.seconds)
+        }
+      }
     }
   }
 
   @RequiresApi(29)
-  private fun observeStorageCapacityMinApi29(folder: String): Flow<Storage> = callbackFlow {
-    trySend(getStorageCapacity(folder))
+  private fun observeFileMinApi29(file: File): Flow<Int> = callbackFlow {
+    trySend(FILE_OBSERVER_MASK)
 
-    val file = File(folder, DUMMY_FILES_FOLDER)
-    val fileObserver = object : FileObserver(file, ALL_EVENTS) {
+    val fileObserver = object : FileObserver(file, FILE_OBSERVER_MASK) {
       override fun onEvent(event: Int, path: String?) {
-        trySend(getStorageCapacity(folder))
+        trySend(event)
       }
     }
     fileObserver.startWatching()
@@ -86,17 +112,9 @@ internal class StorageHelper(
     }
   }.flowOn(Dispatchers.IO)
 
-  private fun observeStorageCapacityBelowApi29(folder: String): Flow<Storage> = flow {
-    while (coroutineContext.isActive) {
-      emit(getStorageCapacity(folder))
-      delay(1.seconds)
-    }
-  }.flowOn(Dispatchers.IO)
-
   fun getAllStorageCapacity(): List<Storage> {
     return context.getExternalFilesDirs("").map { file ->
-      val storageCapacity = getStorageCapacity(file.path)
-      storageCapacity
+      getStorageCapacity(file.path)
     }
   }
 
@@ -113,7 +131,25 @@ internal class StorageHelper(
     val fileSizeInBytes = when (fillStorage.type) {
       FillStorage.Type.MB -> fillStorage.value * 1024 * 1024
       FillStorage.Type.GB -> fillStorage.value * 1024 * 1024 * 1024
-      FillStorage.Type.PERCENT -> storage.freeSpaceInBytes * (fillStorage.value / 100)
+      FillStorage.Type.PERCENT -> {
+        val totalSpace = storage.capacity.totalSpace.toLong()
+        val usedSpace = storage.capacity.usedSpace.toLong()
+        val value = totalSpace * (fillStorage.value / 100)
+
+        if (value <= usedSpace) {
+          onProgress(
+            FillStorage.Progress(
+              progress = 0f,
+              mbFilled = 0.0,
+              mbFill = 0.0,
+              isSuccess = false,
+              error = FillPercentExceeded(fillStorage.value.toFloat()),
+            ),
+          )
+          return
+        }
+        value - usedSpace
+      }
     }.toLong()
     val bufferSize = (fileSizeInBytes / 2048).coerceAtMost(Int.MAX_VALUE.toLong()).toInt()
 
@@ -174,12 +210,21 @@ internal class StorageHelper(
     }
   }
 
-  private fun bytesToMB(bytes: Long): Float {
-    return bytes / 1024f / 1024f
+  fun deleteAllDummyFiles(path: String) {
+    File(path, DUMMY_FILES_FOLDER).deleteRecursively()
+  }
+
+  fun deleteFile(path: String) {
+    File(path).delete()
+  }
+
+  fun bytesToMB(bytes: Long): Double {
+    return bytes / 1024.0 / 1024.0
   }
 
   companion object {
     private const val DUMMY_FILE_EXT = ".dat"
     private const val DUMMY_FILES_FOLDER = "DummyData"
+    private const val FILE_OBSERVER_MASK = CLOSE_WRITE or MOVED_FROM or MOVED_TO or DELETE
   }
 }

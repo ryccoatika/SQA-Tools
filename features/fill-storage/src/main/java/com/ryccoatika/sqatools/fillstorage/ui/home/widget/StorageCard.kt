@@ -59,11 +59,11 @@ internal fun StorageCard(
         modifier = Modifier.fillMaxWidth(),
       ) {
         Text(
-          text = textCreator.storageTypeCardTitle(storage.type),
+          text = textCreator.storageTitle(storage),
           fontSize = 14.sp,
         )
         Text(
-          text = textCreator.storageCapacityDetailText(storage),
+          text = textCreator.storageCapacityDesc(storage),
           fontSize = 14.sp,
         )
       }
@@ -107,7 +107,8 @@ private fun StorageBarChart(
     Row(
       modifier = Modifier.fillMaxSize(),
     ) {
-      val usedSpaceWidth = storage.usedSpace * barWidth / storage.totalSpace
+      val usedSpaceWidth =
+        with(storage.capacity) { usedSpace.toDouble() * barWidth / totalSpace.toDouble() }
       Box(
         modifier = Modifier
           .width(usedSpaceWidth.dp)
@@ -119,7 +120,7 @@ private fun StorageBarChart(
         modifier = Modifier
           .fillMaxSize(),
       ) {
-        val freeSpaceText = textCreator.storageFreeSpaceText(storage)
+        val freeSpaceText = textCreator.storageFreeSpace(storage)
         val textMeasurer = rememberTextMeasurer()
         val textWidth = with(density) {
           textMeasurer.measure(freeSpaceText).size.width.toDp()

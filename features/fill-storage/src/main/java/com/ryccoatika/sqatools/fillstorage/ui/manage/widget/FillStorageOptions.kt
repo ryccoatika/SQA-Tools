@@ -27,7 +27,7 @@ internal fun FillStorageOptions(
 
   val options = remember {
     buildList {
-      val mbValues = listOf(10f, 50f, 100f, 200f, 250f, 500f)
+      val mbValues = listOf(10.0, 50.0, 100.0, 200.0, 250.0, 500.0)
       mbValues.forEach { value ->
         add(
           FillStorage(
@@ -36,7 +36,7 @@ internal fun FillStorageOptions(
           ),
         )
       }
-      val gbValues = listOf(1f, 5f, 10f, 20f, 25f, 50f)
+      val gbValues = listOf(1.0, 5.0, 10.0, 20.0, 25.0, 50.0)
       gbValues.forEach { value ->
         add(
           FillStorage(
@@ -45,7 +45,7 @@ internal fun FillStorageOptions(
           ),
         )
       }
-      val percentValues = listOf(25f, 50f, 90f)
+      val percentValues = listOf(25.0, 50.0, 90.0)
       percentValues.forEach { value ->
         add(
           FillStorage(
