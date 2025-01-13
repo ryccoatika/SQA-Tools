@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="fm_desc">To emulate memory capacity (RAM) by reserving dummy variables</string>
+
+  <string name="fm_title">Fill Memory</string>
+</resources>

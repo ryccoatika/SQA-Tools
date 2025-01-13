@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.6.9-dev01
+- feat: initial fill memory feature
 - feat: storage dummy files
 - feat: storage detail in big decimal
 - ref: remove unused view-state and view-model
