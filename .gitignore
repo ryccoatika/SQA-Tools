@@ -36,3 +36,6 @@ org.eclipse.buildship.core.prefs
 .classpath
 .project
 bin/
+
+# jni build
+.cxx

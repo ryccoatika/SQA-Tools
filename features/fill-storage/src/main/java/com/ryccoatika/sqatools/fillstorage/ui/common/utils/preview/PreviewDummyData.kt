@@ -5,16 +5,15 @@ import com.ryccoatika.sqatools.fillstorage.core.model.DummyFile
 import com.ryccoatika.sqatools.fillstorage.core.model.Storage
 import com.ryccoatika.sqatools.fillstorage.ui.dummyfiles.DummyFilesViewState
 import com.ryccoatika.sqatools.fillstorage.ui.home.HomeViewState
-import java.math.BigDecimal
 
 private val storageUnknown = Storage(
   type = Storage.Type.Unknown,
   path = "/storage/0",
   capacity = Storage.Capacity(
-    totalSpace = BigDecimal(100),
-    freeSpace = BigDecimal(50),
-    usedSpace = BigDecimal(50),
-    dummyFiles = BigDecimal(0),
+    totalSpace = 100.toBigDecimal(),
+    freeSpace = 50.toBigDecimal(),
+    usedSpace = 50.toBigDecimal(),
+    dummyFiles = 0.toBigDecimal(),
   ),
 )
 
@@ -22,10 +21,10 @@ private val storageInternal = Storage(
   type = Storage.Type.Internal,
   path = "/storage/1",
   capacity = Storage.Capacity(
-    totalSpace = BigDecimal(200),
-    freeSpace = BigDecimal(150),
-    usedSpace = BigDecimal(50),
-    dummyFiles = BigDecimal(0),
+    totalSpace = 200.toBigDecimal(),
+    freeSpace = 150.toBigDecimal(),
+    usedSpace = 50.toBigDecimal(),
+    dummyFiles = 0.toBigDecimal(),
   ),
 )
 
@@ -33,10 +32,10 @@ private val storageExternal = Storage(
   type = Storage.Type.External("3423-4859"),
   path = "/storage/2",
   capacity = Storage.Capacity(
-    totalSpace = BigDecimal(120),
-    freeSpace = BigDecimal(20),
-    usedSpace = BigDecimal(100),
-    dummyFiles = BigDecimal(0),
+    totalSpace = 120.toBigDecimal(),
+    freeSpace = 20.toBigDecimal(),
+    usedSpace = 100.toBigDecimal(),
+    dummyFiles = 0.toBigDecimal(),
   ),
 )
 
@@ -44,10 +43,10 @@ private val storageAlmostFull = Storage(
   type = Storage.Type.Internal,
   path = "/storage/2",
   capacity = Storage.Capacity(
-    totalSpace = BigDecimal(120),
-    freeSpace = BigDecimal(10),
-    usedSpace = BigDecimal(110),
-    dummyFiles = BigDecimal(0),
+    totalSpace = 120.toBigDecimal(),
+    freeSpace = 10.toBigDecimal(),
+    usedSpace = 110.toBigDecimal(),
+    dummyFiles = 0.toBigDecimal(),
   ),
 )
 
@@ -55,10 +54,10 @@ private val storageFull = Storage(
   type = Storage.Type.Internal,
   path = "/storage/2",
   capacity = Storage.Capacity(
-    totalSpace = BigDecimal(120),
-    freeSpace = BigDecimal(0),
-    usedSpace = BigDecimal(12),
-    dummyFiles = BigDecimal(0),
+    totalSpace = 120.toBigDecimal(),
+    freeSpace = 0.toBigDecimal(),
+    usedSpace = 12.toBigDecimal(),
+    dummyFiles = 0.toBigDecimal(),
   ),
 )
 

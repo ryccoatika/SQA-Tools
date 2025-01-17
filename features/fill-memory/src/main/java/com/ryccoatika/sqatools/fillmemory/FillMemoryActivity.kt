@@ -5,16 +5,19 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatools.fillmemory.core.utils.FillMemoryTextCreator
 import com.ryccoatika.sqatools.fillmemory.inject.FillMemoryScope
 import com.ryccoatika.sqatools.fillmemory.ui.FeatureScreens
+import com.ryccoatika.sqatools.fillmemory.ui.common.utils.LocalTextCreator
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 
-class FillMemoryActivity : ComponentActivity() {
+internal class FillMemoryActivity : ComponentActivity() {
   private lateinit var component: FillMemoryComponent
 
   override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,15 +30,22 @@ class FillMemoryActivity : ComponentActivity() {
     setContent {
       val navController = rememberNavController()
 
-      SQAToolsTheme {
-        NavHost(
-          navController = navController,
-          startDestination = Route.Home.route,
-        ) {
-          composable(
-            route = Route.Home.route,
+      CompositionLocalProvider(
+        LocalTextCreator provides FillMemoryTextCreator(this),
+      ) {
+        SQAToolsTheme {
+          NavHost(
+            navController = navController,
+            startDestination = Route.Home.route,
           ) {
-            component.screens.home()
+            composable(
+              route = Route.Home.route,
+            ) {
+              component.screens.home {
+                // navigateUp
+                finish()
+              }
+            }
           }
         }
       }

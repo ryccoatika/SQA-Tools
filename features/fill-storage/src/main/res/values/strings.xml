@@ -9,7 +9,7 @@
   <string name="fs_desc_storage_capacity">%s of %s</string>
   <string name="fs_desc_fill_progress">%.2f MB of %.2f MB filled</string>
 
-  <string name="fs_error_fill_percent">Your storage is already %.0f\%% filled or above</string>
+  <string name="fs_error_fill_percent">Your storage is already %.0f%% filled or above</string>
 
   <string name="fs_title">Fill Storage</string>
   <string name="fs_title_manage_external">External Storage (%s)</string>
@@ -27,7 +27,7 @@
   <string name="fs_text_gb_value">%.2f GB</string>
   <string name="fs_text_gb_value_no_decimal">%.0f GB</string>
   <string name="fs_text_percent">%</string>
-  <string name="fs_text_percent_value">%d\%%</string>
+  <string name="fs_text_percent_value">%d%%</string>
 
   <string name="fs_validation_number_only">Input number only</string>
   <string name="fs_validation_percent_range">Percentage on range 1–100</string>

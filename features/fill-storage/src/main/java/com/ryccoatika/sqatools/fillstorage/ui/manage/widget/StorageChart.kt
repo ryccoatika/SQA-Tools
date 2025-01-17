@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
-import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -57,7 +57,6 @@ internal fun StorageChart(
   Column(
     horizontalAlignment = Alignment.CenterHorizontally,
     modifier = modifier
-      .width(IntrinsicSize.Max)
       .onSizeChanged {
         containerDpWidth = with(density) { it.width.toDp() }
       },
@@ -65,10 +64,13 @@ internal fun StorageChart(
     Box(
       contentAlignment = Alignment.Center,
       modifier = Modifier
-        .fillMaxWidth()
+        .width(containerDpWidth)
         .height(canvasHeight.dp),
     ) {
-      Canvas(modifier = Modifier.size(containerDpWidth)) {
+      Canvas(
+        modifier = Modifier
+          .fillMaxSize(),
+      ) {
         val center = Offset(size.width / 2, size.height)
         val radius = size.width / 2
         val rectSize = Size(size.width - barWidthPx, radius * 2)

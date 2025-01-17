@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+  <string name="fm_button_cancel">Cancel</string>
+  <string name="fm_button_clear_memory">Clear Memory</string>
+  <string name="fm_button_close">Close</string>
+
   <string name="fm_desc">To emulate memory capacity (RAM) by reserving dummy variables</string>
+  <string name="fm_desc_fill_progress">%.2f MB of %.2f MB filled</string>
+
+  <string name="fm_text_memory_dummy">Dummy: %.2f MB</string>
+  <string name="fm_text_memory_free">Free: %.2f MB</string>
+  <string name="fm_text_memory_total">Total: %.2f MB</string>
+  <string name="fm_text_memory_used">Used: %.2f MB</string>
+
+  <string name="fm_text_mb_value_no_decimal">%.0f MB</string>
+  <string name="fm_text_percent">%d%%</string>
 
   <string name="fm_title">Fill Memory</string>
 </resources>

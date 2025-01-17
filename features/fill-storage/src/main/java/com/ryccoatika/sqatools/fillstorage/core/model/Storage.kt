@@ -42,7 +42,7 @@ internal data class Storage(
   val usedSpacePercent: Float
     get() = with(capacity) {
       try {
-        usedSpace.divide(totalSpace, 100, RoundingMode.HALF_UP)
+        usedSpace.divide(totalSpace, 2, RoundingMode.HALF_UP)
       } catch (_: ArithmeticException) {
         0
       }
@@ -51,7 +51,7 @@ internal data class Storage(
   val nonDummyFilesPercent: Float
     get() = with(capacity) {
       try {
-        nonDummyFiles.divide(totalSpace, 100, RoundingMode.HALF_UP)
+        nonDummyFiles.divide(totalSpace, 2, RoundingMode.HALF_UP)
       } catch (_: ArithmeticException) {
         0
       }
@@ -60,7 +60,7 @@ internal data class Storage(
   val dummyFilesPercent: Float
     get() = with(capacity) {
       try {
-        dummyFiles.divide(totalSpace, 100, RoundingMode.HALF_UP)
+        dummyFiles.divide(totalSpace, 2, RoundingMode.HALF_UP)
       } catch (_: ArithmeticException) {
         0
       }
@@ -69,14 +69,14 @@ internal data class Storage(
   val freeSpacePercent: Float
     get() = with(capacity) {
       try {
-        freeSpace.divide(totalSpace, 100, RoundingMode.HALF_UP)
+        freeSpace.divide(totalSpace, 2, RoundingMode.HALF_UP)
       } catch (_: ArithmeticException) {
         0
       }
     }.toFloat()
 
   operator fun BigDecimal.div(other: Int): BigDecimal {
-    return this.divide(BigDecimal(other), 100, RoundingMode.HALF_UP)
+    return this.divide(other.toBigDecimal(), 2, RoundingMode.HALF_UP)
   }
 
   companion object {

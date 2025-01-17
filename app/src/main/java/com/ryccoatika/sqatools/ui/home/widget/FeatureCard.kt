@@ -30,7 +30,10 @@ internal fun FeatureCard(
     onClick = {
       feature.open(context)
     },
-    modifier = Modifier.padding(8.dp),
+    modifier = Modifier.padding(
+      horizontal = 8.dp,
+      vertical = 4.dp,
+    ),
   ) {
     Row(
       verticalAlignment = Alignment.CenterVertically,
@@ -57,6 +60,7 @@ internal fun FeatureCard(
           text = stringResource(id = feature.featureDescription),
           fontSize = 12.sp,
           maxLines = 3,
+          lineHeight = 16.sp,
           overflow = TextOverflow.Ellipsis,
         )
       }
