@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
+  <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+  <uses-permission android:name="android.permission.VIBRATE" />
+
   <application>
     <activity
       android:name=".FillMemoryActivity"
       android:exported="false" />
+
+    <service
+      android:name=".ui.home.floater.FloaterService"
+      android:enabled="true"
+      android:exported="false"
+      android:permission="android.permission.SYSTEM_ALERT_WINDOW" />
   </application>
 
 </manifest>

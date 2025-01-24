@@ -1,9 +1,16 @@
 package com.ryccoatika.sqatools.fillmemory.ui.home
 
+import android.content.Intent
+import android.net.Uri
+import android.provider.Settings
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.PictureInPicture
 import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -11,6 +18,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -21,6 +29,7 @@ import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatools.fillmemory.R
 import com.ryccoatika.sqatools.fillmemory.core.model.FillMemory
 import com.ryccoatika.sqatools.fillmemory.ui.common.utils.preview.CompositionLocalProviderForPreview
+import com.ryccoatika.sqatools.fillmemory.ui.home.floater.FloaterService
 import com.ryccoatika.sqatools.fillmemory.ui.home.widget.FillMemoryOptions
 import com.ryccoatika.sqatools.fillmemory.ui.home.widget.FillMemoryProgress
 import com.ryccoatika.sqatools.fillmemory.ui.home.widget.MemoryGraph
@@ -117,9 +126,29 @@ private fun Home(
 private fun HomeTopBar(
   navigateUp: () -> Unit,
 ) {
+  val context = LocalContext.current
   AppTopBar(
     title = stringResource(R.string.fm_title),
     onBackPressed = navigateUp,
+    actions = {
+      IconButton(
+        onClick = {
+          if (!Settings.canDrawOverlays(context)) {
+            val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION).apply {
+              data = Uri.parse("package:${context.packageName}")
+            }
+            context.startActivity(intent)
+          } else {
+            FloaterService.show(context)
+          }
+        },
+      ) {
+        Icon(
+          imageVector = Icons.Default.PictureInPicture,
+          contentDescription = null,
+        )
+      }
+    },
   )
 }
 
