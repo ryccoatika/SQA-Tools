@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="di_desc">Showing all information about your device.</string>
+  <string name="di_title">Device Info</string>
+</resources>

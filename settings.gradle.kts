@@ -1,7 +1,5 @@
 @file:Suppress("UnstableApiUsage")
 
-include(":features:fill-memory")
-
 pluginManagement {
   repositories {
     google {
@@ -31,4 +29,6 @@ include(
   ":app",
   ":common",
   ":features:fill-storage",
+  ":features:fill-memory",
+  ":features:dev-info",
 )
