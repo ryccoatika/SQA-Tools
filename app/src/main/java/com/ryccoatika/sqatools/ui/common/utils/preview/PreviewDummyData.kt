@@ -45,7 +45,7 @@ internal class FeatureCardPreviewParameterProvider : PreviewParameterProvider<SQ
     )
 }
 
-internal class HomePreviewParameterProvider : PreviewParameterProvider<Set<SQAFeature>> {
+internal class ToolsPreviewParameterProvider : PreviewParameterProvider<Set<SQAFeature>> {
   override val values: Sequence<Set<SQAFeature>>
     get() = sequenceOf(
       setOf(featureOne),

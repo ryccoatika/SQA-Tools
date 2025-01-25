@@ -1,11 +1,11 @@
 <resources>
   <string name="app_name">SQA Tools</string>
 
-  <string name="cd_home">Open Home</string>
+  <string name="cd_tools">Open Tools</string>
   <string name="cd_chat">Open AI Chat</string>
   <string name="cd_settings">Open Settings</string>
 
-  <string name="nav_home">Home</string>
+  <string name="nav_tools">Tools</string>
   <string name="nav_chat">AI Chat</string>
   <string name="nav_settings">Settings</string>
 

@@ -1,4 +1,4 @@
-package com.ryccoatika.sqatools.ui.home
+package com.ryccoatika.sqatools.ui.tools
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,15 +10,15 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import com.ryccoatika.sqatools.common.SQAFeature
 import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
-import com.ryccoatika.sqatools.ui.common.utils.preview.HomePreviewParameterProvider
-import com.ryccoatika.sqatools.ui.home.widget.FeatureCard
+import com.ryccoatika.sqatools.ui.common.utils.preview.ToolsPreviewParameterProvider
+import com.ryccoatika.sqatools.ui.tools.widget.FeatureCard
 import me.tatarka.inject.annotations.Inject
 
-internal typealias Home = @Composable () -> Unit
+internal typealias Tools = @Composable () -> Unit
 
 @Inject
 @Composable
-internal fun Home(
+internal fun Tools(
   features: Set<SQAFeature>,
 ) {
   Scaffold { paddingValues ->
@@ -37,12 +37,12 @@ internal fun Home(
 
 @PreviewLightDark
 @Composable
-private fun HomePreview(
-  @PreviewParameter(HomePreviewParameterProvider::class)
+private fun ToolsPreview(
+  @PreviewParameter(ToolsPreviewParameterProvider::class)
   features: Set<SQAFeature>,
 ) {
   SQAToolsTheme {
-    Home(
+    Tools(
       features = features,
     )
   }

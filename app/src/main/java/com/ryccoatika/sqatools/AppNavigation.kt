@@ -7,11 +7,10 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.navigation
-import com.ryccoatika.sqatools.ui.home.Home
 import com.ryccoatika.sqatools.ui.settings.Settings
 
 internal sealed class RootScreen(val route: String) {
-  data object Home : RootScreen("home")
+  data object Tools : RootScreen("tools")
   data object ChatBot : RootScreen("chat-bot")
   data object Settings : RootScreen("settings")
 }
@@ -21,7 +20,7 @@ private sealed class Screen(
 ) {
   fun createRoute(root: RootScreen) = "${root.route}/$route"
 
-  data object Home : Screen("home")
+  data object Tools : Screen("tools")
   data object ChatBot : Screen("chat-bot")
   data object Settings : Screen("settings")
 }
@@ -34,10 +33,10 @@ internal fun AppNavigation(
 ) {
   NavHost(
     navController = navController,
-    startDestination = RootScreen.Home.route,
+    startDestination = RootScreen.Tools.route,
     modifier = modifier,
   ) {
-    addHomeTopLevel(
+    addToolsTopLevel(
       appScreens = appScreens,
     )
     addChatBotTopLevel()
@@ -47,30 +46,30 @@ internal fun AppNavigation(
   }
 }
 
-// -------- HOME --------
-private fun NavGraphBuilder.addHomeTopLevel(
+// -------- TOOLS --------
+private fun NavGraphBuilder.addToolsTopLevel(
   appScreens: AppScreens,
-  root: RootScreen = RootScreen.Home,
+  root: RootScreen = RootScreen.Tools,
 ) {
   navigation(
     route = root.route,
-    startDestination = Screen.Home.createRoute(root),
+    startDestination = Screen.Tools.createRoute(root),
   ) {
-    addHome(
+    addTools(
       root = root,
-      home = appScreens.home,
+      appScreens = appScreens,
     )
   }
 }
 
-private fun NavGraphBuilder.addHome(
+private fun NavGraphBuilder.addTools(
   root: RootScreen,
-  home: Home,
+  appScreens: AppScreens,
 ) {
   composable(
-    route = Screen.Home.createRoute(root),
+    route = Screen.Tools.createRoute(root),
   ) {
-    home()
+    appScreens.tools()
   }
 }
 

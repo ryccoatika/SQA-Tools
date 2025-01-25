@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.statusBars
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Home
+import androidx.compose.material.icons.outlined.Handyman
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Sms
 import androidx.compose.material3.Icon
@@ -109,13 +109,13 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 private fun NavController.currentScreenAsState(): State<RootScreen> {
-  val selectedItem = remember { mutableStateOf<RootScreen>(RootScreen.Home) }
+  val selectedItem = remember { mutableStateOf<RootScreen>(RootScreen.Tools) }
 
   DisposableEffect(this) {
     val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
       when {
-        destination.hierarchy.any { it.route == RootScreen.Home.route } -> {
-          selectedItem.value = RootScreen.Home
+        destination.hierarchy.any { it.route == RootScreen.Tools.route } -> {
+          selectedItem.value = RootScreen.Tools
         }
 
         destination.hierarchy.any { it.route == RootScreen.ChatBot.route } -> {
@@ -198,10 +198,10 @@ private data class AppNavigationItem(
 
 private val AppNavigationItems = listOf(
   AppNavigationItem(
-    screen = RootScreen.Home,
-    labelResource = R.string.nav_home,
-    contentDescriptionResource = R.string.cd_home,
-    iconImageVector = Icons.Outlined.Home,
+    screen = RootScreen.Tools,
+    labelResource = R.string.nav_tools,
+    contentDescriptionResource = R.string.cd_tools,
+    iconImageVector = Icons.Outlined.Handyman,
   ),
   AppNavigationItem(
     screen = RootScreen.ChatBot,

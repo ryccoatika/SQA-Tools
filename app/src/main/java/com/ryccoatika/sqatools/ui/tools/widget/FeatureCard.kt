@@ -1,4 +1,4 @@
-package com.ryccoatika.sqatools.ui.home.widget
+package com.ryccoatika.sqatools.ui.tools.widget
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
