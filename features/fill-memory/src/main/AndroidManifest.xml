@@ -4,13 +4,14 @@
   <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
   <uses-permission android:name="android.permission.VIBRATE" />
 
-  <application>
+  <application
+    android:largeHeap="true">
     <activity
       android:name=".FillMemoryActivity"
       android:exported="false" />
 
     <service
-      android:name=".ui.home.floater.FloaterService"
+      android:name=".ui.home.floater.service.FloaterService"
       android:enabled="true"
       android:exported="false"
       android:permission="android.permission.SYSTEM_ALERT_WINDOW" />

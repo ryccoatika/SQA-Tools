@@ -29,7 +29,7 @@ import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatools.fillmemory.R
 import com.ryccoatika.sqatools.fillmemory.core.model.FillMemory
 import com.ryccoatika.sqatools.fillmemory.ui.common.utils.preview.CompositionLocalProviderForPreview
-import com.ryccoatika.sqatools.fillmemory.ui.home.floater.FloaterService
+import com.ryccoatika.sqatools.fillmemory.ui.home.floater.service.FloaterService
 import com.ryccoatika.sqatools.fillmemory.ui.home.widget.FillMemoryOptions
 import com.ryccoatika.sqatools.fillmemory.ui.home.widget.FillMemoryProgress
 import com.ryccoatika.sqatools.fillmemory.ui.home.widget.MemoryGraph
