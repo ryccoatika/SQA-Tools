@@ -14,6 +14,7 @@ import com.ryccoatika.sqatools.devinfo.core.utils.DevInfoTextCreator
 import com.ryccoatika.sqatools.devinfo.inject.DevInfoScope
 import com.ryccoatika.sqatools.devinfo.ui.FeatureScreens
 import com.ryccoatika.sqatools.devinfo.ui.common.utils.LocalTextCreator
+import com.ryccoatika.sqatools.devinfo.ui.info.DevInfoTypes
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 
@@ -41,7 +42,7 @@ internal class DevInfoActivity : ComponentActivity() {
             composable(
               route = Route.Home.route,
             ) {
-              component.screens.home {
+              component.screens.main {
                 // navigateUp
                 finish()
               }
@@ -61,6 +62,6 @@ internal class DevInfoActivity : ComponentActivity() {
 @Component
 internal abstract class DevInfoComponent(
   @get:Provides val context: Context,
-) {
+) : DevInfoTypes {
   abstract val screens: FeatureScreens
 }

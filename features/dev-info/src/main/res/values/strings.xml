@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
   <string name="di_desc">Showing all information about your device.</string>
+
+  <string name="di_text_basic_device">Basic Device</string>
+  <string name="di_text_hardware">Hardware</string>
+  <string name="di_text_network">Network</string>
+  <string name="di_text_software">Software</string>
+  <string name="di_text_camera">Camera</string>
+  <string name="di_text_connectivity">Connectivity</string>
+  <string name="di_text_sensor">Sensor</string>
+  <string name="di_text_advance_device">Advance Device</string>
+
   <string name="di_title">Device Info</string>
 </resources>
