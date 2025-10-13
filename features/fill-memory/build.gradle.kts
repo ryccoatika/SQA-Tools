@@ -1,3 +1,5 @@
+@file:Suppress("UnstableApiUsage")
+
 plugins {
   alias(libs.plugins.android.library)
   alias(libs.plugins.kotlin.android)
@@ -8,6 +10,14 @@ plugins {
 android {
   namespace = "com.ryccoatika.sqatools.fillmemory"
 
+  defaultConfig {
+    externalNativeBuild {
+      cmake {
+        cppFlags("-fvisibility=hidden")
+      }
+    }
+  }
+
   buildFeatures {
     compose = true
   }
@@ -15,8 +25,9 @@ android {
   externalNativeBuild {
     cmake {
       path = file("src/main/cpp/CMakeLists.txt")
-      version = "3.31.1"
+      version = "4.1.1"
     }
+    ndkVersion = "28.2.13676358"
   }
 }
 
