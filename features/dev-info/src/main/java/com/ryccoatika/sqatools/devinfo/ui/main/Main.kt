@@ -61,12 +61,11 @@ internal fun Main(
     },
   ) { paddingValues ->
     Column(
-      modifier = Modifier
-        .padding(paddingValues)
-        .padding(horizontal = 16.dp),
+      modifier = Modifier.padding(paddingValues),
     ) {
       LazyRow(
         horizontalArrangement = Arrangement.spacedBy(8.dp),
+        modifier = Modifier.padding(horizontal = 16.dp),
       ) {
         items(
           items = types.toList(),
@@ -94,14 +93,13 @@ internal fun Main(
         key = { types.elementAt(it).id },
       ) {
         when (types.elementAt(it).id) {
-          DevInfoType.BASIC_DEVICE_ID -> screens.basicDevice()
+          DevInfoType.DEVICE_ID -> screens.device()
           DevInfoType.HARDWARE_ID -> screens.hardware()
           DevInfoType.NETWORK_ID -> screens.network()
           DevInfoType.SOFTWARE_ID -> screens.software()
           DevInfoType.CAMERA_ID -> screens.camera()
           DevInfoType.CONNECTIVITY_ID -> screens.connectivity()
           DevInfoType.SENSOR_ID -> screens.sensor()
-          DevInfoType.ADVANCE_DEVICE_ID -> screens.advanceDevice()
           else -> {}
         }
       }

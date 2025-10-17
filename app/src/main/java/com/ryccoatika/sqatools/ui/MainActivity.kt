@@ -188,9 +188,9 @@ private fun AppNavigationItemIcon(item: AppNavigationItem, selected: Boolean) {
 
 private data class AppNavigationItem(
   val screen: RootScreen,
-  @StringRes
+  @field:StringRes
   val labelResource: Int,
-  @StringRes
+  @field:StringRes
   val contentDescriptionResource: Int,
   val iconImageVector: ImageVector,
   val selectedImageVector: ImageVector? = null,

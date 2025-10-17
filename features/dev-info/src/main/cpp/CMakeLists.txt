@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.30.5)
 
-project("fill-memory")
+project("dev-info")
 
 add_library(
         ${PROJECT_NAME}
         SHARED
-        fill-memory.cpp)
+        dev-info.cpp)

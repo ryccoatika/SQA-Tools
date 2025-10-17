@@ -12,7 +12,7 @@ internal class FillStorageTextCreator(
   fun errorMessage(t: Throwable): String {
     return when {
       t is FillPercentExceeded -> context.getString(R.string.fs_error_fill_percent, t.fillPercent)
-      else -> t.localizedMessage ?: ""
+      else -> t.localizedMessage.orEmpty()
     }
   }
 

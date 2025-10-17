@@ -23,7 +23,7 @@ internal class DummyFilesViewModel(
   private val getDummyFiles: GetDummyFiles,
   private val deleteFile: DeleteFile,
 ) : ViewModel() {
-  private val path: String = savedStateHandle["path"] ?: ""
+  private val path: String = savedStateHandle.get<String?>("path").orEmpty()
   private val dummyFiles = MutableStateFlow<List<DummyFile>>(emptyList())
 
   private val loadingState = ObservableLoadingCounter()

@@ -10,7 +10,7 @@ internal class FillMemoryTextCreator(
 ) {
   fun errorMessage(t: Throwable): String {
     return when {
-      else -> t.localizedMessage ?: ""
+      else -> t.localizedMessage.orEmpty()
     }
   }
 

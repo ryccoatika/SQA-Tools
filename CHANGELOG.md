@@ -1,6 +1,7 @@
 # Changelog
 
 ## 0.6.9-dev01
+- feat: show device info
 - config: initial device info feature
 - feat: fill memory system alert window (overlay over another app)
 - feat: fill memory feature

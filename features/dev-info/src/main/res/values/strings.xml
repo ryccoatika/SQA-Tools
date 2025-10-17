@@ -2,14 +2,51 @@
 <resources>
   <string name="di_desc">Showing all information about your device.</string>
 
-  <string name="di_text_basic_device">Basic Device</string>
+  <string name="di_text_device">Device</string>
   <string name="di_text_hardware">Hardware</string>
   <string name="di_text_network">Network</string>
   <string name="di_text_software">Software</string>
   <string name="di_text_camera">Camera</string>
   <string name="di_text_connectivity">Connectivity</string>
   <string name="di_text_sensor">Sensor</string>
-  <string name="di_text_advance_device">Advance Device</string>
+
+  <plurals name="di_text_years">
+    <item quantity="one">%d Year</item>
+    <item quantity="other">%d Years</item>
+  </plurals>
+
+  <plurals name="di_text_months">
+    <item quantity="one">%d Month</item>
+    <item quantity="other">%d Months</item>
+  </plurals>
+
+  <plurals name="di_text_days">
+    <item quantity="one">%d Day</item>
+    <item quantity="other">%d Days</item>
+  </plurals>
+
+  <string name="di_text_supported">Supported</string>
+  <string name="di_text_not_supported">Not Supported</string>
+
+  <string name="di_text_version_and_codename">Android %1s - %2s</string>
+  <string name="di_text_sdk_version">API Level %d</string>
+  <string name="di_text_release_date">Released: %s</string>
+  <string name="di_text_unknown">Unknown</string>
 
   <string name="di_title">Device Info</string>
+
+  <string name="di_label_android_id">Android ID</string>
+  <string name="di_label_device">Device</string>
+  <string name="di_label_model">Model</string>
+  <string name="di_label_brand">Brand</string>
+  <string name="di_label_board">Board</string>
+  <string name="di_label_hardware">Hardware</string>
+  <string name="di_label_product_code">Product Code</string>
+  <string name="di_label_fingerprint">Fingerprint</string>
+  <string name="di_label_e_sim">eSim</string>
+  <string name="di_label_manufacturer">Manufacturer</string>
+  <string name="di_label_manufactured_date">Manufactured Date</string>
+  <string name="di_label_device_age">Device Age</string>
+  <string name="di_label_sales_code">Sales Code</string>
+  <string name="di_label_sales_country">Sales Country</string>
 </resources>

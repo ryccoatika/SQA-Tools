@@ -15,9 +15,9 @@ import androidx.compose.ui.Modifier
 @Composable
 fun AppTopBar(
   title: String,
+  modifier: Modifier = Modifier,
   actions: @Composable RowScope.() -> Unit = {},
   onBackPressed: (() -> Unit)? = null,
-  modifier: Modifier = Modifier,
 ) {
   TopAppBar(
     title = {

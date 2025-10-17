@@ -64,16 +64,29 @@ allprojects {
 
 fun Project.configurePlugin() {
   extensions.configure<BaseExtension> {
-    compileSdkVersion(35)
+    compileSdkVersion(36)
 
     defaultConfig {
       minSdk = 24
-      targetSdk = 35
+      targetSdk = 36
     }
 
     compileOptions {
       sourceCompatibility = JavaVersion.VERSION_11
       targetCompatibility = JavaVersion.VERSION_11
+
+      isCoreLibraryDesugaringEnabled = true
+    }
+
+    externalNativeBuild {
+      cmake {
+        version = "4.1.1"
+      }
+      ndkVersion = "28.2.13676358"
+    }
+
+    dependencies {
+      add("coreLibraryDesugaring", libs.desugarJdkLibs)
     }
   }
 }

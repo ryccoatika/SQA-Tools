@@ -3,12 +3,12 @@
 package com.ryccoatika.sqatools.common.extensions
 
 import androidx.compose.runtime.Composable
-import androidx.lifecycle.AbstractSavedStateViewModelFactory
 import androidx.lifecycle.HasDefaultViewModelProviderFactory
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.createSavedStateHandle
 import androidx.lifecycle.viewmodel.CreationExtras
 import androidx.lifecycle.viewmodel.compose.LocalViewModelStoreOwner
 
@@ -43,11 +43,10 @@ inline fun <reified VM : ViewModel> viewModel(
 ): VM = androidx.lifecycle.viewmodel.compose.viewModel(
   viewModelStoreOwner = viewModelStoreOwner,
   key = key,
-  factory = object : AbstractSavedStateViewModelFactory() {
+  factory = object : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(
-      key: String,
       modelClass: Class<T>,
-      handle: SavedStateHandle,
-    ): T = factory(handle) as T
+      extras: CreationExtras,
+    ): T = factory(extras.createSavedStateHandle()) as T
   },
 )

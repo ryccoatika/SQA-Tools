@@ -24,14 +24,15 @@ import com.ryccoatika.sqatools.common.ui.HorizontalSpace
 import com.ryccoatika.sqatools.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatools.common.ui.widget.DropdownButtonMenu
 import com.ryccoatika.sqatools.common.ui.widget.DropdownButtonMenuType
+import com.ryccoatika.sqatools.common.utils.orZero
 import com.ryccoatika.sqatools.fillstorage.R
 import com.ryccoatika.sqatools.fillstorage.core.model.FillStorage
 
 @Composable
 internal fun FillStorageField(
-  onFill: (FillStorage) -> Unit,
-  enabled: Boolean = true,
   modifier: Modifier = Modifier,
+  enabled: Boolean = true,
+  onFill: (FillStorage) -> Unit,
 ) {
   val context = LocalContext.current
 
@@ -51,7 +52,7 @@ internal fun FillStorageField(
       isError = isError,
       supportingText = {
         if (isError) {
-          Text(errorMessage ?: "")
+          Text(errorMessage)
         }
       },
       keyboardOptions = KeyboardOptions(
@@ -71,7 +72,7 @@ internal fun FillStorageField(
     8.HorizontalSpace()
     Button(
       onClick = {
-        onFill(FillStorage(value = value.toDoubleOrNull() ?: 0.0, type = type))
+        onFill(FillStorage(value = value.toDoubleOrNull().orZero(), type = type))
       },
       enabled = enabled && !isError,
       shape = MaterialTheme.shapes.medium,

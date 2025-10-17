@@ -9,6 +9,7 @@ import android.os.FileObserver.MOVED_FROM
 import android.os.FileObserver.MOVED_TO
 import android.os.StatFs
 import androidx.annotation.RequiresApi
+import com.ryccoatika.sqatools.common.utils.orZero
 import com.ryccoatika.sqatools.fillstorage.core.error.FillPercentExceeded
 import com.ryccoatika.sqatools.fillstorage.core.model.FillStorage
 import com.ryccoatika.sqatools.fillstorage.core.model.Storage
@@ -57,7 +58,7 @@ internal class StorageHelper(
     val totalSpace = blockSize * totalBlocks
     val freeSpace = blockSize * availableBlocks
     val usedSpace = totalSpace - freeSpace
-    val dummyFiles = File(path, DUMMY_FILES_FOLDER).listFiles()?.sumOf { it.length() } ?: 0
+    val dummyFiles = File(path, DUMMY_FILES_FOLDER).listFiles()?.sumOf { it.length() }.orZero()
 
     return Storage(
       type = getStorageTypeByPath(path),
@@ -80,7 +81,7 @@ internal class StorageHelper(
 
   fun getDummyFilesPath(path: String): List<File> {
     val file = File(path, DUMMY_FILES_FOLDER)
-    return file.listFiles()?.toList() ?: emptyList()
+    return file.listFiles()?.toList().orEmpty()
   }
 
   private fun observeStorageEvent(file: File): Flow<Int> {
