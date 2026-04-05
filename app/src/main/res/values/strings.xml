@@ -1,5 +1,5 @@
 <resources>
-  <string name="app_name">SQA Tools</string>
+  <string name="app_name">SQA Toolkit</string>
 
   <string name="cd_tools">Open Tools</string>
   <string name="cd_chat">Open AI Chat</string>
