@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-  namespace = "com.ryccoatika.sqatools.fillmemory"
+  namespace = "com.ryccoatika.sqatoolkit.fillmemory"
 
   defaultConfig {
     externalNativeBuild {

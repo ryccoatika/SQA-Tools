@@ -45,7 +45,7 @@ JNI_OnLoad(JavaVM *vm, void *) {
         return JNI_ERR;
     }
 
-    jclass clazz = env->FindClass("com/ryccoatika/sqatools/fillmemory/core/utils/MemoryHelper");
+    jclass clazz = env->FindClass("com/ryccoatika/sqatoolkit/fillmemory/core/utils/MemoryHelper");
     if (clazz == nullptr) {
         return JNI_ERR;
     }

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-  namespace = "com.ryccoatika.sqatools.fillstorage"
+  namespace = "com.ryccoatika.sqatoolkit.fillstorage"
 
   buildFeatures {
     compose = true

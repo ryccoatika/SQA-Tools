@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-  namespace = "com.ryccoatika.sqatools.common"
+  namespace = "com.ryccoatika.sqatoolkit.common"
 
   buildFeatures {
     compose = true

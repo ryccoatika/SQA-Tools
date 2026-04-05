@@ -3,7 +3,7 @@
 
   <application>
     <activity
-      android:name="com.ryccoatika.sqatools.fillstorage.FillStorageActivity"
+      android:name="com.ryccoatika.sqatoolkit.fillstorage.FillStorageActivity"
       android:exported="false" />
   </application>
 

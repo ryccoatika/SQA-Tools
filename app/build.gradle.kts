@@ -6,10 +6,10 @@ plugins {
 }
 
 android {
-  namespace = "com.ryccoatika.sqatools"
+  namespace = "com.ryccoatika.sqatoolkit"
 
   defaultConfig {
-    applicationId = "com.ryccoatika.sqatools"
+    applicationId = "com.ryccoatika.sqatoolkit"
 
     versionCode = 1
     versionName = "0.6.9-dev01"

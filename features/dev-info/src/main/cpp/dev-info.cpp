@@ -22,7 +22,7 @@ JNI_OnLoad(JavaVM *vm, void *) {
         return JNI_ERR;
     }
 
-    jclass clazz = env->FindClass("com/ryccoatika/sqatools/devinfo/core/utils/NativeHelper");
+    jclass clazz = env->FindClass("com/ryccoatika/sqatoolkit/devinfo/core/utils/NativeHelper");
     if (clazz == nullptr) {
         return JNI_ERR;
     }
