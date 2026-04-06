@@ -79,9 +79,30 @@ internal class DeviceInfoUtils(
   fun getManufacturedDate(): Instant? {
     val dateString = NativeHelper.getProp("ril.rfcal_date") // yyyymmdd
     if (dateString.isEmpty()) return null
-    val year = dateString.substring(0, 4).toInt()
-    val month = dateString.substring(4, 6).toInt()
-    val day = dateString.substring(6, 8).toInt()
+    val year: Int
+    val month: Int
+    val day: Int
+    when {
+      dateString.contains(".") -> {
+        val date = dateString.split(".")
+        if (date.size != 3) return null
+        year = date[0].toInt()
+        month = date[1].toInt()
+        day = date[2].toInt()
+      }
+      dateString.contains("/") -> {
+        val date = dateString.split("/")
+        if (date.size != 3) return null
+        year = date[0].toInt()
+        month = date[1].toInt()
+        day = date[2].toInt()
+      }
+      else -> {
+        year = dateString.substring(0, 4).toInt()
+        month = dateString.substring(4, 6).toInt()
+        day = dateString.substring(6, 8).toInt()
+      }
+    }
     return LocalDate.of(year, month, day).atStartOfDay().toInstant(OffsetDateTime.now().offset)
   }
 
