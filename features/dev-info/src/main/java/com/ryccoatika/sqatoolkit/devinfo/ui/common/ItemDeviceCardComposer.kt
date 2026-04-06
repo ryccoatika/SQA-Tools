@@ -71,7 +71,7 @@ internal fun ItemDeviceCardComposer(
         verticalArrangement = Arrangement.spacedBy(4.dp),
       ) {
         Text(
-          text = textCreator.androidVersionAndCodename(item.androidVersion, item.internalCodename),
+          text = textCreator.androidNameAndCodename(item.androidName, item.internalCodename),
           style = MaterialTheme.typography.titleSmall,
         )
         Text(
@@ -94,7 +94,7 @@ private fun ItemDeviceCardComposerPreview() {
     SQAToolsTheme {
       ItemDeviceCardComposer(
         item = DeviceCardItem(
-          androidVersion = "15",
+          androidName = "Android 15",
           internalCodename = "Vanilla Ice Cream",
           sdkVersion = 35,
           releaseDate = Instant.parse("2024-09-03T09:53:32-07:00"),

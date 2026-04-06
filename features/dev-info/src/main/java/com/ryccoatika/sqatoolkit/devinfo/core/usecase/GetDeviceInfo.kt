@@ -21,7 +21,7 @@ internal class GetDeviceInfo(
   override suspend fun doWork(params: Unit): List<Item> = withContext(Dispatchers.IO) {
     // Device Info Card
     val cardItem = DeviceCardItem(
-      androidVersion = Build.VERSION.RELEASE,
+      androidName = deviceInfoUtils.getAndroidName(),
       internalCodename = deviceInfoUtils.getCodename(),
       sdkVersion = Build.VERSION.SDK_INT,
       releaseDate = deviceInfoUtils.getAndroidReleaseDate(),

@@ -38,8 +38,8 @@ internal class DevInfoTextCreator(
     return context.getString(labelResId)
   }
 
-  fun androidVersionAndCodename(version: String, codename: String): String {
-    return context.getString(R.string.di_text_version_and_codename, version, codename)
+  fun androidNameAndCodename(name: String, codename: String): String {
+    return context.getString(R.string.di_text_name_and_codename, name, codename)
   }
 
   fun androidApiLevel(sdkVersion: Int): String {

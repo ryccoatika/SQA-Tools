@@ -5,7 +5,7 @@ import java.time.Instant
 internal sealed interface Item
 
 internal data class DeviceCardItem(
-  val androidVersion: String,
+  val androidName: String,
   val internalCodename: String,
   val sdkVersion: Int,
   val releaseDate: Instant?,

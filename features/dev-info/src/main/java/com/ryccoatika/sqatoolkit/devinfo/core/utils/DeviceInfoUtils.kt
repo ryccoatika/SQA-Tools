@@ -28,6 +28,26 @@ internal class DeviceInfoUtils(
     return androidId.orEmpty()
   }
 
+  fun getAndroidName(): String {
+    return when (Build.VERSION.SDK_INT) {
+      24 -> "Nougat"
+      25 -> "Nougat MR1"
+      26 -> "Oreo"
+      27 -> "Oreo MR1"
+      28 -> "Pie"
+      29 -> "Android 10"
+      30 -> "Android 11"
+      31 -> "Android 12"
+      32 -> "Android 12L"
+      33 -> "Android 13"
+      34 -> "Android 14"
+      35 -> "Android 15"
+      36 -> "Android 16"
+      37 -> "Android 17"
+      else -> "-"
+    }
+  }
+
   fun getCodename(): String {
     return when (Build.VERSION.SDK_INT) {
       24, 25 -> "New York Cheesecake"

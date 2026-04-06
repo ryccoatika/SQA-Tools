@@ -28,7 +28,7 @@
   <string name="di_text_supported">Supported</string>
   <string name="di_text_not_supported">Not Supported</string>
 
-  <string name="di_text_version_and_codename">Android %1s - %2s</string>
+  <string name="di_text_name_and_codename">%1s - %2s</string>
   <string name="di_text_sdk_version">API Level %d</string>
   <string name="di_text_release_date">Released: %s</string>
   <string name="di_text_unknown">Unknown</string>
