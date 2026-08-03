@@ -13,6 +13,7 @@ import com.ryccoatika.sqatoolkit.common.extensions.viewModel
 import com.ryccoatika.sqatoolkit.devinfo.R
 import com.ryccoatika.sqatoolkit.devinfo.ui.common.ItemComposer
 import com.ryccoatika.sqatoolkit.devinfo.ui.info.DevInfoType
+import com.ryccoatika.sqatoolkit.devinfo.ui.info.common.InfoViewState
 import me.tatarka.inject.annotations.Inject
 
 internal typealias Device = @Composable () -> Unit
@@ -40,7 +41,7 @@ internal fun Device(
 
 @Composable
 internal fun Device(
-  state: DeviceViewState,
+  state: InfoViewState,
 ) {
   ItemComposer(
     items = state.items,

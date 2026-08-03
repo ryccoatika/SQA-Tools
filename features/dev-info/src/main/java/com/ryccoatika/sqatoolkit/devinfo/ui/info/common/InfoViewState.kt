@@ -1,15 +1,15 @@
-package com.ryccoatika.sqatoolkit.devinfo.ui.info.device
+package com.ryccoatika.sqatoolkit.devinfo.ui.info.common
 
 import androidx.compose.runtime.Immutable
 import com.ryccoatika.sqatoolkit.devinfo.core.model.Item
 
 @Immutable
-internal data class DeviceViewState(
+internal data class InfoViewState(
   val items: List<Item>,
   val isLoading: Boolean,
 ) {
   companion object {
-    val Empty = DeviceViewState(
+    val Empty = InfoViewState(
       items = emptyList(),
       isLoading = true,
     )
