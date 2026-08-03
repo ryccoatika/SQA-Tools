@@ -38,5 +38,6 @@ internal fun ItemComposer(
     is DateItem -> ItemDateComposer(item)
     is ElapsedTimeItem -> ItemElapsedTimeComposer(item)
     is DeviceCardItem -> ItemDeviceCardComposer(item)
+    else -> Unit // TODO: wired up in a later task (RawTextItem, PermissionItem, ExpandableGroupItem)
   }
 }

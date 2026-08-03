@@ -118,8 +118,8 @@ internal class GetDeviceInfo(
     // DRM Info
     val drmGroup = deviceInfoUtils.getDrmInfo()?.let { drm ->
       GroupItem(
-        Label.DRM,
-        listOf(
+        label = Label.DRM,
+        items = listOf(
           TextItem(Label.DRMVendor, drm.vendor),
           TextItem(Label.DRMVersion, drm.version),
           TextItem(Label.DRMDescription, drm.description),
@@ -132,10 +132,10 @@ internal class GetDeviceInfo(
 
     listOfNotNull(
       cardItem,
-      GroupItem(null, basicItems),
-      GroupItem(null, manufacturerItems),
-      GroupItem(null, saleItems),
-      GroupItem(null, systemItems),
+      GroupItem(items = basicItems),
+      GroupItem(items = manufacturerItems),
+      GroupItem(items = saleItems),
+      GroupItem(items = systemItems),
       drmGroup,
     )
   }
