@@ -174,11 +174,15 @@ internal fun Main(
             }
           }
         } else {
-          SearchResults(
-            tabs = state.tabs,
-            query = state.query,
-            textCreator = textCreator,
-          )
+          CompositionLocalProvider(
+            LocalPermissionRequester provides { permissionLauncher.launch(it) },
+          ) {
+            SearchResults(
+              tabs = state.tabs,
+              query = state.query,
+              textCreator = textCreator,
+            )
+          }
         }
       }
     }

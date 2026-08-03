@@ -1,6 +1,7 @@
 package com.ryccoatika.sqatoolkit.devinfo.ui.main
 
 import android.content.Context
+import com.ryccoatika.sqatoolkit.devinfo.R
 import com.ryccoatika.sqatoolkit.devinfo.core.model.DateItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.DeviceCardItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.ElapsedTimeItem
@@ -35,8 +36,8 @@ internal class DevInfoReportFormatter(
     when (item) {
       is RawTextItem -> appendLine("$pad${item.label}: ${item.value}")
       is TextItem -> appendLine("$pad${textCreator.itemLabel(item.label)}: ${item.value}")
-      is StatusItem -> appendLine("$pad${textCreator.itemLabel(item.label)}: ${item.value}")
-      is DateItem -> appendLine("$pad${textCreator.itemLabel(item.label)}: ${textCreator.longDateFormat(item.value)}")
+      is StatusItem -> appendLine("$pad${textCreator.itemLabel(item.label)}: ${context.getString(if (item.value) R.string.di_text_supported else R.string.di_text_not_supported)}")
+      is DateItem -> appendLine("$pad${textCreator.itemLabel(item.label)}: ${if (item.isPeriod) textCreator.datePeriodFormat(item.value) else textCreator.longDateFormat(item.value)}")
       is ElapsedTimeItem -> appendLine("$pad${textCreator.itemLabel(item.label)}: ${textCreator.dateElapsedFormat(item.value)}")
       is PermissionItem -> appendLine("$pad${item.label}: ${item.value}")
       is DeviceCardItem -> appendLine("$pad${item.androidName} (${item.internalCodename}) — API ${item.sdkVersion}")
