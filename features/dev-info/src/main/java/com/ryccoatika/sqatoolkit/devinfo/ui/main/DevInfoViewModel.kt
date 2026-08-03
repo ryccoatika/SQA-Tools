@@ -74,6 +74,8 @@ internal class DevInfoViewModel(
 
   fun refresh(type: DevInfoType) = load(type.id)
 
+  fun refreshAll() = orderedTypes.forEach { load(it.id) }
+
   fun onQueryChange(q: String) {
     query.value = q
   }

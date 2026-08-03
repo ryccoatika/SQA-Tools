@@ -93,6 +93,9 @@ internal fun Main(
   val permissionLauncher = rememberLauncherForActivityResult(
     ActivityResultContracts.RequestPermission(),
   ) { granted -> if (granted) currentType?.let { vm.refresh(it) } }
+  val searchPermissionLauncher = rememberLauncherForActivityResult(
+    ActivityResultContracts.RequestPermission(),
+  ) { granted -> if (granted) vm.refreshAll() }
 
   CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
     Scaffold(
@@ -175,7 +178,7 @@ internal fun Main(
           }
         } else {
           CompositionLocalProvider(
-            LocalPermissionRequester provides { permissionLauncher.launch(it) },
+            LocalPermissionRequester provides { searchPermissionLauncher.launch(it) },
           ) {
             SearchResults(
               tabs = state.tabs,
@@ -208,8 +211,10 @@ private fun SearchResults(
   query: String,
   textCreator: DevInfoTextCreator,
 ) {
+  val supportedText = stringResource(R.string.di_text_supported)
+  val notSupportedText = stringResource(R.string.di_text_not_supported)
   val grouped = tabs.mapNotNull { tab ->
-    val filtered = filterItems(tab.items, query)
+    val filtered = filterItems(tab.items, query, textCreator, supportedText, notSupportedText)
     if (filtered.isEmpty()) null else tab to filtered
   }
 

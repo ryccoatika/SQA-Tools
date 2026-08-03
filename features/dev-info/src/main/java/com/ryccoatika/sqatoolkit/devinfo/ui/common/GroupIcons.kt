@@ -14,8 +14,8 @@ import androidx.compose.material.icons.rounded.Storage
 import androidx.compose.material.icons.rounded.Wifi
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.ryccoatika.sqatoolkit.devinfo.core.model.Item
-import com.ryccoatika.sqatoolkit.devinfo.core.model.PermissionItem
-import com.ryccoatika.sqatoolkit.devinfo.core.model.RawTextItem
+import com.ryccoatika.sqatoolkit.devinfo.core.utils.DevInfoTextCreator
+import com.ryccoatika.sqatoolkit.devinfo.ui.common.utils.itemPlainText
 
 internal fun groupIcon(title: String): ImageVector {
   val t = title.lowercase()
@@ -37,14 +37,17 @@ internal fun groupIcon(title: String): ImageVector {
 
 /**
  * Builds a copyable "label: value" block from a group's rows.
- * Only free-text rows (RawTextItem/PermissionItem) are included; Label-based rows are skipped.
+ * Renders every row type (raw-text, permission, and Label-based rows) via the same
+ * [itemPlainText] mapping used by search and the share report, so every group card
+ * gets a working copy button.
  */
-internal fun groupItemsToText(items: List<Item>): String = buildString {
+internal fun groupItemsToText(
+  items: List<Item>,
+  textCreator: DevInfoTextCreator,
+  supportedText: String,
+  notSupportedText: String,
+): String = buildString {
   items.forEach { item ->
-    when (item) {
-      is RawTextItem -> appendLine("${item.label}: ${item.value}")
-      is PermissionItem -> appendLine("${item.label}: ${item.value}")
-      else -> Unit
-    }
+    itemPlainText(item, textCreator, supportedText, notSupportedText)?.let { appendLine(it) }
   }
 }.trim()

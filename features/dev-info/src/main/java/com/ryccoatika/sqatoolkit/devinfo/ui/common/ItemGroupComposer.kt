@@ -21,9 +21,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ClipEntry
 import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatoolkit.devinfo.R
 import com.ryccoatika.sqatoolkit.devinfo.core.model.GroupItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.RawTextItem
 import com.ryccoatika.sqatoolkit.devinfo.ui.common.utils.LocalSnackbarHostState
@@ -69,7 +71,9 @@ internal fun ItemGroupComposer(
           color = MaterialTheme.colorScheme.primary,
           modifier = Modifier.weight(1f),
         )
-        val copyText = groupItemsToText(item.items)
+        val supportedText = stringResource(R.string.di_text_supported)
+        val notSupportedText = stringResource(R.string.di_text_not_supported)
+        val copyText = groupItemsToText(item.items, textCreator, supportedText, notSupportedText)
         if (copyText.isNotBlank()) {
           IconButton(
             onClick = {

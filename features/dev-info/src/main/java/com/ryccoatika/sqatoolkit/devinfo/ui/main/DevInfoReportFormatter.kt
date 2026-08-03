@@ -2,17 +2,11 @@ package com.ryccoatika.sqatoolkit.devinfo.ui.main
 
 import android.content.Context
 import com.ryccoatika.sqatoolkit.devinfo.R
-import com.ryccoatika.sqatoolkit.devinfo.core.model.DateItem
-import com.ryccoatika.sqatoolkit.devinfo.core.model.DeviceCardItem
-import com.ryccoatika.sqatoolkit.devinfo.core.model.ElapsedTimeItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.ExpandableGroupItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.GroupItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.Item
-import com.ryccoatika.sqatoolkit.devinfo.core.model.PermissionItem
-import com.ryccoatika.sqatoolkit.devinfo.core.model.RawTextItem
-import com.ryccoatika.sqatoolkit.devinfo.core.model.StatusItem
-import com.ryccoatika.sqatoolkit.devinfo.core.model.TextItem
 import com.ryccoatika.sqatoolkit.devinfo.core.utils.DevInfoTextCreator
+import com.ryccoatika.sqatoolkit.devinfo.ui.common.utils.itemPlainText
 import me.tatarka.inject.annotations.Inject
 
 // Lives in ui.main (same package as TabData) — do not move to core/.
@@ -21,6 +15,9 @@ internal class DevInfoReportFormatter(
   private val context: Context,
   private val textCreator: DevInfoTextCreator,
 ) {
+  private val supportedText by lazy { context.getString(R.string.di_text_supported) }
+  private val notSupportedText by lazy { context.getString(R.string.di_text_not_supported) }
+
   fun format(tabs: List<TabData>): String = buildString {
     appendLine("# Device Info Report")
     appendLine()
@@ -34,13 +31,6 @@ internal class DevInfoReportFormatter(
   private fun StringBuilder.appendItem(item: Item, indent: Int) {
     val pad = "  ".repeat(indent)
     when (item) {
-      is RawTextItem -> appendLine("$pad${item.label}: ${item.value}")
-      is TextItem -> appendLine("$pad${textCreator.itemLabel(item.label)}: ${item.value}")
-      is StatusItem -> appendLine("$pad${textCreator.itemLabel(item.label)}: ${context.getString(if (item.value) R.string.di_text_supported else R.string.di_text_not_supported)}")
-      is DateItem -> appendLine("$pad${textCreator.itemLabel(item.label)}: ${if (item.isPeriod) textCreator.datePeriodFormat(item.value) else textCreator.longDateFormat(item.value)}")
-      is ElapsedTimeItem -> appendLine("$pad${textCreator.itemLabel(item.label)}: ${textCreator.dateElapsedFormat(item.value)}")
-      is PermissionItem -> appendLine("$pad${item.label}: ${item.value}")
-      is DeviceCardItem -> appendLine("$pad${item.androidName} (${item.internalCodename}) — API ${item.sdkVersion}")
       is GroupItem -> {
         item.rawTitle?.let { appendLine("$pad[$it]") }
           ?: item.label?.let { appendLine("$pad[${textCreator.itemLabel(it)}]") }
@@ -49,6 +39,11 @@ internal class DevInfoReportFormatter(
       is ExpandableGroupItem -> {
         appendLine("$pad[${item.title}] ${item.summary}")
         item.items.forEach { appendItem(it, indent + 1) }
+      }
+      else -> {
+        itemPlainText(item, textCreator, supportedText, notSupportedText)?.let {
+          appendLine("$pad$it")
+        }
       }
     }
   }
