@@ -83,4 +83,137 @@
   <string name="di_label_drm_algorithm">Algorithm</string>
   <string name="di_label_drm_security_level">Security Level</string>
   <string name="di_label_drm_max_hdcp_level">Max HDCP Level</string>
+
+  <!-- common -->
+  <string name="di_text_permission_required">Permission required</string>
+  <string name="di_text_grant">Grant</string>
+  <string name="di_text_not_available">Not available</string>
+  <string name="di_text_yes">Yes</string>
+  <string name="di_text_no">No</string>
+
+  <!-- software -->
+  <string name="di_group_android">Android</string>
+  <string name="di_group_system">System</string>
+  <string name="di_label_android_version">Android Version</string>
+  <string name="di_label_api_level">API Level</string>
+  <string name="di_label_codename">Codename</string>
+  <string name="di_label_build_number">Build Number</string>
+  <string name="di_label_build_id">Build ID</string>
+  <string name="di_label_build_type">Build Type</string>
+  <string name="di_label_build_tags">Build Tags</string>
+  <string name="di_label_runtime">Runtime</string>
+  <string name="di_label_root">Root Access</string>
+  <string name="di_label_ab_update">Seamless (A/B) Updates</string>
+  <string name="di_label_treble">Project Treble</string>
+  <string name="di_label_play_services">Play Services</string>
+  <string name="di_text_detected">Detected</string>
+  <string name="di_text_not_detected">Not Detected</string>
+  <string name="di_text_not_installed">Not Installed</string>
+
+  <!-- hardware -->
+  <string name="di_group_processor">Processor</string>
+  <string name="di_group_gpu">GPU</string>
+  <string name="di_group_memory">Memory</string>
+  <string name="di_group_storage">Storage</string>
+  <string name="di_group_display">Display</string>
+  <string name="di_group_battery">Battery</string>
+  <string name="di_label_chipset">Chipset</string>
+  <string name="di_label_architecture">Architecture</string>
+  <string name="di_label_abis">Supported ABIs</string>
+  <string name="di_label_cores">CPU Cores</string>
+  <string name="di_label_governor">Governor</string>
+  <string name="di_label_cpu_freq">Clock Range</string>
+  <string name="di_label_gpu_vendor">Vendor</string>
+  <string name="di_label_gpu_renderer">Renderer</string>
+  <string name="di_label_gpu_version">Version</string>
+  <string name="di_label_ram_total">Total RAM</string>
+  <string name="di_label_ram_available">Available RAM</string>
+  <string name="di_label_ram_threshold">Low Memory Threshold</string>
+  <string name="di_label_memory_class">Memory Class</string>
+  <string name="di_label_large_memory_class">Large Memory Class</string>
+  <string name="di_label_storage_internal">Internal (Data)</string>
+  <string name="di_label_storage_system">System</string>
+  <string name="di_label_resolution">Resolution</string>
+  <string name="di_label_density">Density</string>
+  <string name="di_label_refresh_rate">Refresh Rate</string>
+  <string name="di_label_screen_size">Screen Size</string>
+  <string name="di_label_hdr">HDR</string>
+  <string name="di_label_battery_technology">Technology</string>
+  <string name="di_label_battery_health">Health</string>
+  <string name="di_label_battery_status">Status</string>
+  <string name="di_label_battery_capacity">Capacity</string>
+  <string name="di_label_battery_voltage">Voltage</string>
+  <string name="di_label_battery_temperature">Temperature</string>
+
+  <!-- camera -->
+  <string name="di_camera_back">Back Camera</string>
+  <string name="di_camera_front">Front Camera</string>
+  <string name="di_camera_external">External Camera</string>
+  <string name="di_label_facing">Facing</string>
+  <string name="di_label_hardware_level">Hardware Level</string>
+  <string name="di_label_megapixels">Megapixels</string>
+  <string name="di_label_sensor_size">Sensor Size</string>
+  <string name="di_label_focal_lengths">Focal Lengths</string>
+  <string name="di_label_apertures">Apertures</string>
+  <string name="di_label_flash">Flash</string>
+  <string name="di_label_max_zoom">Max Digital Zoom</string>
+  <string name="di_label_iso_range">ISO Range</string>
+  <string name="di_label_max_photo">Max Photo</string>
+  <string name="di_label_max_video">Max Video</string>
+  <string name="di_label_fps_ranges">FPS Ranges</string>
+  <string name="di_label_ois">Optical Stabilization</string>
+  <string name="di_label_raw">RAW Support</string>
+  <string name="di_label_af_modes">AF Modes</string>
+
+  <!-- network -->
+  <string name="di_group_telephony">SIM &amp; Network</string>
+  <string name="di_label_network_operator">Network Operator</string>
+  <string name="di_label_sim_operator">SIM Operator</string>
+  <string name="di_label_network_mccmnc">Network MCC/MNC</string>
+  <string name="di_label_sim_mccmnc">SIM MCC/MNC</string>
+  <string name="di_label_sim_country">SIM Country</string>
+  <string name="di_label_network_country">Network Country</string>
+  <string name="di_label_phone_type">Phone Type</string>
+  <string name="di_label_sim_state">SIM State</string>
+  <string name="di_label_sim_count">SIM Count</string>
+  <string name="di_label_roaming">Roaming</string>
+  <string name="di_label_data_network_type">Data Network Type</string>
+  <string name="di_label_imei">IMEI / MEID</string>
+  <string name="di_label_phone_number">Phone Number</string>
+
+  <!-- connectivity -->
+  <string name="di_group_wifi">Wi-Fi</string>
+  <string name="di_group_bluetooth">Bluetooth</string>
+  <string name="di_group_other">Other</string>
+  <string name="di_label_wifi_enabled">Enabled</string>
+  <string name="di_label_wifi_5ghz">5 GHz</string>
+  <string name="di_label_wifi_6ghz">6 GHz</string>
+  <string name="di_label_wifi_aware">Wi-Fi Aware</string>
+  <string name="di_label_wifi_direct">Wi-Fi Direct</string>
+  <string name="di_label_wifi_mac">MAC Address</string>
+  <string name="di_label_wifi_ssid">SSID</string>
+  <string name="di_label_wifi_bssid">BSSID</string>
+  <string name="di_label_wifi_speed">Link Speed</string>
+  <string name="di_label_wifi_frequency">Frequency</string>
+  <string name="di_label_wifi_rssi">Signal (RSSI)</string>
+  <string name="di_label_wifi_ip">IP Address</string>
+  <string name="di_label_bt_supported">Supported</string>
+  <string name="di_label_bt_le">Bluetooth LE</string>
+  <string name="di_label_bt_advertiser">LE Advertiser</string>
+  <string name="di_label_bt_name">Adapter Name</string>
+  <string name="di_label_nfc">NFC</string>
+  <string name="di_label_usb_host">USB Host</string>
+  <string name="di_label_ethernet">Ethernet</string>
+
+  <!-- sensor -->
+  <string name="di_label_sensor_vendor">Vendor</string>
+  <string name="di_label_sensor_type">Type</string>
+  <string name="di_label_sensor_version">Version</string>
+  <string name="di_label_sensor_power">Power</string>
+  <string name="di_label_sensor_resolution">Resolution</string>
+  <string name="di_label_sensor_range">Max Range</string>
+  <string name="di_label_sensor_min_delay">Min Delay</string>
+  <string name="di_label_sensor_max_delay">Max Delay</string>
+  <string name="di_label_sensor_reporting">Reporting Mode</string>
+  <string name="di_label_sensor_wakeup">Wake-up Sensor</string>
 </resources>
