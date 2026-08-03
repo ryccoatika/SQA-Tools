@@ -27,6 +27,8 @@ dependencies {
   debugApi(libs.androidx.ui.tooling)
   debugApi(libs.androidx.ui.test.manifest)
 
+  api(libs.androidx.datastore.preferences)
+
   api(libs.kotlininject.runtime)
   ksp(libs.kotlininject.compiler)
 }

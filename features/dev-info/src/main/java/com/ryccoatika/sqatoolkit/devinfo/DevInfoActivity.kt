@@ -6,9 +6,13 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ryccoatika.sqatoolkit.common.data.ThemePreferences
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.devinfo.core.utils.DevInfoTextCreator
 import com.ryccoatika.sqatoolkit.devinfo.inject.DevInfoScope
@@ -30,11 +34,13 @@ internal class DevInfoActivity : ComponentActivity() {
 
     setContent {
       val navController = rememberNavController()
+      val themePreferences = remember { ThemePreferences(this) }
+      val dynamicColor by themePreferences.useDynamicColor.collectAsState(initial = false)
 
       CompositionLocalProvider(
         LocalTextCreator provides DevInfoTextCreator(this),
       ) {
-        SQAToolsTheme {
+        SQAToolsTheme(dynamicColor = dynamicColor) {
           NavHost(
             navController = navController,
             startDestination = Route.Home.route,
