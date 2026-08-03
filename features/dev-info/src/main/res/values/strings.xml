@@ -2,6 +2,12 @@
 <resources>
   <string name="di_desc">Showing all information about your device.</string>
 
+  <string name="di_action_search">Search</string>
+  <string name="di_action_share">Share</string>
+  <string name="di_action_more">More</string>
+  <string name="di_action_dynamic_color">Dynamic color</string>
+  <string name="di_search_no_matches">No matches</string>
+
   <string name="di_text_device">Device</string>
   <string name="di_text_hardware">Hardware</string>
   <string name="di_text_network">Network</string>

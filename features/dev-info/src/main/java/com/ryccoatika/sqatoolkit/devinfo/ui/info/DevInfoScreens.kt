@@ -1,35 +1,14 @@
 package com.ryccoatika.sqatoolkit.devinfo.ui.info
 
-import com.ryccoatika.sqatoolkit.devinfo.inject.DevInfoScope
-import com.ryccoatika.sqatoolkit.devinfo.ui.info.camera.Camera
 import com.ryccoatika.sqatoolkit.devinfo.ui.info.camera.CameraType
-import com.ryccoatika.sqatoolkit.devinfo.ui.info.connectivity.Connectivity
 import com.ryccoatika.sqatoolkit.devinfo.ui.info.connectivity.ConnectivityType
-import com.ryccoatika.sqatoolkit.devinfo.ui.info.device.Device
 import com.ryccoatika.sqatoolkit.devinfo.ui.info.device.DeviceType
-import com.ryccoatika.sqatoolkit.devinfo.ui.info.hardware.Hardware
 import com.ryccoatika.sqatoolkit.devinfo.ui.info.hardware.HardwareType
-import com.ryccoatika.sqatoolkit.devinfo.ui.info.network.Network
 import com.ryccoatika.sqatoolkit.devinfo.ui.info.network.NetworkType
-import com.ryccoatika.sqatoolkit.devinfo.ui.info.sensor.Sensor
 import com.ryccoatika.sqatoolkit.devinfo.ui.info.sensor.SensorType
-import com.ryccoatika.sqatoolkit.devinfo.ui.info.software.Software
 import com.ryccoatika.sqatoolkit.devinfo.ui.info.software.SoftwareType
-import me.tatarka.inject.annotations.Inject
 import me.tatarka.inject.annotations.IntoSet
 import me.tatarka.inject.annotations.Provides
-
-@DevInfoScope
-@Inject
-internal class DevInfoScreens(
-  val device: Device,
-  val hardware: Hardware,
-  val network: Network,
-  val software: Software,
-  val camera: Camera,
-  val connectivity: Connectivity,
-  val sensor: Sensor,
-)
 
 internal interface DevInfoTypes {
   @Provides

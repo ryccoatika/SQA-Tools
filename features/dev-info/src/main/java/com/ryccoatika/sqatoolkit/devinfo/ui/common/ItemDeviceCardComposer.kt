@@ -6,7 +6,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -58,33 +60,44 @@ internal fun ItemDeviceCardComposer(
 
   Card(
     modifier = modifier.fillMaxWidth(),
+    colors = CardDefaults.cardColors(
+      containerColor = MaterialTheme.colorScheme.primaryContainer,
+      contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
+    ),
   ) {
     Row(
       horizontalArrangement = Arrangement.spacedBy(16.dp),
       verticalAlignment = Alignment.CenterVertically,
-      modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+      modifier = Modifier.padding(horizontal = 20.dp, vertical = 16.dp),
     ) {
       AndroidVersionImage(
         sdkVersion = item.sdkVersion,
+        modifier = Modifier.size(72.dp),
       )
       Column(
         verticalArrangement = Arrangement.spacedBy(4.dp),
       ) {
         Text(
           text = textCreator.androidNameAndCodename(item.androidName, item.internalCodename),
-          style = MaterialTheme.typography.titleSmall,
+          style = MaterialTheme.typography.titleLarge,
+          color = MaterialTheme.colorScheme.onPrimaryContainer,
         )
-        Text(
-          text = textCreator.androidApiLevel(item.sdkVersion),
-          style = MaterialTheme.typography.titleSmall,
-        )
-        Text(
-          text = textCreator.androidReleaseDate(item.releaseDate),
-          style = MaterialTheme.typography.titleSmall,
-        )
+        HeroSubLine(value = textCreator.androidApiLevel(item.sdkVersion))
+        HeroSubLine(value = textCreator.androidReleaseDate(item.releaseDate))
       }
     }
   }
+}
+
+@Composable
+private fun HeroSubLine(
+  value: String,
+) {
+  Text(
+    text = value,
+    style = MaterialTheme.typography.labelLarge,
+    color = MaterialTheme.colorScheme.onPrimaryContainer.copy(alpha = 0.85f),
+  )
 }
 
 @Preview
