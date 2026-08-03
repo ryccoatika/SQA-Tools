@@ -24,9 +24,8 @@ internal class GetNetworkInfo(
     if (!net.hasTelephony()) {
       return@withContext listOf(RawTextItem(s(R.string.di_group_telephony), s(R.string.di_text_not_available)))
     }
-    val granted = net.hasPhoneStatePermission()
-    fun gated(label: Int, value: () -> String, permission: String): Item =
-      if (granted) RawTextItem(s(label), value())
+    fun gated(label: Int, permission: String, value: () -> String): Item =
+      if (net.hasPermission(permission)) RawTextItem(s(label), value())
       else PermissionItem(s(label), permission, s(R.string.di_text_permission_required))
 
     listOf(
@@ -43,9 +42,9 @@ internal class GetNetworkInfo(
           RawTextItem(s(R.string.di_label_sim_state), net.getSimState()),
           RawTextItem(s(R.string.di_label_sim_count), net.getSimCount()),
           RawTextItem(s(R.string.di_label_roaming), if (net.isRoaming()) s(R.string.di_text_yes) else s(R.string.di_text_no)),
-          gated(R.string.di_label_data_network_type, net::getDataNetworkType, Manifest.permission.READ_PHONE_STATE),
-          gated(R.string.di_label_imei, net::getImei, Manifest.permission.READ_PHONE_STATE),
-          gated(R.string.di_label_phone_number, net::getPhoneNumber, Manifest.permission.READ_PHONE_NUMBERS),
+          gated(R.string.di_label_data_network_type, Manifest.permission.READ_PHONE_STATE, net::getDataNetworkType),
+          gated(R.string.di_label_imei, Manifest.permission.READ_PHONE_STATE, net::getImei),
+          gated(R.string.di_label_phone_number, Manifest.permission.READ_PHONE_NUMBERS, net::getPhoneNumber),
         ),
       ),
     )

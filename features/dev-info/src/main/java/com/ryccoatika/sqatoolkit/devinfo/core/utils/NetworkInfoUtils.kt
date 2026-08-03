@@ -17,9 +17,8 @@ internal class NetworkInfoUtils(
   fun hasTelephony(): Boolean =
     context.packageManager.hasSystemFeature(PackageManager.FEATURE_TELEPHONY)
 
-  fun hasPhoneStatePermission(): Boolean =
-    ContextCompat.checkSelfPermission(context, android.Manifest.permission.READ_PHONE_STATE) ==
-      PackageManager.PERMISSION_GRANTED
+  fun hasPermission(permission: String): Boolean =
+    ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
 
   fun getNetworkOperator(): String = runCatching { tm().networkOperatorName }.getOrNull().or("-")
   fun getSimOperator(): String = runCatching { tm().simOperatorName }.getOrNull().or("-")
