@@ -4,7 +4,6 @@ import android.os.Build
 import com.ryccoatika.sqatoolkit.common.ResultInteractor
 import com.ryccoatika.sqatoolkit.devinfo.core.model.DateItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.DeviceCardItem
-import com.ryccoatika.sqatoolkit.devinfo.core.model.ElapsedTimeItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.GroupItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.Item
 import com.ryccoatika.sqatoolkit.devinfo.core.model.Label
@@ -97,46 +96,11 @@ internal class GetDeviceInfo(
       ),
     )
 
-    val systemItems = buildList {
-      add(TextItem(Label.ReleasedWith, deviceInfoUtils.getDeviceReleaseAndroidVersion()))
-      val androidUI = deviceInfoUtils.getAndroidUI()
-      if (androidUI.isNotBlank()) {
-        add(TextItem(Label.UserInterface, androidUI))
-      }
-      add(DateItem(Label.SecurityPatch, deviceInfoUtils.getSecurityPatch()))
-      add(TextItem(Label.Bootloader, Build.BOOTLOADER))
-      add(TextItem(Label.Build, Build.DISPLAY))
-      add(TextItem(Label.Baseband, Build.getRadioVersion()))
-      add(TextItem(Label.JavaVM, deviceInfoUtils.getJavaVMVersion()))
-      add(TextItem(Label.Kernel, deviceInfoUtils.getKernelVersion()))
-      add(TextItem(Label.OpenGLES, deviceInfoUtils.getOpenGLESVersion()))
-      add(TextItem(Label.Vulkan, deviceInfoUtils.getVulkanVersion()))
-      add(TextItem(Label.SELinux, deviceInfoUtils.getSELinux()))
-      add(ElapsedTimeItem(Label.SystemUptime, deviceInfoUtils.getSystemUptime()))
-    }
-
-    // DRM Info
-    val drmGroup = deviceInfoUtils.getDrmInfo()?.let { drm ->
-      GroupItem(
-        label = Label.DRM,
-        items = listOf(
-          TextItem(Label.DRMVendor, drm.vendor),
-          TextItem(Label.DRMVersion, drm.version),
-          TextItem(Label.DRMDescription, drm.description),
-          TextItem(Label.DRMAlgorithm, drm.algorithms),
-          TextItem(Label.DRMSecurityLevel, drm.securityLevel),
-          TextItem(Label.DRMMaxHDCPLevel, drm.maxHdcpLevel),
-        ),
-      )
-    }
-
     listOfNotNull(
       cardItem,
       GroupItem(items = basicItems),
       GroupItem(items = manufacturerItems),
       GroupItem(items = saleItems),
-      GroupItem(items = systemItems),
-      drmGroup,
     )
   }
 }
