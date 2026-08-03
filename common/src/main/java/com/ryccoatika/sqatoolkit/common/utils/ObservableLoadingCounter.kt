@@ -31,6 +31,7 @@ suspend fun Flow<InvokeStatus>.collectStatus(
 ) = collect { status ->
   when (status) {
     InvokeStarted -> counter.addLoader()
+
     InvokeSuccess -> {
       counter.removeLoader()
     }

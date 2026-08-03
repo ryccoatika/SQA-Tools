@@ -113,6 +113,7 @@ private fun DropdownButton(
         modifier = modifier,
       )
     }
+
     DropdownButtonMenuType.OutlinedButton -> {
       OutlinedButton(
         onClick = onClick,

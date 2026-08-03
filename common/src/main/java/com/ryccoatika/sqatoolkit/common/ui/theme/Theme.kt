@@ -46,6 +46,7 @@ fun SQAToolsTheme(
     }
 
     darkTheme -> DarkColorScheme
+
     else -> LightColorScheme
   }
 

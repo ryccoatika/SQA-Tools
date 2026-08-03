@@ -131,7 +131,9 @@ internal class StorageHelper(
   ) {
     val fileSizeInBytes = when (fillStorage.type) {
       FillStorage.Type.MB -> fillStorage.value * 1024 * 1024
+
       FillStorage.Type.GB -> fillStorage.value * 1024 * 1024 * 1024
+
       FillStorage.Type.PERCENT -> {
         val totalSpace = storage.capacity.totalSpace.toLong()
         val usedSpace = storage.capacity.usedSpace.toLong()

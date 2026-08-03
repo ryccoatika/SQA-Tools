@@ -1,16 +1,16 @@
 [versions]
-activityCompose = "1.11.0"
-agp = "8.13.0"
-androidxlifecycle = "2.9.4"
-composeBom = "2025.10.00"
-coreKtx = "1.17.0"
+activityCompose = "1.13.0"
+agp = "9.3.1"
+androidxlifecycle = "2.11.0"
+composeBom = "2026.06.01"
+coreKtx = "1.19.0"
 desugarJdkLibs = "2.1.5"
-kotlin = "2.2.20"
-kotlininject = "0.8.0"
-ksp = "2.2.20-2.0.4"
-ktlint = "1.7.1"
-navigation = "2.9.5"
-spotless = "8.0.0"
+kotlin = "2.4.10"
+kotlininject = "0.9.0"
+ksp = "2.3.10"
+ktlint = "1.8.0"
+navigation = "2.9.8"
+spotless = "8.9.0"
 
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
@@ -37,7 +37,6 @@ kotlininject-runtime = { module = "me.tatarka.inject:kotlin-inject-runtime", ver
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 android-library = { id = "com.android.library", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 spotless = { id = "com.diffplug.spotless", version.ref = "spotless" }

@@ -1,11 +1,12 @@
-import com.android.build.gradle.BaseExtension
+import com.android.build.api.dsl.ApplicationExtension
+import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.LibraryExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
   alias(libs.plugins.android.application) apply false
   alias(libs.plugins.android.library) apply false
-  alias(libs.plugins.kotlin.android) apply false
   alias(libs.plugins.kotlin.compose) apply false
   alias(libs.plugins.ksp) apply false
   alias(libs.plugins.spotless)
@@ -55,38 +56,41 @@ allprojects {
   }
 
   pluginManager.withPlugin("com.android.application") {
-    configurePlugin()
+    extensions.configure<ApplicationExtension> {
+      configureAndroid(this)
+      defaultConfig.targetSdk = 36
+    }
+    addDesugaring()
   }
   pluginManager.withPlugin("com.android.library") {
-    configurePlugin()
+    extensions.configure<LibraryExtension> {
+      configureAndroid(this)
+      testOptions.targetSdk = 36
+    }
+    addDesugaring()
   }
 }
 
-fun Project.configurePlugin() {
-  extensions.configure<BaseExtension> {
-    compileSdkVersion(36)
+fun configureAndroid(android: CommonExtension) {
+  android.apply {
+    compileSdk = 37
 
-    defaultConfig {
-      minSdk = 24
-      targetSdk = 36
-    }
+    defaultConfig.minSdk = 24
 
-    compileOptions {
+    compileOptions.apply {
       sourceCompatibility = JavaVersion.VERSION_11
       targetCompatibility = JavaVersion.VERSION_11
 
       isCoreLibraryDesugaringEnabled = true
     }
 
-    externalNativeBuild {
-      cmake {
-        version = "4.1.1"
-      }
-      ndkVersion = "28.2.13676358"
-    }
+    externalNativeBuild.cmake.version = "4.1.1"
+    ndkVersion = "28.2.13676358"
+  }
+}
 
-    dependencies {
-      add("coreLibraryDesugaring", libs.desugarJdkLibs)
-    }
+fun Project.addDesugaring() {
+  dependencies {
+    add("coreLibraryDesugaring", libs.desugarJdkLibs)
   }
 }

@@ -98,7 +98,7 @@ internal class FloaterService :
     val activityManager = getSystemService(Context.ACTIVITY_SERVICE) as ActivityManager
 
     val isActivityRunning = activityManager.appTasks.any { task ->
-      task.taskInfo.baseIntent.component?.packageName == packageName
+      task.taskInfo?.baseIntent?.component?.packageName == packageName
     }
 
     if (isActivityRunning) {
