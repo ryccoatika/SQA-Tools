@@ -25,6 +25,21 @@
     <item quantity="other">%d Days</item>
   </plurals>
 
+  <plurals name="di_text_hours">
+    <item quantity="one">%d Hour</item>
+    <item quantity="other">%d Hours</item>
+  </plurals>
+
+  <plurals name="di_text_minutes">
+    <item quantity="one">%d Minute</item>
+    <item quantity="other">%d Minutes</item>
+  </plurals>
+
+  <plurals name="di_text_seconds">
+    <item quantity="one">%d Second</item>
+    <item quantity="other">%d Seconds</item>
+  </plurals>
+
   <string name="di_text_supported">Supported</string>
   <string name="di_text_not_supported">Not Supported</string>
 
@@ -49,4 +64,23 @@
   <string name="di_label_device_age">Device Age</string>
   <string name="di_label_sales_code">Sales Code</string>
   <string name="di_label_sales_country">Sales Country</string>
+  <string name="di_label_released_with">Released With</string>
+  <string name="di_label_user_interface">User Interface</string>
+  <string name="di_label_security_patch">Security Patch</string>
+  <string name="di_label_bootloader">Bootloader</string>
+  <string name="di_label_build">Build</string>
+  <string name="di_label_baseband">Baseband</string>
+  <string name="di_label_java_vm">Java VM</string>
+  <string name="di_label_kernel">Kernel</string>
+  <string name="di_label_opengl_es">OpenGL ES</string>
+  <string name="di_label_selinux">SELinux</string>
+  <string name="di_label_system_uptime">System Uptime</string>
+  <string name="di_label_vulkan">Vulkan</string>
+  <string name="di_label_drm">DRM</string>
+  <string name="di_label_drm_vendor">Vendor</string>
+  <string name="di_label_drm_version">Version</string>
+  <string name="di_label_drm_description">Description</string>
+  <string name="di_label_drm_algorithm">Algorithm</string>
+  <string name="di_label_drm_security_level">Security Level</string>
+  <string name="di_label_drm_max_hdcp_level">Max HDCP Level</string>
 </resources>

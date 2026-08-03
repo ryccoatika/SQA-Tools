@@ -21,17 +21,13 @@ internal fun ItemDateComposer(
 ) {
   val textCreator = LocalTextCreator.current
 
-  ListItem(
+  ListItemText(
     modifier = modifier,
-    headlineContent = {
-      Text(textCreator.itemLabel(item.label))
-    },
-    supportingContent = {
-      if (item.isPeriod) {
-        Text(textCreator.datePeriodFormat(item.value))
-      } else {
-        Text(textCreator.longDateFormat(item.value))
-      }
+    label = textCreator.itemLabel(item.label),
+    value = if (item.isPeriod) {
+      textCreator.datePeriodFormat(item.value)
+    } else {
+      textCreator.longDateFormat(item.value)
     },
   )
 }

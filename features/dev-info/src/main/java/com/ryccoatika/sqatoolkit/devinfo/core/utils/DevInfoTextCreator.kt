@@ -4,6 +4,7 @@ import android.content.Context
 import com.ryccoatika.sqatoolkit.devinfo.R
 import com.ryccoatika.sqatoolkit.devinfo.core.model.Label
 import com.ryccoatika.sqatoolkit.devinfo.ui.info.DevInfoType
+import java.time.Duration
 import java.time.Instant
 import java.time.LocalDate
 import java.time.Period
@@ -33,6 +34,25 @@ internal class DevInfoTextCreator(
       Label.DeviceAge -> R.string.di_label_device_age
       Label.SalesCode -> R.string.di_label_sales_code
       Label.SalesCountry -> R.string.di_label_sales_country
+      Label.ReleasedWith -> R.string.di_label_released_with
+      Label.UserInterface -> R.string.di_label_user_interface
+      Label.SecurityPatch -> R.string.di_label_security_patch
+      Label.Bootloader -> R.string.di_label_bootloader
+      Label.Build -> R.string.di_label_build
+      Label.Baseband -> R.string.di_label_baseband
+      Label.JavaVM -> R.string.di_label_java_vm
+      Label.Kernel -> R.string.di_label_kernel
+      Label.OpenGLES -> R.string.di_label_opengl_es
+      Label.SELinux -> R.string.di_label_selinux
+      Label.SystemUptime -> R.string.di_label_system_uptime
+      Label.Vulkan -> R.string.di_label_vulkan
+      Label.DRM -> R.string.di_label_drm
+      Label.DRMVendor -> R.string.di_label_drm_vendor
+      Label.DRMVersion -> R.string.di_label_drm_version
+      Label.DRMDescription -> R.string.di_label_drm_description
+      Label.DRMAlgorithm -> R.string.di_label_drm_algorithm
+      Label.DRMSecurityLevel -> R.string.di_label_drm_security_level
+      Label.DRMMaxHDCPLevel -> R.string.di_label_drm_max_hdcp_level
     }
 
     return context.getString(labelResId)
@@ -100,6 +120,77 @@ internal class DevInfoTextCreator(
     }
 
     return periodString.toString().trim()
+  }
+
+  fun dateElapsedFormat(date: Instant?): String {
+    if (date == null) return context.getString(R.string.di_text_unknown)
+
+    val now = Instant.now()
+
+    if (date.isAfter(now)) {
+      return context.getString(R.string.di_text_unknown)
+    }
+
+    val duration = Duration.between(date, now)
+
+    val days = duration.toDays()
+    val hours = duration.minusDays(days).toHours()
+    val minutes = duration.minusDays(days).minusHours(hours).toMinutes()
+    val seconds = duration
+      .minusDays(days)
+      .minusHours(hours)
+      .minusMinutes(minutes)
+      .seconds
+
+    val result = StringBuilder()
+
+    if (days > 0) {
+      result.append(
+        context.resources.getQuantityString(
+          R.plurals.di_text_days,
+          days.toInt(),
+          days,
+        ),
+      )
+    }
+
+    if (hours > 0) {
+      if (result.isNotEmpty()) result.append(" ")
+      result.append(
+        context.resources.getQuantityString(
+          R.plurals.di_text_hours,
+          hours.toInt(),
+          hours,
+        ),
+      )
+    }
+
+    if (minutes > 0) {
+      if (result.isNotEmpty()) result.append(" ")
+      result.append(
+        context.resources.getQuantityString(
+          R.plurals.di_text_minutes,
+          minutes.toInt(),
+          minutes,
+        ),
+      )
+    }
+
+    // Show seconds only for short durations
+    if (days == 0L && hours == 0L && minutes == 0L) {
+      if (result.isNotEmpty()) result.append(" ")
+      result.append(
+        context.resources.getQuantityString(
+          R.plurals.di_text_seconds,
+          seconds.toInt(),
+          seconds,
+        ),
+      )
+    }
+
+    return result.toString().trim().ifEmpty {
+      context.getString(R.string.di_text_unknown)
+    }
   }
 
   fun errorMessage(t: Throwable): String {

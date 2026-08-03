@@ -8,33 +8,33 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.devinfo.core.model.Label
 import com.ryccoatika.sqatoolkit.devinfo.core.model.TextItem
-import com.ryccoatika.sqatoolkit.devinfo.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatoolkit.devinfo.ui.common.utils.preview.CompositionLocalProviderForPreview
 
 @Composable
-internal fun ItemTextComposer(
-  item: TextItem,
+internal fun ListItemText(
+  label: String,
+  value: String,
   modifier: Modifier = Modifier,
 ) {
-  val textCreator = LocalTextCreator.current
-
-  ListItemText(
+  ListItem(
     modifier = modifier,
-    label = textCreator.itemLabel(item.label),
-    value = item.value,
+    headlineContent = {
+      Text(label)
+    },
+    supportingContent = {
+      Text(value)
+    },
   )
 }
 
 @Preview
 @Composable
-private fun ItemTextComposerPreview() {
+private fun ListItemTextPreview() {
   CompositionLocalProviderForPreview {
     SQAToolsTheme {
-      ItemTextComposer(
-        item = TextItem(
-          label = Label.Device,
-          value = "Samsung",
-        ),
+      ListItemText(
+        label = "Device",
+        value = "Samsung",
       )
     }
   }

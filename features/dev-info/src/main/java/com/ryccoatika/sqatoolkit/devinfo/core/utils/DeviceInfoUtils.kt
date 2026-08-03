@@ -2,7 +2,10 @@ package com.ryccoatika.sqatoolkit.devinfo.core.utils
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.pm.PackageManager
+import android.media.MediaDrm
 import android.os.Build
+import android.os.SystemClock
 import android.provider.Settings
 import android.telephony.euicc.EuiccManager
 import com.ryccoatika.sqatoolkit.common.utils.or
@@ -10,6 +13,7 @@ import java.time.Instant
 import java.time.LocalDate
 import java.time.OffsetDateTime
 import java.util.Locale
+import java.util.UUID
 import me.tatarka.inject.annotations.Inject
 
 @Inject
@@ -29,7 +33,11 @@ internal class DeviceInfoUtils(
   }
 
   fun getAndroidName(): String {
-    return when (Build.VERSION.SDK_INT) {
+    return getAndroidName(Build.VERSION.SDK_INT)
+  }
+
+  fun getAndroidName(apiLevel: Int): String {
+    return when (apiLevel) {
       24 -> "Nougat"
       25 -> "Nougat MR1"
       26 -> "Oreo"
@@ -110,6 +118,7 @@ internal class DeviceInfoUtils(
         month = date[1].toInt()
         day = date[2].toInt()
       }
+
       dateString.contains("/") -> {
         val date = dateString.split("/")
         if (date.size != 3) return null
@@ -117,6 +126,7 @@ internal class DeviceInfoUtils(
         month = date[1].toInt()
         day = date[2].toInt()
       }
+
       else -> {
         year = dateString.substring(0, 4).toInt()
         month = dateString.substring(4, 6).toInt()
@@ -147,7 +157,107 @@ internal class DeviceInfoUtils(
     return String(Character.toChars(upper[0].code + offset)) + String(Character.toChars(upper[1].code + offset))
   }
 
+  fun getDeviceReleaseAndroidVersion(): String {
+    val apiLevel = NativeHelper.getProp("ro.product.first_api_level")
+      .or("0")
+      .toIntOrNull() ?: 0
+
+    return getAndroidName(apiLevel)
+  }
+
+  fun getAndroidUI(): String {
+    val version = NativeHelper.getProp("ro.build.version.oneui")
+      .toIntOrNull()
+      ?.takeIf { it > 0 }
+
+    if (version != null) {
+      val calculatedVersion = "${version / 10000}.${(version % 10000) / 100}"
+      return "OneUI $calculatedVersion"
+    }
+
+    return ""
+  }
+
+  fun getSecurityPatch(): Instant? {
+    return runCatching {
+      val date = Build.VERSION.SECURITY_PATCH
+      Instant.parse("${date}T00:00:00.00Z")
+    }.getOrNull()
+  }
+
+  fun getJavaVMVersion(): String {
+    return System.getProperty("java.vm.version").or("-")
+  }
+
+  fun getKernelVersion(): String {
+    return System.getProperty("os.version").or("-")
+  }
+
+  fun getOpenGLESVersion(): String {
+    val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
+    val deviceConfigurationInfo = activityManager.deviceConfigurationInfo
+    return deviceConfigurationInfo.glEsVersion
+  }
+
+  fun getSELinux(): String {
+    return NativeHelper.execute("getenforce").or("-")
+  }
+
+  fun getSystemUptime(): Instant? {
+    return runCatching {
+      Instant.now().minusMillis(SystemClock.uptimeMillis())
+    }.getOrNull()
+  }
+
+  fun getVulkanVersion(): String {
+    val version = context.packageManager.systemAvailableFeatures
+      .firstOrNull { it.name == PackageManager.FEATURE_VULKAN_HARDWARE_VERSION }
+      ?.version
+      ?: return "-"
+
+    // Vulkan packs the version as (major << 22) | (minor << 12) | patch
+    val major = version shr 22
+    val minor = (version shr 12) and 0x3FF
+    val patch = version and 0xFFF
+    return "$major.$minor.$patch"
+  }
+
+  fun getDrmInfo(): DrmInfo? {
+    if (!MediaDrm.isCryptoSchemeSupported(WIDEVINE_UUID)) return null
+
+    return runCatching {
+      val mediaDrm = MediaDrm(WIDEVINE_UUID)
+      try {
+        DrmInfo(
+          vendor = mediaDrm.getPropertyString(MediaDrm.PROPERTY_VENDOR).or("-"),
+          version = mediaDrm.getPropertyString(MediaDrm.PROPERTY_VERSION).or("-"),
+          description = mediaDrm.getPropertyString(MediaDrm.PROPERTY_DESCRIPTION).or("-"),
+          algorithms = mediaDrm.getPropertyString(MediaDrm.PROPERTY_ALGORITHMS).or("-"),
+          securityLevel = runCatching { mediaDrm.getPropertyString("securityLevel") }.getOrNull().or("-"),
+          maxHdcpLevel = runCatching { mediaDrm.getPropertyString("maxHdcpLevel") }.getOrNull().or("-"),
+        )
+      } finally {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
+          mediaDrm.close()
+        } else {
+          @Suppress("DEPRECATION")
+          mediaDrm.release()
+        }
+      }
+    }.getOrNull()
+  }
+
   companion object {
     private const val SALES_COUNTRY_FORMAT = "%s (%s) %s"
+    private val WIDEVINE_UUID = UUID.fromString("edef8ba9-79d6-4ace-a3c8-27dcd51d21ed")
   }
 }
+
+internal data class DrmInfo(
+  val vendor: String,
+  val version: String,
+  val description: String,
+  val algorithms: String,
+  val securityLevel: String,
+  val maxHdcpLevel: String,
+)

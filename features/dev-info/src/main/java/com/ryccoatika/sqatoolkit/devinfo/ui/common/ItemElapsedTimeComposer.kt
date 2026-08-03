@@ -1,21 +1,19 @@
 package com.ryccoatika.sqatoolkit.devinfo.ui.common
 
-import androidx.compose.material3.ListItem
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
-import com.ryccoatika.sqatoolkit.devinfo.R
+import com.ryccoatika.sqatoolkit.devinfo.core.model.ElapsedTimeItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.Label
-import com.ryccoatika.sqatoolkit.devinfo.core.model.StatusItem
 import com.ryccoatika.sqatoolkit.devinfo.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatoolkit.devinfo.ui.common.utils.preview.CompositionLocalProviderForPreview
+import java.time.Instant
+import java.time.temporal.ChronoUnit
 
 @Composable
-internal fun ItemStatusComposer(
-  item: StatusItem,
+internal fun ItemElapsedTimeComposer(
+  item: ElapsedTimeItem,
   modifier: Modifier = Modifier,
 ) {
   val textCreator = LocalTextCreator.current
@@ -23,23 +21,19 @@ internal fun ItemStatusComposer(
   ListItemText(
     modifier = modifier,
     label = textCreator.itemLabel(item.label),
-    value = if (item.value) {
-      stringResource(R.string.di_text_supported)
-    } else {
-      stringResource(R.string.di_text_not_supported)
-    },
+    value = textCreator.dateElapsedFormat(item.value),
   )
 }
 
 @Preview
 @Composable
-private fun ItemStatusComposerPreview() {
+private fun ItemElapsedTimeComposerPreview() {
   CompositionLocalProviderForPreview {
     SQAToolsTheme {
-      ItemStatusComposer(
-        item = StatusItem(
-          label = Label.ESim,
-          value = false,
+      ItemElapsedTimeComposer(
+        item = ElapsedTimeItem(
+          label = Label.ManufacturedDate,
+          value = Instant.now().minus(1234567890L, ChronoUnit.MILLIS),
         ),
       )
     }

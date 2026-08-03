@@ -27,6 +27,11 @@ internal data class DateItem(
   val isPeriod: Boolean = false,
 ) : Item
 
+internal data class ElapsedTimeItem(
+  val label: Label,
+  val value: Instant?,
+) : Item
+
 internal data class GroupItem(
   val label: Label?,
   val items: List<Item>,

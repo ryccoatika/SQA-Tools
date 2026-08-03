@@ -7,6 +7,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.devinfo.core.model.DateItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.DeviceCardItem
+import com.ryccoatika.sqatoolkit.devinfo.core.model.ElapsedTimeItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.GroupItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.Item
 import com.ryccoatika.sqatoolkit.devinfo.core.model.StatusItem
@@ -35,6 +36,7 @@ internal fun ItemComposer(
     is TextItem -> ItemTextComposer(item)
     is StatusItem -> ItemStatusComposer(item)
     is DateItem -> ItemDateComposer(item)
+    is ElapsedTimeItem -> ItemElapsedTimeComposer(item)
     is DeviceCardItem -> ItemDeviceCardComposer(item)
   }
 }

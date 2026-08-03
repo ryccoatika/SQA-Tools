@@ -6,4 +6,6 @@ internal object NativeHelper {
   }
 
   external fun getProp(key: String): String
+
+  external fun execute(cmd: String): String
 }
