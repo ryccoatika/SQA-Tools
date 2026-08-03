@@ -4,7 +4,6 @@ import android.bluetooth.BluetoothManager
 import android.content.Context
 import android.content.pm.PackageManager
 import android.net.wifi.WifiManager
-import android.nfc.NfcAdapter
 import android.os.Build
 import androidx.core.content.ContextCompat
 import com.ryccoatika.sqatoolkit.common.utils.or
@@ -76,7 +75,6 @@ internal class ConnectivityInfoUtils(
   }.getOrNull().or("-")
 
   fun isNfcSupported(): Boolean = pm().hasSystemFeature(PackageManager.FEATURE_NFC)
-  fun isNfcEnabled(): Boolean = runCatching { NfcAdapter.getDefaultAdapter(context)?.isEnabled == true }.getOrDefault(false)
   fun isUsbHostSupported(): Boolean = pm().hasSystemFeature(PackageManager.FEATURE_USB_HOST)
   fun isEthernetSupported(): Boolean = pm().hasSystemFeature(PackageManager.FEATURE_ETHERNET)
 }

@@ -52,11 +52,11 @@ internal class SoftwareInfoUtils(
     return System.getProperty("os.version").or("-")
   }
 
-  fun getOpenGLESVersion(): String {
+  fun getOpenGLESVersion(): String = runCatching {
     val activityManager = context.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
     val deviceConfigurationInfo = activityManager.deviceConfigurationInfo
-    return deviceConfigurationInfo.glEsVersion
-  }
+    deviceConfigurationInfo.glEsVersion
+  }.getOrDefault("-")
 
   fun getSELinux(): String {
     return NativeHelper.execute("getenforce").or("-")

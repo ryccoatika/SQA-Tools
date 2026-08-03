@@ -37,22 +37,7 @@ internal class DevInfoTextCreator(
       Label.ReleasedWith -> R.string.di_label_released_with
       Label.UserInterface -> R.string.di_label_user_interface
       Label.SecurityPatch -> R.string.di_label_security_patch
-      Label.Bootloader -> R.string.di_label_bootloader
-      Label.Build -> R.string.di_label_build
-      Label.Baseband -> R.string.di_label_baseband
-      Label.JavaVM -> R.string.di_label_java_vm
-      Label.Kernel -> R.string.di_label_kernel
-      Label.OpenGLES -> R.string.di_label_opengl_es
-      Label.SELinux -> R.string.di_label_selinux
       Label.SystemUptime -> R.string.di_label_system_uptime
-      Label.Vulkan -> R.string.di_label_vulkan
-      Label.DRM -> R.string.di_label_drm
-      Label.DRMVendor -> R.string.di_label_drm_vendor
-      Label.DRMVersion -> R.string.di_label_drm_version
-      Label.DRMDescription -> R.string.di_label_drm_description
-      Label.DRMAlgorithm -> R.string.di_label_drm_algorithm
-      Label.DRMSecurityLevel -> R.string.di_label_drm_security_level
-      Label.DRMMaxHDCPLevel -> R.string.di_label_drm_max_hdcp_level
     }
 
     return context.getString(labelResId)

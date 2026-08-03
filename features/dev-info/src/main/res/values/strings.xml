@@ -160,10 +160,8 @@
   <string name="di_label_iso_range">ISO Range</string>
   <string name="di_label_max_photo">Max Photo</string>
   <string name="di_label_max_video">Max Video</string>
-  <string name="di_label_fps_ranges">FPS Ranges</string>
   <string name="di_label_ois">Optical Stabilization</string>
   <string name="di_label_raw">RAW Support</string>
-  <string name="di_label_af_modes">AF Modes</string>
 
   <!-- network -->
   <string name="di_group_telephony">SIM &amp; Network</string>
@@ -190,7 +188,6 @@
   <string name="di_label_wifi_6ghz">6 GHz</string>
   <string name="di_label_wifi_aware">Wi-Fi Aware</string>
   <string name="di_label_wifi_direct">Wi-Fi Direct</string>
-  <string name="di_label_wifi_mac">MAC Address</string>
   <string name="di_label_wifi_ssid">SSID</string>
   <string name="di_label_wifi_bssid">BSSID</string>
   <string name="di_label_wifi_speed">Link Speed</string>

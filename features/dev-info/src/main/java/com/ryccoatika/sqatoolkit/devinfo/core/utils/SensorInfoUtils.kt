@@ -3,7 +3,6 @@ package com.ryccoatika.sqatoolkit.devinfo.core.utils
 import android.content.Context
 import android.hardware.Sensor
 import android.hardware.SensorManager
-import android.os.Build
 import com.ryccoatika.sqatoolkit.common.utils.or
 import com.ryccoatika.sqatoolkit.devinfo.R
 import com.ryccoatika.sqatoolkit.devinfo.core.model.ExpandableGroupItem
@@ -39,9 +38,7 @@ internal class SensorInfoUtils(
     }
   }.getOrDefault(emptyList())
 
-  private fun sensorType(sensor: Sensor): String =
-    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) sensor.stringType.or("-")
-    else sensor.type.toString()
+  private fun sensorType(sensor: Sensor): String = sensor.stringType.or("-")
 
   private fun reportingMode(sensor: Sensor): String = when (sensor.reportingMode) {
     Sensor.REPORTING_MODE_CONTINUOUS -> "Continuous"
