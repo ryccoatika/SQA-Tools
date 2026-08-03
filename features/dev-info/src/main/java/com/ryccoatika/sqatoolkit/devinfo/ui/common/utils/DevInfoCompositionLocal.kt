@@ -6,3 +6,7 @@ import com.ryccoatika.sqatoolkit.devinfo.core.utils.DevInfoTextCreator
 internal val LocalTextCreator = staticCompositionLocalOf<DevInfoTextCreator> {
   error("LocalTextCreator not provided")
 }
+
+internal val LocalPermissionRequester = staticCompositionLocalOf<(String) -> Unit> {
+  {}
+}

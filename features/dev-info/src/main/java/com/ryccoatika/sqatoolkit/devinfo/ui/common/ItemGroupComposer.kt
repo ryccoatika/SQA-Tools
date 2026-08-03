@@ -32,9 +32,8 @@ internal fun ItemGroupComposer(
       verticalArrangement = Arrangement.spacedBy(8.dp),
       modifier = Modifier.padding(8.dp),
     ) {
-      item.label?.let { label ->
-        Text(textCreator.itemLabel(label))
-      }
+      val title = item.rawTitle ?: item.label?.let { textCreator.itemLabel(it) }
+      title?.let { Text(it) }
       ItemComposer(
         items = item.items,
         verticalArrangement = Arrangement.spacedBy(1.dp),

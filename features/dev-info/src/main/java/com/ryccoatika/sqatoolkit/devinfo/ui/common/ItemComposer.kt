@@ -8,8 +8,11 @@ import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.devinfo.core.model.DateItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.DeviceCardItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.ElapsedTimeItem
+import com.ryccoatika.sqatoolkit.devinfo.core.model.ExpandableGroupItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.GroupItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.Item
+import com.ryccoatika.sqatoolkit.devinfo.core.model.PermissionItem
+import com.ryccoatika.sqatoolkit.devinfo.core.model.RawTextItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.StatusItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.TextItem
 
@@ -38,6 +41,8 @@ internal fun ItemComposer(
     is DateItem -> ItemDateComposer(item)
     is ElapsedTimeItem -> ItemElapsedTimeComposer(item)
     is DeviceCardItem -> ItemDeviceCardComposer(item)
-    else -> Unit // TODO: wired up in a later task (RawTextItem, PermissionItem, ExpandableGroupItem)
+    is RawTextItem -> ListItemText(label = item.label, value = item.value)
+    is PermissionItem -> ItemPermissionComposer(item)
+    is ExpandableGroupItem -> ItemExpandableGroupComposer(item)
   }
 }
