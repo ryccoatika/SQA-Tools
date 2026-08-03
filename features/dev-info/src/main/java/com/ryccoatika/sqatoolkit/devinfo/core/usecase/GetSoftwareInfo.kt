@@ -5,9 +5,13 @@ import android.os.Build
 import com.ryccoatika.sqatoolkit.common.ResultInteractor
 import com.ryccoatika.sqatoolkit.common.utils.or
 import com.ryccoatika.sqatoolkit.devinfo.R
+import com.ryccoatika.sqatoolkit.devinfo.core.model.DateItem
+import com.ryccoatika.sqatoolkit.devinfo.core.model.ElapsedTimeItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.GroupItem
 import com.ryccoatika.sqatoolkit.devinfo.core.model.Item
+import com.ryccoatika.sqatoolkit.devinfo.core.model.Label
 import com.ryccoatika.sqatoolkit.devinfo.core.model.RawTextItem
+import com.ryccoatika.sqatoolkit.devinfo.core.model.TextItem
 import com.ryccoatika.sqatoolkit.devinfo.core.utils.DeviceInfoUtils
 import com.ryccoatika.sqatoolkit.devinfo.core.utils.SoftwareInfoUtils
 import kotlinx.coroutines.Dispatchers
@@ -27,6 +31,12 @@ internal class GetSoftwareInfo(
       add(RawTextItem(s(R.string.di_label_android_version), Build.VERSION.RELEASE.or("-")))
       add(RawTextItem(s(R.string.di_label_api_level), Build.VERSION.SDK_INT.toString()))
       add(RawTextItem(s(R.string.di_label_codename), deviceInfoUtils.getCodename()))
+      add(TextItem(Label.ReleasedWith, softwareInfoUtils.getDeviceReleaseAndroidVersion()))
+      val androidUI = softwareInfoUtils.getAndroidUI()
+      if (androidUI.isNotBlank()) {
+        add(TextItem(Label.UserInterface, androidUI))
+      }
+      add(DateItem(Label.SecurityPatch, softwareInfoUtils.getSecurityPatch()))
       add(RawTextItem(s(R.string.di_label_build_number), Build.DISPLAY.or("-")))
       add(RawTextItem(s(R.string.di_label_build_id), Build.ID.or("-")))
       add(RawTextItem(s(R.string.di_label_build_type), Build.TYPE.or("-")))
@@ -40,6 +50,7 @@ internal class GetSoftwareInfo(
       add(RawTextItem(s(R.string.di_label_opengl_es), softwareInfoUtils.getOpenGLESVersion()))
       add(RawTextItem(s(R.string.di_label_vulkan), softwareInfoUtils.getVulkanVersion()))
       add(RawTextItem(s(R.string.di_label_selinux), softwareInfoUtils.getSELinux()))
+      add(ElapsedTimeItem(Label.SystemUptime, softwareInfoUtils.getSystemUptime()))
     }
 
     val systemItems = buildList {
