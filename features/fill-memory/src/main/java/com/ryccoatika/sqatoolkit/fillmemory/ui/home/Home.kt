@@ -4,10 +4,14 @@ import android.content.Intent
 import android.net.Uri
 import android.provider.Settings
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PictureInPicture
+import androidx.compose.material.icons.rounded.Memory
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -24,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.common.extensions.viewModel
 import com.ryccoatika.sqatoolkit.common.ui.AppTopBar
-import com.ryccoatika.sqatoolkit.common.ui.VerticalSpace
+import com.ryccoatika.sqatoolkit.common.ui.widget.SectionCard
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.fillmemory.R
 import com.ryccoatika.sqatoolkit.fillmemory.core.model.FillMemory
@@ -93,30 +97,37 @@ private fun Home(
     }
 
     Column(
-      modifier = Modifier.padding(paddingValues),
+      verticalArrangement = Arrangement.spacedBy(12.dp),
+      modifier = Modifier
+        .padding(paddingValues)
+        .verticalScroll(rememberScrollState())
+        .padding(16.dp),
     ) {
-      MemoryGraph(
-        memoryUsages = state.history,
-        modifier = Modifier.fillMaxWidth(),
-      )
-      16.VerticalSpace()
-      FillMemoryOptions(
-        onFill = fillMemory,
-        enabled = !state.isLoading,
-        modifier = Modifier.padding(horizontal = 16.dp),
-      )
-      8.VerticalSpace()
-      Button(
-        onClick = clearMemory,
-        enabled = !state.isLoading,
-        shape = MaterialTheme.shapes.medium,
-        modifier = Modifier
-          .padding(horizontal = 16.dp)
-          .fillMaxWidth(),
+      SectionCard(
+        title = stringResource(R.string.fm_title),
+        icon = Icons.Rounded.Memory,
       ) {
-        Text(
-          text = stringResource(R.string.fm_button_clear_memory),
+        MemoryGraph(
+          memoryUsages = state.history,
+          modifier = Modifier.fillMaxWidth(),
         )
+      }
+      SectionCard {
+        FillMemoryOptions(
+          onFill = fillMemory,
+          enabled = !state.isLoading,
+          modifier = Modifier.fillMaxWidth(),
+        )
+        Button(
+          onClick = clearMemory,
+          enabled = !state.isLoading,
+          shape = MaterialTheme.shapes.medium,
+          modifier = Modifier.fillMaxWidth(),
+        ) {
+          Text(
+            text = stringResource(R.string.fm_button_clear_memory),
+          )
+        }
       }
     }
   }

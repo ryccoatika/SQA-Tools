@@ -22,6 +22,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.ryccoatika.sqatoolkit.common.ui.VerticalSpace
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatoolkit.common.ui.theme.usageStatusColor
 import com.ryccoatika.sqatoolkit.fillmemory.core.model.FillMemory
 import com.ryccoatika.sqatoolkit.fillmemory.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatoolkit.fillmemory.ui.common.utils.preview.CompositionLocalProviderForPreview
@@ -52,13 +53,17 @@ internal fun FillMemoryProgress(
         Box(
           contentAlignment = Alignment.Center,
         ) {
+          val progressColor = usageStatusColor(progress.progress)
           CircularProgressIndicator(
             progress = { progress.progress },
+            color = progressColor,
+            trackColor = MaterialTheme.colorScheme.surfaceVariant,
             modifier = Modifier.size(96.dp),
           )
           Text(
             text = textCreator.percentText(progress.progress),
             style = MaterialTheme.typography.titleLarge,
+            color = progressColor,
           )
         }
         16.VerticalSpace()

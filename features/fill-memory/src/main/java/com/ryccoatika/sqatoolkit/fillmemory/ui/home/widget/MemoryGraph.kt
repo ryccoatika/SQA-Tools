@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.common.ui.VerticalSpace
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatoolkit.common.ui.theme.usageStatusColor
 import com.ryccoatika.sqatoolkit.fillmemory.core.model.MemoryUsage
 import com.ryccoatika.sqatoolkit.fillmemory.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatoolkit.fillmemory.ui.common.utils.preview.CompositionLocalProviderForPreview
@@ -55,7 +56,7 @@ internal fun MemoryGraph(
   var canvasHeight by remember { mutableStateOf(0.dp) }
   var canvasHeightPx by remember { mutableFloatStateOf(0f) }
 
-  val graphColor = MaterialTheme.colorScheme.primary
+  val graphColor = usageStatusColor(lastMemoryUsage.usedMemoryPercent / 100f)
   val xStepWidth = 2.dp
 
   Column(
@@ -69,7 +70,7 @@ internal fun MemoryGraph(
         modifier = Modifier
           .fillMaxWidth()
           .heightIn(min = 100.dp)
-          .border(1.dp, MaterialTheme.colorScheme.onSurface)
+          .border(1.dp, MaterialTheme.colorScheme.outlineVariant)
           .horizontalScroll(rememberScrollState(), reverseScrolling = true)
           .onSizeChanged {
             canvasHeight = with(density) { it.height.toDp() }
