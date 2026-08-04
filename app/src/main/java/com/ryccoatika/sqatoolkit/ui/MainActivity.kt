@@ -27,6 +27,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -42,6 +43,7 @@ import com.ryccoatika.sqatoolkit.AppNavigation
 import com.ryccoatika.sqatoolkit.AppScreens
 import com.ryccoatika.sqatoolkit.R
 import com.ryccoatika.sqatoolkit.RootScreen
+import com.ryccoatika.sqatoolkit.common.data.ThemePreferences
 import com.ryccoatika.sqatoolkit.common.inject.ActivityScope
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.inject.ApplicationComponent
@@ -59,7 +61,10 @@ class MainActivity : ComponentActivity() {
 
     enableEdgeToEdge()
     setContent {
-      SQAToolsTheme {
+      val themePreferences = remember { ThemePreferences(this) }
+      val dynamicColor by themePreferences.useDynamicColor.collectAsState(initial = false)
+
+      SQAToolsTheme(dynamicColor = dynamicColor) {
         AppContent()
       }
     }
