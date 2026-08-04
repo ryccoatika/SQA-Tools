@@ -8,9 +8,11 @@ import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import me.tatarka.inject.annotations.Inject
 
 private val Context.themeDataStore: DataStore<Preferences> by preferencesDataStore(name = "theme_prefs")
 
+@Inject
 class ThemePreferences(
   private val context: Context,
 ) {

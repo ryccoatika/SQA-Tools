@@ -17,6 +17,10 @@ abstract class ApplicationComponent(
 ) : FillStorageFeature,
   FillMemoryFeature,
   DevInfoFeature {
+
+  @Provides
+  fun provideContext(application: Application): Context = application
+
   companion object {
     fun from(context: Context): ApplicationComponent {
       return (context.applicationContext as SQAToolsApplication).component
