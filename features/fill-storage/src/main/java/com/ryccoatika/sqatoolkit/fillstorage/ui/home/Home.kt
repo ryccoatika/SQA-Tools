@@ -1,5 +1,6 @@
 package com.ryccoatika.sqatoolkit.fillstorage.ui.home
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
@@ -13,7 +14,6 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.common.extensions.viewModel
 import com.ryccoatika.sqatoolkit.common.ui.AppTopBar
-import com.ryccoatika.sqatoolkit.common.ui.VerticalSpace
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.fillstorage.R
 import com.ryccoatika.sqatoolkit.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
@@ -70,9 +70,10 @@ private fun Home(
     },
   ) { paddingValues ->
     Column(
+      verticalArrangement = Arrangement.spacedBy(12.dp),
       modifier = Modifier
         .padding(paddingValues)
-        .padding(10.dp),
+        .padding(16.dp),
     ) {
       state.storages.forEach { storage ->
         StorageCard(
@@ -81,7 +82,6 @@ private fun Home(
             openManageStorage(storage.path)
           },
         )
-        10.VerticalSpace()
       }
     }
   }

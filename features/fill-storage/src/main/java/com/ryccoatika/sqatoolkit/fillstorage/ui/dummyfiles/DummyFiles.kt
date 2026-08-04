@@ -7,6 +7,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
@@ -98,11 +99,14 @@ private fun DummyFiles(
             headlineContent = {
               Text(
                 text = file.name,
+                style = MaterialTheme.typography.bodyLarge,
               )
             },
             supportingContent = {
               Text(
                 text = stringResource(R.string.fs_text_mb_value_no_decimal, file.sizeInMB),
+                style = MaterialTheme.typography.bodySmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
               )
             },
             trailingContent = {
@@ -122,6 +126,7 @@ private fun DummyFiles(
               }
             },
           )
+          HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
         }
       }
     }

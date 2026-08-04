@@ -1,25 +1,29 @@
 package com.ryccoatika.sqatoolkit.fillstorage.ui.manage
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.FolderOpen
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import com.ryccoatika.sqatoolkit.common.extensions.viewModel
 import com.ryccoatika.sqatoolkit.common.ui.AppTopBar
-import com.ryccoatika.sqatoolkit.common.ui.VerticalSpace
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatoolkit.common.ui.theme.usageStatusColor
+import com.ryccoatika.sqatoolkit.common.ui.widget.SectionCard
 import com.ryccoatika.sqatoolkit.fillstorage.core.model.FillStorage
 import com.ryccoatika.sqatoolkit.fillstorage.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatoolkit.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
@@ -97,26 +101,36 @@ private fun Manage(
     }
 
     Column(
+      verticalArrangement = Arrangement.spacedBy(12.dp),
       modifier = Modifier
         .padding(paddingValues)
+        .verticalScroll(rememberScrollState())
         .padding(16.dp),
     ) {
-      StorageChart(
-        bars = generateChartBars(state),
-        label = textCreator.storageUsedSpacePercentage(state.storage),
-        barWidth = 32.dp,
+      SectionCard(
         modifier = Modifier.fillMaxWidth(),
-      )
-      16.VerticalSpace()
-      FillStorageField(
-        onFill = fillStorage,
-        enabled = state.fillStorageProgress == null,
-      )
-      8.VerticalSpace()
-      FillStorageOptions(
-        onFill = fillStorage,
-        enabled = state.fillStorageProgress == null,
-      )
+      ) {
+        StorageChart(
+          bars = generateChartBars(state),
+          label = textCreator.storageUsedSpacePercentage(state.storage),
+          barWidth = 32.dp,
+          modifier = Modifier.fillMaxWidth(),
+        )
+      }
+      SectionCard(
+        modifier = Modifier.fillMaxWidth(),
+      ) {
+        FillStorageField(
+          onFill = fillStorage,
+          enabled = state.fillStorageProgress == null,
+          modifier = Modifier.fillMaxWidth(),
+        )
+        FillStorageOptions(
+          onFill = fillStorage,
+          enabled = state.fillStorageProgress == null,
+          modifier = Modifier.fillMaxWidth(),
+        )
+      }
     }
   }
 }
@@ -133,21 +147,21 @@ private fun generateChartBars(state: ManageViewState): List<ChartBar> = buildLis
   add(
     ChartBar(
       value = nonDummyFiles,
-      color = Color.Green,
+      color = usageStatusColor(storage.usedSpacePercent),
       label = textCreator.storageNonDummyFilesLabel(storage),
     ),
   )
   add(
     ChartBar(
       value = dummyFiles,
-      color = Color.Blue,
+      color = MaterialTheme.colorScheme.tertiary,
       label = textCreator.storageDummyFilesLabel(storage),
     ),
   )
   add(
     ChartBar(
       value = freeSpace,
-      color = Color.Gray,
+      color = MaterialTheme.colorScheme.surfaceVariant,
       label = textCreator.storageFreeSpaceLabel(storage),
     ),
   )

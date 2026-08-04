@@ -1,10 +1,10 @@
 package com.ryccoatika.sqatoolkit.fillstorage.ui.manage.widget
 
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.items
-import androidx.compose.material3.Button
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -16,6 +16,8 @@ import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.fillstorage.core.model.FillStorage
 import com.ryccoatika.sqatoolkit.fillstorage.ui.common.utils.LocalTextCreator
 import com.ryccoatika.sqatoolkit.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
+
+private const val GridColumns = 3
 
 @Composable
 internal fun FillStorageOptions(
@@ -57,22 +59,32 @@ internal fun FillStorageOptions(
     }
   }
 
-  LazyVerticalGrid(
-    columns = GridCells.Fixed(3),
-    horizontalArrangement = Arrangement.spacedBy(7.dp),
+  // Rendered as a static (non-lazy) grid: the option list is small and fixed,
+  // and this composable is embedded inside a verticalScroll()'d Column at the
+  // Manage level — a LazyVerticalGrid there would crash with an "infinite
+  // height constraints" measurement error, so a plain Column/Row grid is used
+  // instead.
+  Column(
+    verticalArrangement = Arrangement.spacedBy(7.dp),
     modifier = modifier,
   ) {
-    items(
-      items = options,
-    ) { option ->
-      Button(
-        shape = MaterialTheme.shapes.medium,
-        enabled = enabled,
-        onClick = {
-          onFill(option)
-        },
+    options.chunked(GridColumns).forEach { rowOptions ->
+      Row(
+        horizontalArrangement = Arrangement.spacedBy(7.dp),
+        modifier = Modifier.fillMaxWidth(),
       ) {
-        Text(text = textCreator.fillStorageButtonText(option))
+        rowOptions.forEach { option ->
+          FilledTonalButton(
+            shape = MaterialTheme.shapes.medium,
+            enabled = enabled,
+            onClick = {
+              onFill(option)
+            },
+            modifier = Modifier.weight(1f),
+          ) {
+            Text(text = textCreator.fillStorageButtonText(option))
+          }
+        }
       }
     }
   }

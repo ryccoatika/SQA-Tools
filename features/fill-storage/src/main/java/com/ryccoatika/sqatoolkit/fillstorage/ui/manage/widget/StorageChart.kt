@@ -37,6 +37,7 @@ import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.common.ui.HorizontalSpace
 import com.ryccoatika.sqatoolkit.common.ui.VerticalSpace
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatoolkit.common.ui.theme.usageStatusColor
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -49,6 +50,7 @@ internal fun StorageChart(
   modifier: Modifier = Modifier.fillMaxWidth(),
 ) {
   val barWidthPx = with(LocalDensity.current) { barWidth.toPx() }
+  val trackColor = MaterialTheme.colorScheme.surfaceVariant
 
   val density = LocalDensity.current
   var containerDpWidth by remember { mutableStateOf(0.dp) }
@@ -77,7 +79,7 @@ internal fun StorageChart(
         val topLeft = Offset(center.x - radius + barWidthPx / 2, center.y - radius)
 
         drawArc(
-          color = Color.LightGray,
+          color = trackColor,
           startAngle = -180f,
           sweepAngle = 180f,
           useCenter = false,
@@ -152,12 +154,12 @@ private fun StorageChartPreview() {
       bars = listOf(
         ChartBar(
           value = 0.5f,
-          color = Color.Green,
+          color = usageStatusColor(0.5f),
           label = "Label 1",
         ),
         ChartBar(
           value = 0.2f,
-          color = Color.Red,
+          color = MaterialTheme.colorScheme.tertiary,
           label = "Label 2",
         ),
       ),

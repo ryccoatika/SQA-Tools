@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
+import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -70,7 +70,7 @@ internal fun FillStorageField(
       },
     )
     8.HorizontalSpace()
-    Button(
+    FilledTonalButton(
       onClick = {
         onFill(FillStorage(value = value.toDoubleOrNull().orZero(), type = type))
       },
