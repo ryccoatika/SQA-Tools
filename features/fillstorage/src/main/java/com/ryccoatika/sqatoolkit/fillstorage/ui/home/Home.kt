@@ -2,6 +2,7 @@ package com.ryccoatika.sqatoolkit.fillstorage.ui.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.runtime.Composable
@@ -14,7 +15,9 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.common.extensions.viewModel
 import com.ryccoatika.sqatoolkit.common.ui.AppTopBar
+import com.ryccoatika.sqatoolkit.common.ui.theme.FeatureAccent
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatoolkit.common.ui.widget.GradientHero
 import com.ryccoatika.sqatoolkit.fillstorage.R
 import com.ryccoatika.sqatoolkit.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
 import com.ryccoatika.sqatoolkit.fillstorage.ui.common.utils.preview.HomePreviewParameterProvider
@@ -70,18 +73,26 @@ private fun Home(
     },
   ) { paddingValues ->
     Column(
-      verticalArrangement = Arrangement.spacedBy(12.dp),
       modifier = Modifier
-        .padding(paddingValues)
-        .padding(16.dp),
+        .fillMaxSize()
+        .padding(paddingValues),
     ) {
-      state.storages.forEach { storage ->
-        StorageCard(
-          storage = storage,
-          onManageButtonClicked = {
-            openManageStorage(storage.path)
-          },
-        )
+      GradientHero(
+        title = stringResource(R.string.fs_title),
+        accent = FeatureAccent.Storage,
+      )
+      Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.padding(16.dp),
+      ) {
+        state.storages.forEach { storage ->
+          StorageCard(
+            storage = storage,
+            onManageButtonClicked = {
+              openManageStorage(storage.path)
+            },
+          )
+        }
       }
     }
   }

@@ -1,12 +1,15 @@
 package com.ryccoatika.sqatoolkit.fillstorage.ui.dummyfiles
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Delete
+import androidx.compose.material.icons.rounded.FolderOff
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -20,6 +23,7 @@ import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.PreviewLightDark
@@ -28,6 +32,7 @@ import androidx.lifecycle.SavedStateHandle
 import com.ryccoatika.sqatoolkit.common.extensions.viewModel
 import com.ryccoatika.sqatoolkit.common.ui.AppTopBar
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatoolkit.common.ui.widget.EmptyState
 import com.ryccoatika.sqatoolkit.fillstorage.R
 import com.ryccoatika.sqatoolkit.fillstorage.core.model.DummyFile
 import com.ryccoatika.sqatoolkit.fillstorage.ui.common.utils.preview.CompositionLocalProviderForPreview
@@ -90,43 +95,56 @@ private fun DummyFiles(
           modifier = Modifier.fillMaxWidth(),
         )
       }
-      LazyColumn {
-        items(
-          items = state.files,
-          key = { it.name },
-        ) { file ->
-          ListItem(
-            headlineContent = {
-              Text(
-                text = file.name,
-                style = MaterialTheme.typography.bodyLarge,
-              )
-            },
-            supportingContent = {
-              Text(
-                text = stringResource(R.string.fs_text_mb_value_no_decimal, file.sizeInMB),
-                style = MaterialTheme.typography.bodySmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-              )
-            },
-            trailingContent = {
-              IconButton(
-                onClick = {
-                  deleteFile(file)
-                },
-                enabled = !state.isLoading,
-                colors = IconButtonDefaults.iconButtonColors(
-                  contentColor = MaterialTheme.colorScheme.error,
-                ),
-              ) {
-                Icon(
-                  imageVector = Icons.Outlined.Delete,
-                  contentDescription = null,
-                )
-              }
-            },
+      if (state.files.isEmpty() && !state.isLoading) {
+        Box(
+          contentAlignment = Alignment.Center,
+          modifier = Modifier.fillMaxSize(),
+        ) {
+          EmptyState(
+            icon = Icons.Rounded.FolderOff,
+            title = stringResource(R.string.fs_empty_dummy_files_title),
+            message = stringResource(R.string.fs_empty_dummy_files_message),
           )
-          HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+        }
+      } else {
+        LazyColumn {
+          items(
+            items = state.files,
+            key = { it.name },
+          ) { file ->
+            ListItem(
+              headlineContent = {
+                Text(
+                  text = file.name,
+                  style = MaterialTheme.typography.bodyLarge,
+                )
+              },
+              supportingContent = {
+                Text(
+                  text = stringResource(R.string.fs_text_mb_value_no_decimal, file.sizeInMB),
+                  style = MaterialTheme.typography.bodySmall,
+                  color = MaterialTheme.colorScheme.onSurfaceVariant,
+                )
+              },
+              trailingContent = {
+                IconButton(
+                  onClick = {
+                    deleteFile(file)
+                  },
+                  enabled = !state.isLoading,
+                  colors = IconButtonDefaults.iconButtonColors(
+                    contentColor = MaterialTheme.colorScheme.error,
+                  ),
+                ) {
+                  Icon(
+                    imageVector = Icons.Outlined.Delete,
+                    contentDescription = null,
+                  )
+                }
+              },
+            )
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+          }
         }
       }
     }

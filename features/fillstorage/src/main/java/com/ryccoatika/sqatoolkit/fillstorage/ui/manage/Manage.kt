@@ -2,6 +2,7 @@ package com.ryccoatika.sqatoolkit.fillstorage.ui.manage
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.rememberScrollState
@@ -21,8 +22,10 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.SavedStateHandle
 import com.ryccoatika.sqatoolkit.common.extensions.viewModel
 import com.ryccoatika.sqatoolkit.common.ui.AppTopBar
+import com.ryccoatika.sqatoolkit.common.ui.theme.FeatureAccent
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.common.ui.theme.usageStatusColor
+import com.ryccoatika.sqatoolkit.common.ui.widget.GradientHero
 import com.ryccoatika.sqatoolkit.common.ui.widget.SectionCard
 import com.ryccoatika.sqatoolkit.fillstorage.core.model.FillStorage
 import com.ryccoatika.sqatoolkit.fillstorage.ui.common.utils.LocalTextCreator
@@ -101,35 +104,45 @@ private fun Manage(
     }
 
     Column(
-      verticalArrangement = Arrangement.spacedBy(12.dp),
       modifier = Modifier
-        .padding(paddingValues)
-        .verticalScroll(rememberScrollState())
-        .padding(16.dp),
+        .fillMaxSize()
+        .padding(paddingValues),
     ) {
-      SectionCard(
-        modifier = Modifier.fillMaxWidth(),
+      GradientHero(
+        title = textCreator.storageTitle(state.storage),
+        subtitle = textCreator.storageCapacityDesc(state.storage),
+        accent = FeatureAccent.Storage,
+      )
+      Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier
+          .verticalScroll(rememberScrollState())
+          .padding(16.dp),
       ) {
-        StorageChart(
-          bars = generateChartBars(state),
-          label = textCreator.storageUsedSpacePercentage(state.storage),
-          barWidth = 32.dp,
+        SectionCard(
           modifier = Modifier.fillMaxWidth(),
-        )
-      }
-      SectionCard(
-        modifier = Modifier.fillMaxWidth(),
-      ) {
-        FillStorageField(
-          onFill = fillStorage,
-          enabled = state.fillStorageProgress == null,
+        ) {
+          StorageChart(
+            bars = generateChartBars(state),
+            label = textCreator.storageUsedSpacePercentage(state.storage),
+            barWidth = 32.dp,
+            modifier = Modifier.fillMaxWidth(),
+          )
+        }
+        SectionCard(
           modifier = Modifier.fillMaxWidth(),
-        )
-        FillStorageOptions(
-          onFill = fillStorage,
-          enabled = state.fillStorageProgress == null,
-          modifier = Modifier.fillMaxWidth(),
-        )
+        ) {
+          FillStorageField(
+            onFill = fillStorage,
+            enabled = state.fillStorageProgress == null,
+            modifier = Modifier.fillMaxWidth(),
+          )
+          FillStorageOptions(
+            onFill = fillStorage,
+            enabled = state.fillStorageProgress == null,
+            modifier = Modifier.fillMaxWidth(),
+          )
+        }
       }
     }
   }

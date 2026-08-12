@@ -1,5 +1,6 @@
 package com.ryccoatika.sqatoolkit.fillstorage.ui.manage.widget
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.common.ui.HorizontalSpace
 import com.ryccoatika.sqatoolkit.common.ui.VerticalSpace
+import com.ryccoatika.sqatoolkit.common.ui.animatedFraction
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.common.ui.theme.usageStatusColor
 
@@ -55,6 +57,11 @@ internal fun StorageChart(
   val density = LocalDensity.current
   var containerDpWidth by remember { mutableStateOf(0.dp) }
   val canvasHeight = containerDpWidth.value / 2 + barWidth.value / 2
+
+  val animatedValues = bars.map { animatedFraction(it.value).value }
+  val animatedColors = bars.map { bar ->
+    animateColorAsState(targetValue = bar.color, label = "chartBarColor").value
+  }
 
   Column(
     horizontalAlignment = Alignment.CenterHorizontally,
@@ -89,14 +96,14 @@ internal fun StorageChart(
         )
 
         var previousStartAngle = 1f
-        bars.forEach { bar ->
+        animatedValues.forEachIndexed { index, value ->
           val startAngle = -180 * previousStartAngle
-          val sweepAngle = 180f * bar.value
+          val sweepAngle = 180f * value
 
-          previousStartAngle -= bar.value
+          previousStartAngle -= value
 
           drawArc(
-            color = bar.color,
+            color = animatedColors[index],
             startAngle = startAngle,
             sweepAngle = sweepAngle,
             useCenter = false,

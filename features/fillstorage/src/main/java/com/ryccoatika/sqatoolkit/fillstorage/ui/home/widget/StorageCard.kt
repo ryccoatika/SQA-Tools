@@ -1,5 +1,6 @@
 package com.ryccoatika.sqatoolkit.fillstorage.ui.home.widget
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -11,9 +12,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +36,10 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.ryccoatika.sqatoolkit.common.ui.AnimatedCountText
 import com.ryccoatika.sqatoolkit.common.ui.VerticalSpace
+import com.ryccoatika.sqatoolkit.common.ui.animatedFraction
+import com.ryccoatika.sqatoolkit.common.ui.theme.FeatureAccent
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.common.ui.theme.usageStatusColor
 import com.ryccoatika.sqatoolkit.fillstorage.R
@@ -49,6 +55,10 @@ internal fun StorageCard(
   modifier: Modifier = Modifier,
 ) {
   val textCreator = LocalTextCreator.current
+  val gbTemplate = stringResource(R.string.fs_text_gb_value)
+  val capacityTemplate = stringResource(R.string.fs_desc_storage_capacity)
+  val accentColor = FeatureAccent.Storage.base()
+
   Card(
     colors = CardDefaults.cardColors(
       containerColor = MaterialTheme.colorScheme.surfaceContainer,
@@ -66,9 +76,14 @@ internal fun StorageCard(
           text = textCreator.storageTitle(storage),
           fontSize = 14.sp,
         )
-        Text(
-          text = textCreator.storageCapacityDesc(storage),
-          fontSize = 14.sp,
+        AnimatedCountText(
+          value = storage.capacityInGB.usedSpace.toFloat(),
+          formatter = { used ->
+            val usedText = String.format(gbTemplate, used)
+            val totalText = String.format(gbTemplate, storage.capacityInGB.totalSpace)
+            String.format(capacityTemplate, usedText, totalText)
+          },
+          style = LocalTextStyle.current.copy(fontSize = 14.sp),
         )
       }
       16.VerticalSpace()
@@ -78,6 +93,10 @@ internal fun StorageCard(
       8.VerticalSpace()
       FilledTonalButton(
         onClick = onManageButtonClicked,
+        colors = ButtonDefaults.filledTonalButtonColors(
+          containerColor = accentColor.copy(alpha = 0.15f),
+          contentColor = accentColor,
+        ),
         modifier = Modifier.fillMaxWidth(),
       ) {
         Text(text = stringResource(R.string.fs_button_manage))
@@ -92,6 +111,7 @@ private fun StorageBarChart(
   barHeight: Dp = 30.dp,
 ) {
   val textCreator = LocalTextCreator.current
+  val gbTemplate = stringResource(R.string.fs_text_gb_value)
   val density = LocalDensity.current
   var barWidth by remember { mutableFloatStateOf(0f) }
 
@@ -102,7 +122,11 @@ private fun StorageBarChart(
       usedSpace.toFloat() / totalSpace.toFloat()
     }
   }.coerceIn(0f, 1f)
-  val usedSpaceColor = usageStatusColor(fraction)
+  val animatedFillFraction by animatedFraction(fraction)
+  val usedSpaceColor by animateColorAsState(
+    targetValue = usageStatusColor(fraction),
+    label = "usedSpaceColor",
+  )
 
   Box(
     modifier = Modifier
@@ -121,8 +145,7 @@ private fun StorageBarChart(
     Row(
       modifier = Modifier.fillMaxSize(),
     ) {
-      val usedSpaceWidth =
-        with(storage.capacity) { usedSpace.toDouble() * barWidth / totalSpace.toDouble() }
+      val usedSpaceWidth = barWidth * animatedFillFraction
       Box(
         modifier = Modifier
           .width(usedSpaceWidth.dp)
@@ -140,10 +163,11 @@ private fun StorageBarChart(
           textMeasurer.measure(freeSpaceText).size.width.toDp()
         }
         if (textWidth < (barWidth - usedSpaceWidth).dp) {
-          Text(
-            text = freeSpaceText,
+          AnimatedCountText(
+            value = storage.capacityInGB.freeSpace.toFloat(),
+            formatter = { free -> String.format(gbTemplate, free) },
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontSize = 12.sp,
+            style = LocalTextStyle.current.copy(fontSize = 12.sp),
           )
         }
       }
