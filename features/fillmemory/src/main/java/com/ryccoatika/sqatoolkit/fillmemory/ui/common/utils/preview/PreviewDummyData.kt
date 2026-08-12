@@ -25,5 +25,6 @@ internal class MemoryGraphParameterProvider : PreviewParameterProvider<List<Memo
     get() = sequenceOf(
       memoryUsagesIncrease(),
       memoryUsagesDecrease(),
+      emptyList(),
     )
 }

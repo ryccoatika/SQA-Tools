@@ -1,5 +1,6 @@
 package com.ryccoatika.sqatoolkit.fillmemory.ui.home.widget
 
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.IntrinsicSize
@@ -13,6 +14,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
@@ -20,7 +22,9 @@ import androidx.compose.ui.tooling.preview.PreviewLightDark
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.ryccoatika.sqatoolkit.common.ui.AnimatedCountText
 import com.ryccoatika.sqatoolkit.common.ui.VerticalSpace
+import com.ryccoatika.sqatoolkit.common.ui.animatedFraction
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.common.ui.theme.usageStatusColor
 import com.ryccoatika.sqatoolkit.fillmemory.core.model.FillMemory
@@ -53,15 +57,20 @@ internal fun FillMemoryProgress(
         Box(
           contentAlignment = Alignment.Center,
         ) {
-          val progressColor = usageStatusColor(progress.progress)
+          val animatedProgress by animatedFraction(progress.progress)
+          val progressColor by animateColorAsState(
+            targetValue = usageStatusColor(progress.progress),
+            label = "progressColor",
+          )
           CircularProgressIndicator(
-            progress = { progress.progress },
+            progress = { animatedProgress },
             color = progressColor,
             trackColor = MaterialTheme.colorScheme.surfaceVariant,
             modifier = Modifier.size(96.dp),
           )
-          Text(
-            text = textCreator.percentText(progress.progress),
+          AnimatedCountText(
+            value = progress.progress,
+            formatter = textCreator::percentText,
             style = MaterialTheme.typography.titleLarge,
             color = progressColor,
           )

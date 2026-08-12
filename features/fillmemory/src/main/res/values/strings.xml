@@ -7,6 +7,9 @@
   <string name="fm_desc">To emulate memory capacity (RAM) by reserving dummy variables</string>
   <string name="fm_desc_fill_progress">%.2f MB of %.2f MB filled</string>
 
+  <string name="fm_empty_history_title">No samples yet</string>
+  <string name="fm_empty_history_message">Fill some memory to see the graph</string>
+
   <string name="fm_text_memory_dummy">Dummy: %.2f MB</string>
   <string name="fm_text_memory_free">Free: %.2f MB</string>
   <string name="fm_text_memory_total">Total: %.2f MB</string>
