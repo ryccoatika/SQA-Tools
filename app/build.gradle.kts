@@ -29,12 +29,15 @@ android {
   buildFeatures {
     compose = true
   }
+
+  dynamicFeatures += setOf(":features:fillstorage", ":features:fillmemory")
 }
 
 dependencies {
   implementation(projects.common)
-  implementation(projects.features.fillStorage)
-  implementation(projects.features.fillMemory)
+
+  implementation(libs.play.feature.delivery)
+  implementation(libs.play.feature.delivery.ktx)
 
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.lifecycle.runtime.ktx)

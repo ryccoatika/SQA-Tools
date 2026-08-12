@@ -1,5 +1,5 @@
 plugins {
-  alias(libs.plugins.android.library)
+  alias(libs.plugins.android.dynamic.feature)
   alias(libs.plugins.kotlin.compose)
   alias(libs.plugins.ksp)
 }
@@ -13,6 +13,7 @@ android {
 }
 
 dependencies {
+  implementation(project(":app"))
   implementation(projects.common)
 
   implementation(libs.androidx.core.ktx)

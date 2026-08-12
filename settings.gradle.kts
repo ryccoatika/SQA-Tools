@@ -33,6 +33,6 @@ rootProject.name = "SQA-Tools"
 include(
   ":app",
   ":common",
-  ":features:fill-storage",
-  ":features:fill-memory",
+  ":features:fillstorage",
+  ":features:fillmemory",
 )

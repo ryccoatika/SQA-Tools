@@ -17,4 +17,16 @@
   <string name="settings_about">About</string>
   <string name="settings_version">Version %1$s</string>
 
+  <string name="feature_title_fill_storage">Fill Storage</string>
+  <string name="feature_desc_fill_storage">To emulate storage capacity by filling dummy files</string>
+  <string name="feature_title_fill_memory">Fill Memory</string>
+  <string name="feature_desc_fill_memory">To emulate memory capacity (RAM) by reserving dummy variables</string>
+
+  <string name="feature_download">Download</string>
+  <string name="feature_open">Open</string>
+  <string name="feature_remove">Remove</string>
+  <string name="feature_installing">Installing</string>
+  <string name="feature_retry">Retry</string>
+  <string name="feature_percent">%1$d%%</string>
+
 </resources>

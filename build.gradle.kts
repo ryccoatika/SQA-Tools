@@ -1,11 +1,13 @@
 import com.android.build.api.dsl.ApplicationExtension
 import com.android.build.api.dsl.CommonExtension
+import com.android.build.api.dsl.DynamicFeatureExtension
 import com.android.build.api.dsl.LibraryExtension
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompilationTask
 
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 plugins {
   alias(libs.plugins.android.application) apply false
+  alias(libs.plugins.android.dynamic.feature) apply false
   alias(libs.plugins.android.library) apply false
   alias(libs.plugins.kotlin.compose) apply false
   alias(libs.plugins.ksp) apply false
@@ -66,6 +68,12 @@ allprojects {
     extensions.configure<LibraryExtension> {
       configureAndroid(this)
       testOptions.targetSdk = 36
+    }
+    addDesugaring()
+  }
+  pluginManager.withPlugin("com.android.dynamic-feature") {
+    extensions.configure<DynamicFeatureExtension> {
+      configureAndroid(this)
     }
     addDesugaring()
   }

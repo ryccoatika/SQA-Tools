@@ -4,8 +4,6 @@ import android.app.Application
 import android.content.Context
 import com.ryccoatika.sqatoolkit.SQAToolsApplication
 import com.ryccoatika.sqatoolkit.common.inject.ApplicationScope
-import com.ryccoatika.sqatoolkit.fillmemory.inject.FillMemoryFeature
-import com.ryccoatika.sqatoolkit.fillstorage.inject.FillStorageFeature
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 
@@ -13,8 +11,7 @@ import me.tatarka.inject.annotations.Provides
 @ApplicationScope
 abstract class ApplicationComponent(
   @get:Provides val application: Application,
-) : FillStorageFeature,
-  FillMemoryFeature {
+) {
 
   @Provides
   fun provideContext(application: Application): Context = application
