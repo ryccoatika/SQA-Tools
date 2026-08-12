@@ -57,9 +57,9 @@ java -jar bundletool.jar install-apks --apks=app.apks
 
 ### 5. Test Feature Removal
 
-1. While viewing an installed dynamic feature, tap **"Remove"**
-2. Confirm the removal request
-3. The feature is marked for deferred uninstall; the system reclaims space on the next system garbage collection (typically triggered by Play)
+1. While viewing an installed dynamic feature, open the card's overflow menu and tap **"Remove"**
+2. No confirmation dialog is shown — tapping **"Remove"** immediately requests a deferred uninstall, and the card reverts to the **"Download"** state right away
+3. The feature module is marked for deferred uninstall; the system reclaims space later (typically triggered by Play, not immediately)
 
 ## Important Notes
 

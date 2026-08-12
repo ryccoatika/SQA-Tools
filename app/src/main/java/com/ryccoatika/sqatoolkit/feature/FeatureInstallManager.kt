@@ -89,7 +89,13 @@ internal class FeatureInstallManager(context: Context) {
   fun launch(descriptor: FeatureDescriptor, context: Context) {
     // Ensure freshly installed split code/resources are available to this process.
     SplitCompat.install(context)
-    val intent = Intent(context, Class.forName(descriptor.activityFqn))
-    context.startActivity(intent)
+    runCatching {
+      val intent = Intent(context, Class.forName(descriptor.activityFqn))
+      context.startActivity(intent)
+    }.onFailure { e ->
+      states.update {
+        it + (descriptor.moduleName to FeatureInstallState.Failed(e.message ?: "Launch failed"))
+      }
+    }
   }
 }

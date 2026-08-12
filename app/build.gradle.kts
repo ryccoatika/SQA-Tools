@@ -37,7 +37,6 @@ dependencies {
   implementation(projects.common)
 
   implementation(libs.play.feature.delivery)
-  implementation(libs.play.feature.delivery.ktx)
 
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.lifecycle.runtime.ktx)
