@@ -6,6 +6,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.SdStorage
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import com.ryccoatika.sqatoolkit.R
+import com.ryccoatika.sqatoolkit.common.ui.theme.FeatureAccent
 import com.ryccoatika.sqatoolkit.feature.FeatureDescriptor
 import com.ryccoatika.sqatoolkit.feature.FeatureInstallState
 
@@ -16,6 +17,7 @@ internal val previewFeatureDescriptor = FeatureDescriptor(
   description = R.string.feature_desc_fill_storage,
   icon = Icons.Rounded.SdStorage,
   activityFqn = "com.ryccoatika.sqatoolkit.preview.PreviewActivity",
+  accent = FeatureAccent.Storage,
 )
 
 internal class FeatureCardPreviewParameterProvider : PreviewParameterProvider<FeatureInstallState> {

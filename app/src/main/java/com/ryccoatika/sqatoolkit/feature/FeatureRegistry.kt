@@ -4,6 +4,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Memory
 import androidx.compose.material.icons.rounded.SdStorage
 import com.ryccoatika.sqatoolkit.R
+import com.ryccoatika.sqatoolkit.common.ui.theme.FeatureAccent
 
 internal object FeatureRegistry {
   val features: List<FeatureDescriptor> = listOf(
@@ -14,6 +15,7 @@ internal object FeatureRegistry {
       description = R.string.feature_desc_fill_storage,
       icon = Icons.Rounded.SdStorage,
       activityFqn = "com.ryccoatika.sqatoolkit.fillstorage.FillStorageActivity",
+      accent = FeatureAccent.Storage,
     ),
     FeatureDescriptor(
       featureId = "FILL_MEMORY",
@@ -22,6 +24,7 @@ internal object FeatureRegistry {
       description = R.string.feature_desc_fill_memory,
       icon = Icons.Rounded.Memory,
       activityFqn = "com.ryccoatika.sqatoolkit.fillmemory.FillMemoryActivity",
+      accent = FeatureAccent.Memory,
     ),
   )
 }

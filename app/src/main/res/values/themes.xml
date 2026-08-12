@@ -2,4 +2,10 @@
 <resources>
 
     <style name="Theme.SQATools" parent="android:Theme.Material.Light.NoActionBar" />
+
+    <style name="Theme.SQATools.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/splash_background</item>
+        <item name="windowSplashScreenAnimatedIcon">@mipmap/ic_launcher_foreground</item>
+        <item name="postSplashScreenTheme">@style/Theme.SQATools</item>
+    </style>
 </resources>

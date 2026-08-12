@@ -37,6 +37,8 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.R
 import com.ryccoatika.sqatoolkit.common.ui.HorizontalSpace
+import com.ryccoatika.sqatoolkit.common.ui.animatedFraction
+import com.ryccoatika.sqatoolkit.common.ui.pressable
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.feature.FeatureDescriptor
 import com.ryccoatika.sqatoolkit.feature.FeatureInstallState
@@ -50,9 +52,17 @@ internal fun FeatureCard(
   onOpen: () -> Unit,
   onRemove: () -> Unit,
 ) {
+  val noop: () -> Unit = {}
+  val primaryAction: () -> Unit = when (state) {
+    FeatureInstallState.NotInstalled, is FeatureInstallState.Failed -> onDownload
+    FeatureInstallState.Installed -> onOpen
+    is FeatureInstallState.Downloading, FeatureInstallState.Installing -> noop
+  }
   Card(
     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),
-    modifier = Modifier.fillMaxWidth(),
+    modifier = Modifier
+      .fillMaxWidth()
+      .pressable(onClick = primaryAction),
   ) {
     Row(
       verticalAlignment = Alignment.CenterVertically,
@@ -63,12 +73,12 @@ internal fun FeatureCard(
         modifier = Modifier
           .size(44.dp)
           .clip(MaterialTheme.shapes.medium)
-          .background(MaterialTheme.colorScheme.primaryContainer),
+          .background(descriptor.accent.base().copy(alpha = 0.16f)),
       ) {
         Icon(
           imageVector = descriptor.icon,
           contentDescription = null,
-          tint = MaterialTheme.colorScheme.onPrimaryContainer,
+          tint = descriptor.accent.base(),
         )
       }
       16.HorizontalSpace()
@@ -115,12 +125,13 @@ private fun FeatureCardAction(
     }
 
     is FeatureInstallState.Downloading -> {
+      val animatedProgress by animatedFraction(state.progress)
       Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier.width(96.dp),
       ) {
         LinearProgressIndicator(
-          progress = { state.progress },
+          progress = { animatedProgress },
           modifier = Modifier.fillMaxWidth(),
         )
         Text(

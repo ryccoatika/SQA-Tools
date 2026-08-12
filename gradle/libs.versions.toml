@@ -4,6 +4,7 @@ agp = "9.3.1"
 androidxlifecycle = "2.11.0"
 composeBom = "2026.06.01"
 coreKtx = "1.19.0"
+coreSplashscreen = "1.0.1"
 datastore = "1.1.1"
 desugarJdkLibs = "2.1.5"
 kotlin = "2.4.10"
@@ -17,6 +18,7 @@ spotless = "8.9.0"
 [libraries]
 androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "activityCompose" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
+androidx-core-splashscreen = { group = "androidx.core", name = "core-splashscreen", version.ref = "coreSplashscreen" }
 androidx-lifecycle-runtime-ktx = { group = "androidx.lifecycle", name = "lifecycle-runtime-ktx", version.ref = "androidxlifecycle" }
 
 androidx-lifecycle-viewmodel-compose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "androidxlifecycle" }

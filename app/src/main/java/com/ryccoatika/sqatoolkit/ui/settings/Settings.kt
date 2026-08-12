@@ -25,8 +25,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.R
 import com.ryccoatika.sqatoolkit.common.extensions.viewModel
-import com.ryccoatika.sqatoolkit.common.ui.AppTopBar
+import com.ryccoatika.sqatoolkit.common.ui.theme.FeatureAccent
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatoolkit.common.ui.widget.GradientHero
 import com.ryccoatika.sqatoolkit.common.ui.widget.SectionCard
 import me.tatarka.inject.annotations.Inject
 
@@ -63,7 +64,7 @@ private fun Settings(
   val dynamicSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
   Scaffold(
-    topBar = { AppTopBar(title = stringResource(R.string.settings_title)) },
+    topBar = { GradientHero(title = stringResource(R.string.settings_title), accent = FeatureAccent.Neutral) },
   ) { paddingValues ->
     Column(
       verticalArrangement = Arrangement.spacedBy(12.dp),

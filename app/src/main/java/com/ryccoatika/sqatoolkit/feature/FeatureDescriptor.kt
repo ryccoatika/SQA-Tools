@@ -2,6 +2,7 @@ package com.ryccoatika.sqatoolkit.feature
 
 import androidx.annotation.StringRes
 import androidx.compose.ui.graphics.vector.ImageVector
+import com.ryccoatika.sqatoolkit.common.ui.theme.FeatureAccent
 
 internal data class FeatureDescriptor(
   val featureId: String,
@@ -10,4 +11,5 @@ internal data class FeatureDescriptor(
   @get:StringRes val description: Int,
   val icon: ImageVector,
   val activityFqn: String,
+  val accent: FeatureAccent,
 )
