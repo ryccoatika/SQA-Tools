@@ -89,7 +89,6 @@ private fun Manage(
   Scaffold(
     topBar = {
       ManageTopBar(
-        state = state,
         navigateUp = navigateUp,
         onFolderClicked = onFolderClicked,
       )
@@ -182,14 +181,11 @@ private fun generateChartBars(state: ManageViewState): List<ChartBar> = buildLis
 
 @Composable
 private fun ManageTopBar(
-  state: ManageViewState,
   navigateUp: () -> Unit,
   onFolderClicked: () -> Unit,
 ) {
-  val textCreator = LocalTextCreator.current
-
   AppTopBar(
-    title = textCreator.storageTitle(state.storage),
+    title = "",
     onBackPressed = navigateUp,
     actions = {
       IconButton(

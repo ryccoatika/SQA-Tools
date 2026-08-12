@@ -103,7 +103,7 @@ private fun HomeTopBar(
   navigateUp: () -> Unit,
 ) {
   AppTopBar(
-    title = stringResource(R.string.fs_title),
+    title = "",
     onBackPressed = navigateUp,
   )
 }

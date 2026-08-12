@@ -12,7 +12,6 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PictureInPicture
-import androidx.compose.material.icons.rounded.Memory
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -114,10 +113,7 @@ private fun Home(
           .verticalScroll(rememberScrollState())
           .padding(16.dp),
       ) {
-        SectionCard(
-          title = stringResource(R.string.fm_title),
-          icon = Icons.Rounded.Memory,
-        ) {
+        SectionCard {
           MemoryGraph(
             memoryUsages = state.history,
             modifier = Modifier.fillMaxWidth(),
@@ -151,7 +147,7 @@ private fun HomeTopBar(
 ) {
   val context = LocalContext.current
   AppTopBar(
-    title = stringResource(R.string.fm_title),
+    title = "",
     onBackPressed = navigateUp,
     actions = {
       IconButton(
