@@ -53,10 +53,15 @@ internal fun FeatureCard(
   onRemove: () -> Unit,
 ) {
   val noop: () -> Unit = {}
+  // Card-body tap only fires the safe action (open); starting a download/retry must go
+  // through the explicit button so an incidental tap can't kick off a network+storage install.
   val primaryAction: () -> Unit = when (state) {
-    FeatureInstallState.NotInstalled, is FeatureInstallState.Failed -> onDownload
     FeatureInstallState.Installed -> onOpen
-    is FeatureInstallState.Downloading, FeatureInstallState.Installing -> noop
+    FeatureInstallState.NotInstalled,
+    is FeatureInstallState.Downloading,
+    FeatureInstallState.Installing,
+    is FeatureInstallState.Failed,
+    -> noop
   }
   Card(
     colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.surfaceContainer),

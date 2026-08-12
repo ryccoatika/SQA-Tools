@@ -4,7 +4,10 @@ import android.os.Build
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Palette
@@ -64,7 +67,13 @@ private fun Settings(
   val dynamicSupported = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
 
   Scaffold(
-    topBar = { GradientHero(title = stringResource(R.string.settings_title), accent = FeatureAccent.Neutral) },
+    topBar = {
+      GradientHero(
+        title = stringResource(R.string.settings_title),
+        accent = FeatureAccent.Neutral,
+        modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
+      )
+    },
   ) { paddingValues ->
     Column(
       verticalArrangement = Arrangement.spacedBy(12.dp),
