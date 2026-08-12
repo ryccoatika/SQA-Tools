@@ -35,7 +35,6 @@ dependencies {
   implementation(projects.common)
   implementation(projects.features.fillStorage)
   implementation(projects.features.fillMemory)
-  implementation(projects.features.devInfo)
 
   implementation(libs.androidx.core.ktx)
   implementation(libs.androidx.lifecycle.runtime.ktx)

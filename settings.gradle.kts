@@ -35,5 +35,4 @@ include(
   ":common",
   ":features:fill-storage",
   ":features:fill-memory",
-  ":features:dev-info",
 )
