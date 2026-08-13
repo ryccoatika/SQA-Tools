@@ -41,17 +41,17 @@
         <!-- Bold gradient checkmark -->
         <path
             android:fillColor="#00000000"
-            android:strokeWidth="8.5"
+            android:strokeWidth="6"
             android:strokeLineCap="round"
             android:strokeLineJoin="round"
-            android:pathData="M43,53 L51,61 L67,41">
+            android:pathData="M47,54 L52,59 L62,46">
             <aapt:attr name="android:strokeColor">
                 <gradient
                     android:type="linear"
-                    android:startX="43"
-                    android:startY="61"
-                    android:endX="67"
-                    android:endY="41">
+                    android:startX="47"
+                    android:startY="59"
+                    android:endX="62"
+                    android:endY="46">
                     <item android:offset="0.0" android:color="#FF3B5BDB" />
                     <item android:offset="1.0" android:color="#FF0AB489" />
                 </gradient>
