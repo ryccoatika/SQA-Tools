@@ -4,6 +4,7 @@ import android.app.Activity
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
@@ -59,7 +60,11 @@ class MainActivity : ComponentActivity() {
 
     component = MainActivityComponent::class.create(this)
 
-    enableEdgeToEdge()
+    // The gradient hero bleeds behind the status bar on every top-level screen, so keep the
+    // status-bar icons light (white) regardless of the light/dark theme for contrast.
+    enableEdgeToEdge(
+      statusBarStyle = SystemBarStyle.dark(android.graphics.Color.TRANSPARENT),
+    )
     setContent {
       val themePreferences = remember { ThemePreferences(this) }
       val themeMode by themePreferences.themeMode.collectAsState(initial = ThemeMode.SYSTEM)
