@@ -7,6 +7,9 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.animateFloatAsState
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
@@ -29,6 +32,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
@@ -40,6 +44,7 @@ import com.ryccoatika.sqatoolkit.common.inject.ActivityScope
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.common.ui.theme.ThemeMode
 import com.ryccoatika.sqatoolkit.inject.ApplicationComponent
+import com.ryccoatika.sqatoolkit.ui.chatbot.ChatBot
 import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
@@ -97,7 +102,7 @@ class MainActivity : ComponentActivity() {
       ) { page ->
         when (rootScreens[page]) {
           RootScreen.Tools -> component.screens.tools()
-          RootScreen.ChatBot -> Unit
+          RootScreen.ChatBot -> ChatBot()
           RootScreen.Settings -> component.screens.settings()
         }
       }
@@ -117,7 +122,7 @@ private fun AppNavigationBar(
     for (item in AppNavigationItems) {
       NavigationBarItem(
         icon = {
-          AppNavigationItemIcon(item = item)
+          AppNavigationItemIcon(item = item, selected = selectedNavigation == item.screen)
         },
         alwaysShowLabel = true,
         label = { Text(text = stringResource(item.labelResource)) },
@@ -129,10 +134,22 @@ private fun AppNavigationBar(
 }
 
 @Composable
-private fun AppNavigationItemIcon(item: AppNavigationItem) {
+private fun AppNavigationItemIcon(item: AppNavigationItem, selected: Boolean) {
+  val scale by animateFloatAsState(
+    targetValue = if (selected) 1.2f else 1f,
+    animationSpec = spring(
+      dampingRatio = Spring.DampingRatioMediumBouncy,
+      stiffness = Spring.StiffnessMediumLow,
+    ),
+    label = "navIconScale",
+  )
   Icon(
     painter = rememberVectorPainter(item.iconImageVector),
     contentDescription = stringResource(item.contentDescriptionResource),
+    modifier = Modifier.graphicsLayer {
+      scaleX = scale
+      scaleY = scale
+    },
   )
 }
 

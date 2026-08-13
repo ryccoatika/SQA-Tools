@@ -8,6 +8,9 @@
 
   <string name="nav_tools">Tools</string>
   <string name="nav_chat">AI Chat</string>
+  <string name="chatbot_subtitle">your QA assistant</string>
+  <string name="chatbot_empty_title">Coming soon</string>
+  <string name="chatbot_empty_message">AI-powered chat to help with your testing workflow is on the way.</string>
   <string name="nav_settings">Settings</string>
 
   <string name="settings_title">Settings</string>
