@@ -5,51 +5,57 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Soft lift shadow under the shield -->
-    <path
-        android:fillColor="#22001A3A"
-        android:pathData="M38,32 L70,32 Q73,32 73,35 L73,56 C73,72 66,81 54,86 C42,81 35,72 35,56 L35,35 Q35,32 38,32 Z" />
-    <!-- Shield body (soft white gradient) -->
-    <path android:pathData="M38,30 L70,30 Q73,30 73,33 L73,54 C73,70 66,79 54,84 C42,79 35,70 35,54 L35,33 Q35,30 38,30 Z">
-        <aapt:attr name="android:fillColor">
-            <gradient
-                android:type="linear"
-                android:startX="54"
-                android:startY="28"
-                android:endX="54"
-                android:endY="86">
-                <item android:offset="0.0" android:color="#FFFFFFFF" />
-                <item android:offset="1.0" android:color="#FFE4EAFF" />
-            </gradient>
-        </aapt:attr>
-    </path>
-    <!-- Glossy top highlight inside the shield -->
-    <path
-        android:fillColor="#7AFFFFFF"
-        android:pathData="M41,33 L67,33 Q69,33 69,35 Q54,44 39,35 Q39,33 41,33 Z" />
-    <!-- Crisp inner edge -->
-    <path
-        android:fillColor="#00000000"
-        android:strokeColor="#1F2E45C8"
-        android:strokeWidth="1.4"
-        android:pathData="M38,30 L70,30 Q73,30 73,33 L73,54 C73,70 66,79 54,84 C42,79 35,70 35,54 L35,33 Q35,30 38,30 Z" />
-    <!-- Bold gradient checkmark -->
-    <path
-        android:fillColor="#00000000"
-        android:strokeWidth="8.5"
-        android:strokeLineCap="round"
-        android:strokeLineJoin="round"
-        android:pathData="M43,53 L51,61 L67,41">
-        <aapt:attr name="android:strokeColor">
-            <gradient
-                android:type="linear"
-                android:startX="43"
-                android:startY="61"
-                android:endX="67"
-                android:endY="41">
-                <item android:offset="0.0" android:color="#FF3B5BDB" />
-                <item android:offset="1.0" android:color="#FF0AB489" />
-            </gradient>
-        </aapt:attr>
-    </path>
+    <group
+        android:scaleX="0.78"
+        android:scaleY="0.78"
+        android:pivotX="54"
+        android:pivotY="55">
+        <!-- Soft lift shadow under the shield -->
+        <path
+            android:fillColor="#22001A3A"
+            android:pathData="M38,32 L70,32 Q73,32 73,35 L73,56 C73,72 66,81 54,86 C42,81 35,72 35,56 L35,35 Q35,32 38,32 Z" />
+        <!-- Shield body (soft white gradient) -->
+        <path android:pathData="M38,30 L70,30 Q73,30 73,33 L73,54 C73,70 66,79 54,84 C42,79 35,70 35,54 L35,33 Q35,30 38,30 Z">
+            <aapt:attr name="android:fillColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="54"
+                    android:startY="28"
+                    android:endX="54"
+                    android:endY="86">
+                    <item android:offset="0.0" android:color="#FFFFFFFF" />
+                    <item android:offset="1.0" android:color="#FFE4EAFF" />
+                </gradient>
+            </aapt:attr>
+        </path>
+        <!-- Glossy top highlight inside the shield -->
+        <path
+            android:fillColor="#7AFFFFFF"
+            android:pathData="M41,33 L67,33 Q69,33 69,35 Q54,44 39,35 Q39,33 41,33 Z" />
+        <!-- Crisp inner edge -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeColor="#1F2E45C8"
+            android:strokeWidth="1.4"
+            android:pathData="M38,30 L70,30 Q73,30 73,33 L73,54 C73,70 66,79 54,84 C42,79 35,70 35,54 L35,33 Q35,30 38,30 Z" />
+        <!-- Bold gradient checkmark -->
+        <path
+            android:fillColor="#00000000"
+            android:strokeWidth="8.5"
+            android:strokeLineCap="round"
+            android:strokeLineJoin="round"
+            android:pathData="M43,53 L51,61 L67,41">
+            <aapt:attr name="android:strokeColor">
+                <gradient
+                    android:type="linear"
+                    android:startX="43"
+                    android:startY="61"
+                    android:endX="67"
+                    android:endY="41">
+                    <item android:offset="0.0" android:color="#FF3B5BDB" />
+                    <item android:offset="1.0" android:color="#FF0AB489" />
+                </gradient>
+            </aapt:attr>
+        </path>
+    </group>
 </vector>
