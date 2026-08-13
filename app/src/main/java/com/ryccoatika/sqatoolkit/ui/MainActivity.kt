@@ -8,6 +8,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.compose.animation.Crossfade
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.exclude
@@ -47,6 +48,7 @@ import com.ryccoatika.sqatoolkit.RootScreen
 import com.ryccoatika.sqatoolkit.common.data.ThemePreferences
 import com.ryccoatika.sqatoolkit.common.inject.ActivityScope
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
+import com.ryccoatika.sqatoolkit.common.ui.theme.ThemeMode
 import com.ryccoatika.sqatoolkit.inject.ApplicationComponent
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
@@ -64,9 +66,14 @@ class MainActivity : ComponentActivity() {
     enableEdgeToEdge()
     setContent {
       val themePreferences = remember { ThemePreferences(this) }
-      val dynamicColor by themePreferences.useDynamicColor.collectAsState(initial = false)
+      val themeMode by themePreferences.themeMode.collectAsState(initial = ThemeMode.SYSTEM)
+      val darkTheme = when (themeMode) {
+        ThemeMode.LIGHT -> false
+        ThemeMode.DARK -> true
+        ThemeMode.SYSTEM -> isSystemInDarkTheme()
+      }
 
-      SQAToolsTheme(dynamicColor = dynamicColor) {
+      SQAToolsTheme(darkTheme = darkTheme) {
         AppContent()
       }
     }

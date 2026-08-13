@@ -3,6 +3,7 @@ package com.ryccoatika.sqatoolkit.ui.settings
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.ryccoatika.sqatoolkit.common.data.ThemePreferences
+import com.ryccoatika.sqatoolkit.common.ui.theme.ThemeMode
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.stateIn
@@ -13,13 +14,13 @@ import me.tatarka.inject.annotations.Inject
 internal class SettingsViewModel(
   private val themePreferences: ThemePreferences,
 ) : ViewModel() {
-  val useDynamicColor: StateFlow<Boolean> = themePreferences.useDynamicColor.stateIn(
+  val themeMode: StateFlow<ThemeMode> = themePreferences.themeMode.stateIn(
     scope = viewModelScope,
     started = SharingStarted.WhileSubscribed(5000),
-    initialValue = false,
+    initialValue = ThemeMode.SYSTEM,
   )
 
-  fun setDynamicColor(enabled: Boolean) {
-    viewModelScope.launch { themePreferences.setDynamicColor(enabled) }
+  fun setThemeMode(mode: ThemeMode) {
+    viewModelScope.launch { themePreferences.setThemeMode(mode) }
   }
 }
