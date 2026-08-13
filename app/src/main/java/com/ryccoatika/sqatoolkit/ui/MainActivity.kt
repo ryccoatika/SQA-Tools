@@ -7,15 +7,13 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import androidx.compose.animation.Crossfade
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
-import androidx.compose.foundation.layout.exclude
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Handyman
 import androidx.compose.material.icons.outlined.Settings
@@ -24,24 +22,16 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.ScaffoldDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavController
-import androidx.navigation.NavDestination.Companion.hierarchy
-import androidx.navigation.NavGraph.Companion.findStartDestination
-import androidx.navigation.compose.rememberNavController
-import com.ryccoatika.sqatoolkit.AppNavigation
 import com.ryccoatika.sqatoolkit.AppScreens
 import com.ryccoatika.sqatoolkit.R
 import com.ryccoatika.sqatoolkit.RootScreen
@@ -50,6 +40,7 @@ import com.ryccoatika.sqatoolkit.common.inject.ActivityScope
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.common.ui.theme.ThemeMode
 import com.ryccoatika.sqatoolkit.inject.ApplicationComponent
+import kotlinx.coroutines.launch
 import me.tatarka.inject.annotations.Component
 import me.tatarka.inject.annotations.Provides
 
@@ -81,74 +72,37 @@ class MainActivity : ComponentActivity() {
 
   @Composable
   private fun AppContent(modifier: Modifier = Modifier) {
-    val navController = rememberNavController()
+    val rootScreens = remember { listOf(RootScreen.Tools, RootScreen.ChatBot, RootScreen.Settings) }
+    val pagerState = rememberPagerState(pageCount = { rootScreens.size })
+    val scope = rememberCoroutineScope()
 
     Scaffold(
       bottomBar = {
-        val currentSelectedItem by navController.currentScreenAsState()
-
         AppNavigationBar(
-          selectedNavigation = currentSelectedItem,
+          selectedNavigation = rootScreens[pagerState.currentPage],
           onNavigationSelected = { selected ->
-            navController.navigate(selected.route) {
-              launchSingleTop = true
-              restoreState = true
-
-              popUpTo(navController.graph.findStartDestination().id) {
-                saveState = true
-              }
-            }
+            scope.launch { pagerState.animateScrollToPage(rootScreens.indexOf(selected)) }
           },
           modifier = Modifier.fillMaxWidth(),
         )
       },
-      contentWindowInsets = ScaffoldDefaults.contentWindowInsets
-        .exclude(WindowInsets.statusBars),
+      contentWindowInsets = WindowInsets(0),
       modifier = modifier,
     ) { paddingValues ->
-      Column(
-        modifier = modifier
+      HorizontalPager(
+        state = pagerState,
+        modifier = Modifier
           .fillMaxSize()
           .padding(paddingValues),
-      ) {
-        AppNavigation(
-          navController = navController,
-          appScreens = component.screens,
-          modifier = Modifier.weight(1f),
-        )
-      }
-    }
-  }
-}
-
-@Composable
-private fun NavController.currentScreenAsState(): State<RootScreen> {
-  val selectedItem = remember { mutableStateOf<RootScreen>(RootScreen.Tools) }
-
-  DisposableEffect(this) {
-    val listener = NavController.OnDestinationChangedListener { _, destination, _ ->
-      when {
-        destination.hierarchy.any { it.route == RootScreen.Tools.route } -> {
-          selectedItem.value = RootScreen.Tools
-        }
-
-        destination.hierarchy.any { it.route == RootScreen.ChatBot.route } -> {
-          selectedItem.value = RootScreen.ChatBot
-        }
-
-        destination.hierarchy.any { it.route == RootScreen.Settings.route } -> {
-          selectedItem.value = RootScreen.Settings
+      ) { page ->
+        when (rootScreens[page]) {
+          RootScreen.Tools -> component.screens.tools()
+          RootScreen.ChatBot -> Unit
+          RootScreen.Settings -> component.screens.settings()
         }
       }
     }
-    addOnDestinationChangedListener(listener)
-
-    onDispose {
-      removeOnDestinationChangedListener(listener)
-    }
   }
-
-  return selectedItem
 }
 
 @Composable
@@ -163,10 +117,7 @@ private fun AppNavigationBar(
     for (item in AppNavigationItems) {
       NavigationBarItem(
         icon = {
-          AppNavigationItemIcon(
-            item = item,
-            selected = selectedNavigation == item.screen,
-          )
+          AppNavigationItemIcon(item = item)
         },
         alwaysShowLabel = true,
         label = { Text(text = stringResource(item.labelResource)) },
@@ -178,26 +129,11 @@ private fun AppNavigationBar(
 }
 
 @Composable
-private fun AppNavigationItemIcon(item: AppNavigationItem, selected: Boolean) {
-  val painter = rememberVectorPainter(item.iconImageVector)
-  val selectedPainter = item.selectedImageVector?.let { rememberVectorPainter(it) }
-
-  if (selectedPainter != null) {
-    Crossfade(
-      targetState = selected,
-      label = item.screen.route,
-    ) {
-      Icon(
-        painter = if (it) selectedPainter else painter,
-        contentDescription = stringResource(item.contentDescriptionResource),
-      )
-    }
-  } else {
-    Icon(
-      painter = painter,
-      contentDescription = stringResource(item.contentDescriptionResource),
-    )
-  }
+private fun AppNavigationItemIcon(item: AppNavigationItem) {
+  Icon(
+    painter = rememberVectorPainter(item.iconImageVector),
+    contentDescription = stringResource(item.contentDescriptionResource),
+  )
 }
 
 private data class AppNavigationItem(
@@ -207,7 +143,6 @@ private data class AppNavigationItem(
   @field:StringRes
   val contentDescriptionResource: Int,
   val iconImageVector: ImageVector,
-  val selectedImageVector: ImageVector? = null,
 )
 
 private val AppNavigationItems = listOf(

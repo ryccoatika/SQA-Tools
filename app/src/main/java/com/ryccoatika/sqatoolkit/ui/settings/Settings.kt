@@ -5,8 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBars
-import androidx.compose.foundation.layout.windowInsetsPadding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.Info
 import androidx.compose.material.icons.rounded.Palette
@@ -73,20 +71,21 @@ private fun Settings(
   )
 
   Scaffold(
-    topBar = {
-      GradientHero(
-        title = stringResource(R.string.settings_title),
-        accent = FeatureAccent.Neutral,
-        modifier = Modifier.windowInsetsPadding(WindowInsets.statusBars),
-      )
-    },
+    contentWindowInsets = WindowInsets(0),
   ) { paddingValues ->
     Column(
       verticalArrangement = Arrangement.spacedBy(12.dp),
-      modifier = Modifier
-        .padding(paddingValues)
-        .padding(16.dp),
+      modifier = Modifier.padding(paddingValues),
     ) {
+      GradientHero(
+        title = stringResource(R.string.settings_title),
+        accent = FeatureAccent.Neutral,
+        applyStatusBarInset = true,
+      )
+      Column(
+        verticalArrangement = Arrangement.spacedBy(12.dp),
+        modifier = Modifier.padding(16.dp),
+      ) {
       SectionCard(title = stringResource(R.string.settings_appearance), icon = Icons.Rounded.Palette) {
         Text(stringResource(R.string.settings_theme), style = MaterialTheme.typography.bodyLarge)
         SingleChoiceSegmentedButtonRow(modifier = Modifier.fillMaxWidth()) {
@@ -101,13 +100,14 @@ private fun Settings(
           }
         }
       }
-      SectionCard(title = stringResource(R.string.settings_about), icon = Icons.Rounded.Info) {
-        Text(stringResource(R.string.app_name), style = MaterialTheme.typography.bodyLarge)
-        Text(
-          text = stringResource(R.string.settings_version, version),
-          style = MaterialTheme.typography.bodySmall,
-          color = MaterialTheme.colorScheme.onSurfaceVariant,
-        )
+        SectionCard(title = stringResource(R.string.settings_about), icon = Icons.Rounded.Info) {
+          Text(stringResource(R.string.app_name), style = MaterialTheme.typography.bodyLarge)
+          Text(
+            text = stringResource(R.string.settings_version, version),
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+          )
+        }
       }
     }
   }

@@ -10,6 +10,7 @@ import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
@@ -74,7 +75,9 @@ internal fun Tools() {
     installManager.consumeConfirmation()
   }
 
-  Scaffold { paddingValues ->
+  Scaffold(
+    contentWindowInsets = WindowInsets(0),
+  ) { paddingValues ->
     Column(
       modifier = Modifier
         .fillMaxSize()
@@ -84,6 +87,7 @@ internal fun Tools() {
         title = stringResource(R.string.app_name),
         subtitle = stringResource(R.string.tools_subtitle),
         accent = FeatureAccent.Neutral,
+        applyStatusBarInset = true,
       )
       LazyColumn(
         contentPadding = PaddingValues(16.dp),
