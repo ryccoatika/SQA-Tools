@@ -4,15 +4,18 @@
     android:height="108dp"
     android:viewportWidth="108"
     android:viewportHeight="108">
-    <!-- Shield -->
+    <!-- Shield outline -->
     <path
-        android:fillColor="#FFFFFFFF"
+        android:fillColor="#00000000"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="5"
+        android:strokeLineJoin="round"
         android:pathData="M38,30 L70,30 Q73,30 73,33 L73,54 C73,70 66,79 54,84 C42,79 35,70 35,54 L35,33 Q35,30 38,30 Z" />
     <!-- Checkmark -->
     <path
         android:fillColor="#00000000"
-        android:strokeColor="#FF3B5BDB"
-        android:strokeWidth="7"
+        android:strokeColor="#FF000000"
+        android:strokeWidth="6"
         android:strokeLineCap="round"
         android:strokeLineJoin="round"
         android:pathData="M45,52 L52,60 L64,42" />
