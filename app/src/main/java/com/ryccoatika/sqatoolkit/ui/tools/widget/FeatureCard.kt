@@ -15,7 +15,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.DropdownMenuItem
-import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
@@ -124,7 +124,7 @@ private fun FeatureCardAction(
 ) {
   when (state) {
     FeatureInstallState.NotInstalled -> {
-      FilledTonalButton(onClick = onDownload) {
+      Button(onClick = onDownload) {
         Text(text = stringResource(R.string.feature_download))
       }
     }
@@ -161,7 +161,7 @@ private fun FeatureCardAction(
 
     FeatureInstallState.Installed -> {
       Row(verticalAlignment = Alignment.CenterVertically) {
-        FilledTonalButton(onClick = onOpen) {
+        Button(onClick = onOpen) {
           Text(text = stringResource(R.string.feature_open))
         }
         var menuExpanded by remember { mutableStateOf(false) }

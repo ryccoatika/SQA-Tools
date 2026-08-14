@@ -15,7 +15,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.Button
 import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -91,7 +91,7 @@ internal fun StorageCard(
         storage = storage,
       )
       8.VerticalSpace()
-      FilledTonalButton(
+      Button(
         onClick = onManageButtonClicked,
         colors = ButtonDefaults.filledTonalButtonColors(
           containerColor = accentColor.copy(alpha = 0.15f),
