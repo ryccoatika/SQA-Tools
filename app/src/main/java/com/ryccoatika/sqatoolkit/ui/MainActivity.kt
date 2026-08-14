@@ -8,40 +8,57 @@ import androidx.activity.SystemBarStyle
 import androidx.activity.enableEdgeToEdge
 import androidx.annotation.StringRes
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.spring
+import androidx.compose.animation.core.VisibilityThreshold
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.animation.shrinkHorizontally
+import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Handyman
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material.icons.outlined.Sms
 import androidx.compose.material3.Icon
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.graphics.vector.rememberVectorPainter
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.IntSize
+import androidx.compose.ui.unit.dp
 import com.ryccoatika.sqatoolkit.AppScreens
 import com.ryccoatika.sqatoolkit.R
 import com.ryccoatika.sqatoolkit.RootScreen
 import com.ryccoatika.sqatoolkit.common.data.ThemePreferences
 import com.ryccoatika.sqatoolkit.common.inject.ActivityScope
+import com.ryccoatika.sqatoolkit.common.ui.pressable
 import com.ryccoatika.sqatoolkit.common.ui.theme.SQAToolsTheme
 import com.ryccoatika.sqatoolkit.common.ui.theme.ThemeMode
 import com.ryccoatika.sqatoolkit.inject.ApplicationComponent
@@ -121,41 +138,87 @@ private fun AppNavigationBar(
   onNavigationSelected: (RootScreen) -> Unit,
   modifier: Modifier = Modifier,
 ) {
-  NavigationBar(
-    modifier = modifier,
+  Box(
+    modifier = modifier
+      .fillMaxWidth()
+      .navigationBarsPadding()
+      .padding(horizontal = 20.dp, vertical = 12.dp),
+    contentAlignment = Alignment.Center,
   ) {
-    for (item in AppNavigationItems) {
-      NavigationBarItem(
-        icon = {
-          AppNavigationItemIcon(item = item, selected = selectedNavigation == item.screen)
-        },
-        alwaysShowLabel = true,
-        label = { Text(text = stringResource(item.labelResource)) },
-        selected = selectedNavigation == item.screen,
-        onClick = { onNavigationSelected(item.screen) },
-      )
+    Surface(
+      shape = RoundedCornerShape(28.dp),
+      color = MaterialTheme.colorScheme.surfaceContainerHigh,
+      tonalElevation = 3.dp,
+      shadowElevation = 10.dp,
+    ) {
+      Row(
+        horizontalArrangement = Arrangement.spacedBy(4.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(6.dp),
+      ) {
+        for (item in AppNavigationItems) {
+          BottomNavItem(
+            item = item,
+            selected = selectedNavigation == item.screen,
+            onClick = { onNavigationSelected(item.screen) },
+          )
+        }
+      }
     }
   }
 }
 
 @Composable
-private fun AppNavigationItemIcon(item: AppNavigationItem, selected: Boolean) {
-  val scale by animateFloatAsState(
-    targetValue = if (selected) 1.2f else 1f,
-    animationSpec = spring(
-      dampingRatio = Spring.DampingRatioMediumBouncy,
-      stiffness = Spring.StiffnessMediumLow,
-    ),
-    label = "navIconScale",
+private fun BottomNavItem(
+  item: AppNavigationItem,
+  selected: Boolean,
+  onClick: () -> Unit,
+) {
+  val spec = spring<Color>(stiffness = Spring.StiffnessMediumLow)
+  val background by animateColorAsState(
+    targetValue = if (selected) MaterialTheme.colorScheme.primary else Color.Transparent,
+    animationSpec = spec,
+    label = "navItemBg",
   )
-  Icon(
-    painter = rememberVectorPainter(item.iconImageVector),
-    contentDescription = stringResource(item.contentDescriptionResource),
-    modifier = Modifier.graphicsLayer {
-      scaleX = scale
-      scaleY = scale
+  val content by animateColorAsState(
+    targetValue = if (selected) {
+      MaterialTheme.colorScheme.onPrimary
+    } else {
+      MaterialTheme.colorScheme.onSurfaceVariant
     },
+    animationSpec = spec,
+    label = "navItemContent",
   )
+
+  Row(
+    verticalAlignment = Alignment.CenterVertically,
+    horizontalArrangement = Arrangement.spacedBy(8.dp),
+    modifier = Modifier
+      .clip(RoundedCornerShape(50))
+      .background(background)
+      .pressable(onClick)
+      .padding(horizontal = 16.dp, vertical = 12.dp),
+  ) {
+    Icon(
+      painter = rememberVectorPainter(item.iconImageVector),
+      contentDescription = stringResource(item.contentDescriptionResource),
+      tint = content,
+    )
+    AnimatedVisibility(
+      visible = selected,
+      enter = fadeIn(spring(stiffness = Spring.StiffnessMedium)) +
+        expandHorizontally(spring(stiffness = Spring.StiffnessMediumLow, visibilityThreshold = IntSize.VisibilityThreshold)),
+      exit = fadeOut(spring(stiffness = Spring.StiffnessMedium)) +
+        shrinkHorizontally(spring(stiffness = Spring.StiffnessMediumLow, visibilityThreshold = IntSize.VisibilityThreshold)),
+    ) {
+      Text(
+        text = stringResource(item.labelResource),
+        color = content,
+        style = MaterialTheme.typography.labelLarge,
+        maxLines = 1,
+      )
+    }
+  }
 }
 
 private data class AppNavigationItem(
