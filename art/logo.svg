@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="SQA Tools logo">
+  <defs>
+    <!-- Background brand gradient -->
+    <linearGradient id="bg" x1="40" y1="0" x2="472" y2="512" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#2E45C8"/>
+      <stop offset="0.48" stop-color="#4657E0"/>
+      <stop offset="1" stop-color="#0AB489"/>
+    </linearGradient>
+    <!-- Soft top-left glow -->
+    <radialGradient id="glow" cx="150" cy="120" r="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF" stop-opacity="0.30"/>
+      <stop offset="0.5" stop-color="#FFFFFF" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Bottom-right shade for depth -->
+    <radialGradient id="shade" cx="430" cy="450" r="330" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#001A3A" stop-opacity="0.28"/>
+      <stop offset="1" stop-color="#001A3A" stop-opacity="0"/>
+    </radialGradient>
+    <!-- Shield fill -->
+    <linearGradient id="shield" x1="256" y1="140" x2="256" y2="400" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#E4EAFF"/>
+    </linearGradient>
+    <!-- Check gradient -->
+    <linearGradient id="check" x1="222" y1="288" x2="302" y2="218" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#3B5BDB"/>
+      <stop offset="1" stop-color="#0AB489"/>
+    </linearGradient>
+    <!-- Sparkle gradient -->
+    <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#BFF3E4"/>
+    </linearGradient>
+
+    <clipPath id="squircle">
+      <path d="M256,24
+        C120,24 24,120 24,256
+        C24,392 120,488 256,488
+        C392,488 488,392 488,256
+        C488,120 392,24 256,24 Z" />
+    </clipPath>
+
+    <!-- Soft shadow under shield -->
+    <filter id="shieldShadow" x="-30%" y="-30%" width="160%" height="160%">
+      <feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#001233" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded-square badge -->
+  <g clip-path="url(#squircle)">
+    <rect width="512" height="512" fill="url(#bg)"/>
+    <rect width="512" height="512" fill="url(#glow)"/>
+    <rect width="512" height="512" fill="url(#shade)"/>
+    <!-- glossy diagonal sweep -->
+    <path d="M-40,150 L250,-40 L360,-40 L-40,330 Z" fill="#FFFFFF" opacity="0.06"/>
+  </g>
+  <!-- crisp inner border -->
+  <path d="M256,24 C120,24 24,120 24,256 C24,392 120,488 256,488 C392,488 488,392 488,256 C488,120 392,24 256,24 Z"
+        fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="2"/>
+
+  <!-- Shield -->
+  <g filter="url(#shieldShadow)">
+    <path d="M188,148 L324,148 Q340,148 340,164 L340,266 C340,332 308,372 256,396 C204,372 172,332 172,266 L172,164 Q172,148 188,148 Z"
+          fill="url(#shield)"/>
+  </g>
+  <!-- glossy highlight inside shield -->
+  <path d="M196,152 L316,152 Q328,152 328,160 Q256,196 184,160 Q184,152 196,152 Z" fill="#FFFFFF" opacity="0.45"/>
+  <!-- subtle inner edge -->
+  <path d="M188,148 L324,148 Q340,148 340,164 L340,266 C340,332 308,372 256,396 C204,372 172,332 172,266 L172,164 Q172,148 188,148 Z"
+        fill="none" stroke="#2E45C8" stroke-opacity="0.12" stroke-width="3"/>
+
+  <!-- Checkmark -->
+  <path d="M222,262 L248,288 L302,218" fill="none" stroke="url(#check)" stroke-width="26" stroke-linecap="round" stroke-linejoin="round"/>
+
+  <!-- Sparkles -->
+  <path d="M372,150 C374,164 380,170 394,172 C380,174 374,180 372,194 C370,180 364,174 350,172 C364,170 370,164 372,150 Z" fill="url(#spark)" opacity="0.9"/>
+  <path d="M150,332 C151.5,342 156,346.5 166,348 C156,349.5 151.5,354 150,364 C148.5,354 144,349.5 134,348 C144,346.5 148.5,342 150,332 Z" fill="url(#spark)" opacity="0.75"/>
+  <circle cx="392" cy="352" r="5" fill="#FFFFFF" opacity="0.7"/>
+</svg>
