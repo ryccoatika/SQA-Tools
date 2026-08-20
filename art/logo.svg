@@ -14,9 +14,13 @@
       <stop offset="0" stop-color="#001A3A" stop-opacity="0.26"/>
       <stop offset="1" stop-color="#001A3A" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="body" x1="150" y1="200" x2="380" y2="440" gradientUnits="userSpaceOnUse">
+    <linearGradient id="body" x1="180" y1="188" x2="270" y2="296" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FF7A59"/>
       <stop offset="1" stop-color="#FB3F6E"/>
+    </linearGradient>
+    <linearGradient id="handle" x1="320" y1="320" x2="416" y2="416" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#D7DEF5"/>
     </linearGradient>
     <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#FFFFFF"/>
@@ -24,6 +28,9 @@
     </linearGradient>
     <clipPath id="squircle">
       <path d="M256,24 C120,24 24,120 24,256 C24,392 120,488 256,488 C392,488 488,392 488,256 C488,120 392,24 256,24 Z"/>
+    </clipPath>
+    <clipPath id="lens">
+      <circle cx="224" cy="224" r="116"/>
     </clipPath>
     <filter id="drop" x="-40%" y="-40%" width="180%" height="180%">
       <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#001233" flood-opacity="0.30"/>
@@ -40,51 +47,58 @@
   <path d="M256,24 C120,24 24,120 24,256 C24,392 120,488 256,488 C392,488 488,392 488,256 C488,120 392,24 256,24 Z"
         fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="2"/>
 
-  <!-- Ladybug -->
   <g filter="url(#drop)">
-    <!-- Legs -->
-    <g stroke="#20305C" stroke-width="13" stroke-linecap="round" fill="none">
-      <path d="M150,252 L110,232"/>
-      <path d="M138,314 L96,314"/>
-      <path d="M150,376 L110,396"/>
-      <path d="M362,252 L402,232"/>
-      <path d="M374,314 L416,314"/>
-      <path d="M362,376 L402,396"/>
-    </g>
-    <!-- Antennae -->
-    <g stroke="#20305C" stroke-width="11" stroke-linecap="round" fill="none">
-      <path d="M232,132 Q204,96 194,72"/>
-      <path d="M280,132 Q308,96 318,72"/>
-    </g>
-    <circle cx="194" cy="70" r="11" fill="#0AB489"/>
-    <circle cx="318" cy="70" r="11" fill="#0AB489"/>
+    <!-- Magnifier handle (behind lens) -->
+    <path d="M312,312 L408,408" stroke="url(#handle)" stroke-width="46" stroke-linecap="round"/>
 
-    <!-- Body -->
-    <ellipse cx="256" cy="312" rx="122" ry="128" fill="url(#body)"/>
-    <!-- gloss -->
-    <ellipse cx="212" cy="256" rx="58" ry="40" fill="#FFFFFF" opacity="0.20"/>
-    <!-- wing seam -->
-    <path d="M256,196 L256,434" stroke="#20305C" stroke-width="11" stroke-linecap="round"/>
-    <!-- spots -->
-    <g fill="#FFF4E8">
-      <circle cx="204" cy="258" r="22"/>
-      <circle cx="308" cy="258" r="22"/>
-      <circle cx="196" cy="340" r="17"/>
-      <circle cx="316" cy="340" r="17"/>
-      <circle cx="238" cy="404" r="15"/>
-      <circle cx="274" cy="404" r="15"/>
+    <!-- Lens glass + inspected bug (clipped inside lens) -->
+    <g clip-path="url(#lens)">
+      <circle cx="224" cy="224" r="116" fill="#EAF6FF" fill-opacity="0.16"/>
+
+      <!-- Small ladybug -->
+      <!-- legs -->
+      <g stroke="#20305C" stroke-width="7" stroke-linecap="round" fill="none">
+        <path d="M187,205 L163,193"/>
+        <path d="M180,239 L154,239"/>
+        <path d="M187,273 L163,285"/>
+        <path d="M261,205 L285,193"/>
+        <path d="M268,239 L294,239"/>
+        <path d="M261,273 L285,285"/>
+      </g>
+      <!-- antennae -->
+      <g stroke="#20305C" stroke-width="6" stroke-linecap="round" fill="none">
+        <path d="M212,158 Q198,138 192,126"/>
+        <path d="M236,158 Q250,138 256,126"/>
+      </g>
+      <circle cx="192" cy="124" r="6" fill="#0AB489"/>
+      <circle cx="256" cy="124" r="6" fill="#0AB489"/>
+      <!-- body -->
+      <ellipse cx="224" cy="238" rx="52" ry="56" fill="url(#body)"/>
+      <ellipse cx="205" cy="214" rx="24" ry="16" fill="#FFFFFF" opacity="0.22"/>
+      <path d="M224,188 L224,290" stroke="#20305C" stroke-width="6" stroke-linecap="round"/>
+      <g fill="#FFF4E8">
+        <circle cx="203" cy="216" r="9"/>
+        <circle cx="245" cy="216" r="9"/>
+        <circle cx="200" cy="252" r="7"/>
+        <circle cx="248" cy="252" r="7"/>
+      </g>
+      <!-- head -->
+      <circle cx="224" cy="162" r="22" fill="#22305F"/>
+      <circle cx="215" cy="160" r="6.5" fill="#FFFFFF"/>
+      <circle cx="233" cy="160" r="6.5" fill="#FFFFFF"/>
+      <circle cx="217" cy="162" r="3" fill="#22305F"/>
+      <circle cx="235" cy="162" r="3" fill="#22305F"/>
+
+      <!-- glass glare -->
+      <path d="M150,150 A116,116 0 0 1 300,140 Q220,150 150,220 Z" fill="#FFFFFF" opacity="0.14"/>
     </g>
 
-    <!-- Head -->
-    <circle cx="256" cy="170" r="48" fill="#22305F"/>
-    <!-- Eyes -->
-    <circle cx="237" cy="166" r="15" fill="#FFFFFF"/>
-    <circle cx="275" cy="166" r="15" fill="#FFFFFF"/>
-    <circle cx="240" cy="169" r="6.5" fill="#22305F"/>
-    <circle cx="278" cy="169" r="6.5" fill="#22305F"/>
+    <!-- Lens ring -->
+    <circle cx="224" cy="224" r="128" fill="none" stroke="#FFFFFF" stroke-width="24"/>
+    <circle cx="224" cy="224" r="128" fill="none" stroke="#22305F" stroke-opacity="0.10" stroke-width="2"/>
   </g>
 
   <!-- Sparkles -->
-  <path d="M388,158 C390,172 396,178 410,180 C396,182 390,188 388,202 C386,188 380,182 366,180 C380,178 386,172 388,158 Z" fill="url(#spark)" opacity="0.9"/>
-  <path d="M132,364 C133.5,374 138,378.5 148,380 C138,381.5 133.5,386 132,396 C130.5,386 126,381.5 116,380 C126,378.5 130.5,374 132,364 Z" fill="url(#spark)" opacity="0.75"/>
+  <path d="M398,150 C400,164 406,170 420,172 C406,174 400,180 398,194 C396,180 390,174 376,172 C390,170 396,164 398,150 Z" fill="url(#spark)" opacity="0.9"/>
+  <path d="M120,352 C121.5,362 126,366.5 136,368 C126,369.5 121.5,374 120,384 C118.5,374 114,369.5 104,368 C114,366.5 118.5,362 120,352 Z" fill="url(#spark)" opacity="0.72"/>
 </svg>
