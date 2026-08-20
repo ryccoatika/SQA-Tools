@@ -14,13 +14,19 @@
       <stop offset="0" stop-color="#001A3A" stop-opacity="0.26"/>
       <stop offset="1" stop-color="#001A3A" stop-opacity="0"/>
     </radialGradient>
-    <linearGradient id="body" x1="180" y1="188" x2="270" y2="296" gradientUnits="userSpaceOnUse">
+    <!-- Glossy metal rim -->
+    <linearGradient id="rim" x1="150" y1="130" x2="300" y2="300" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="0.55" stop-color="#EDF1FF"/>
+      <stop offset="1" stop-color="#B9C6EE"/>
+    </linearGradient>
+    <linearGradient id="handle" x1="300" y1="300" x2="420" y2="420" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#F4F6FF"/>
+      <stop offset="1" stop-color="#AEBBE6"/>
+    </linearGradient>
+    <linearGradient id="body" x1="176" y1="176" x2="266" y2="284" gradientUnits="userSpaceOnUse">
       <stop offset="0" stop-color="#FF7A59"/>
       <stop offset="1" stop-color="#FB3F6E"/>
-    </linearGradient>
-    <linearGradient id="handle" x1="320" y1="320" x2="416" y2="416" gradientUnits="userSpaceOnUse">
-      <stop offset="0" stop-color="#FFFFFF"/>
-      <stop offset="1" stop-color="#D7DEF5"/>
     </linearGradient>
     <linearGradient id="spark" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#FFFFFF"/>
@@ -30,7 +36,7 @@
       <path d="M256,24 C120,24 24,120 24,256 C24,392 120,488 256,488 C392,488 488,392 488,256 C488,120 392,24 256,24 Z"/>
     </clipPath>
     <clipPath id="lens">
-      <circle cx="224" cy="224" r="116"/>
+      <circle cx="220" cy="214" r="105"/>
     </clipPath>
     <filter id="drop" x="-40%" y="-40%" width="180%" height="180%">
       <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#001233" flood-opacity="0.30"/>
@@ -48,57 +54,62 @@
         fill="none" stroke="#FFFFFF" stroke-opacity="0.14" stroke-width="2"/>
 
   <g filter="url(#drop)">
-    <!-- Magnifier handle (behind lens) -->
-    <path d="M312,312 L408,408" stroke="url(#handle)" stroke-width="46" stroke-linecap="round"/>
+    <!-- Handle (behind lens) -->
+    <g transform="rotate(45 360 352)">
+      <rect x="296" y="334" width="132" height="36" rx="18" fill="url(#handle)"/>
+      <rect x="308" y="339" width="104" height="7" rx="3.5" fill="#FFFFFF" opacity="0.5"/>
+      <rect x="308" y="360" width="104" height="4" rx="2" fill="#4A5A8C" opacity="0.18"/>
+    </g>
 
-    <!-- Lens glass + inspected bug (clipped inside lens) -->
+    <!-- Lens glass + inspected bug -->
     <g clip-path="url(#lens)">
-      <circle cx="224" cy="224" r="116" fill="#EAF6FF" fill-opacity="0.16"/>
+      <circle cx="220" cy="214" r="105" fill="#EAF6FF" fill-opacity="0.14"/>
 
-      <!-- Small ladybug -->
       <!-- legs -->
       <g stroke="#20305C" stroke-width="7" stroke-linecap="round" fill="none">
-        <path d="M187,205 L163,193"/>
-        <path d="M180,239 L154,239"/>
-        <path d="M187,273 L163,285"/>
-        <path d="M261,205 L285,193"/>
-        <path d="M268,239 L294,239"/>
-        <path d="M261,273 L285,285"/>
+        <path d="M184,196 L162,185"/>
+        <path d="M178,226 L154,226"/>
+        <path d="M184,256 L162,267"/>
+        <path d="M256,196 L278,185"/>
+        <path d="M262,226 L286,226"/>
+        <path d="M256,256 L278,267"/>
       </g>
       <!-- antennae -->
       <g stroke="#20305C" stroke-width="6" stroke-linecap="round" fill="none">
-        <path d="M212,158 Q198,138 192,126"/>
-        <path d="M236,158 Q250,138 256,126"/>
+        <path d="M208,142 Q196,124 191,113"/>
+        <path d="M232,142 Q244,124 249,113"/>
       </g>
-      <circle cx="192" cy="124" r="6" fill="#0AB489"/>
-      <circle cx="256" cy="124" r="6" fill="#0AB489"/>
+      <circle cx="191" cy="111" r="5.5" fill="#0AB489"/>
+      <circle cx="249" cy="111" r="5.5" fill="#0AB489"/>
       <!-- body -->
-      <ellipse cx="224" cy="238" rx="52" ry="56" fill="url(#body)"/>
-      <ellipse cx="205" cy="214" rx="24" ry="16" fill="#FFFFFF" opacity="0.22"/>
-      <path d="M224,188 L224,290" stroke="#20305C" stroke-width="6" stroke-linecap="round"/>
+      <ellipse cx="220" cy="226" rx="48" ry="51" fill="url(#body)"/>
+      <ellipse cx="203" cy="204" rx="22" ry="15" fill="#FFFFFF" opacity="0.22"/>
+      <path d="M220,180 L220,275" stroke="#20305C" stroke-width="6" stroke-linecap="round"/>
       <g fill="#FFF4E8">
-        <circle cx="203" cy="216" r="9"/>
-        <circle cx="245" cy="216" r="9"/>
-        <circle cx="200" cy="252" r="7"/>
-        <circle cx="248" cy="252" r="7"/>
+        <circle cx="201" cy="205" r="8.5"/>
+        <circle cx="239" cy="205" r="8.5"/>
+        <circle cx="198" cy="239" r="6.5"/>
+        <circle cx="242" cy="239" r="6.5"/>
       </g>
       <!-- head -->
-      <circle cx="224" cy="162" r="22" fill="#22305F"/>
-      <circle cx="215" cy="160" r="6.5" fill="#FFFFFF"/>
-      <circle cx="233" cy="160" r="6.5" fill="#FFFFFF"/>
-      <circle cx="217" cy="162" r="3" fill="#22305F"/>
-      <circle cx="235" cy="162" r="3" fill="#22305F"/>
+      <circle cx="220" cy="155" r="21" fill="#22305F"/>
+      <circle cx="211" cy="153" r="6" fill="#FFFFFF"/>
+      <circle cx="229" cy="153" r="6" fill="#FFFFFF"/>
+      <circle cx="213" cy="155" r="2.8" fill="#22305F"/>
+      <circle cx="231" cy="155" r="2.8" fill="#22305F"/>
 
-      <!-- glass glare -->
-      <path d="M150,150 A116,116 0 0 1 300,140 Q220,150 150,220 Z" fill="#FFFFFF" opacity="0.14"/>
+      <!-- glass glints -->
+      <path d="M150,176 L196,130" stroke="#FFFFFF" stroke-width="14" stroke-linecap="round" opacity="0.18"/>
+      <path d="M170,200 L196,174" stroke="#FFFFFF" stroke-width="8" stroke-linecap="round" opacity="0.15"/>
     </g>
 
-    <!-- Lens ring -->
-    <circle cx="224" cy="224" r="128" fill="none" stroke="#FFFFFF" stroke-width="24"/>
-    <circle cx="224" cy="224" r="128" fill="none" stroke="#22305F" stroke-opacity="0.10" stroke-width="2"/>
+    <!-- Lens rim -->
+    <circle cx="220" cy="214" r="117" fill="none" stroke="url(#rim)" stroke-width="22"/>
+    <circle cx="220" cy="214" r="106" fill="none" stroke="#22305F" stroke-opacity="0.12" stroke-width="2"/>
+    <circle cx="220" cy="214" r="129" fill="none" stroke="#FFFFFF" stroke-opacity="0.22" stroke-width="2"/>
   </g>
 
   <!-- Sparkles -->
-  <path d="M398,150 C400,164 406,170 420,172 C406,174 400,180 398,194 C396,180 390,174 376,172 C390,170 396,164 398,150 Z" fill="url(#spark)" opacity="0.9"/>
-  <path d="M120,352 C121.5,362 126,366.5 136,368 C126,369.5 121.5,374 120,384 C118.5,374 114,369.5 104,368 C114,366.5 118.5,362 120,352 Z" fill="url(#spark)" opacity="0.72"/>
+  <path d="M402,148 C404,162 410,168 424,170 C410,172 404,178 402,192 C400,178 394,172 380,170 C394,168 400,162 402,148 Z" fill="url(#spark)" opacity="0.9"/>
+  <path d="M118,356 C119.5,366 124,370.5 134,372 C124,373.5 119.5,378 118,388 C116.5,378 112,373.5 102,372 C112,370.5 116.5,366 118,356 Z" fill="url(#spark)" opacity="0.72"/>
 </svg>
